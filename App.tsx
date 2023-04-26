@@ -22,6 +22,7 @@ import { initReactI18next, useTranslation } from "react-i18next";
 // Could be anything that returns default preferred language
 import { getLocales } from "expo-localization";
 import DrawerMenu from './app/screens/DrawerMenu';
+import DetailInformation from './app/screens/DetailInformation';
 
 const isAndroid = Platform.OS === "android";
 
@@ -82,14 +83,10 @@ const App = () => {
         />
         <Stack.Screen name={ROUTES.CONFIRM_OTP} component={ConfirmOTP}/>
         <Stack.Screen name={ROUTES.FORGOT_PASSWORD} component={ForgotPassword} />
-        <Stack.Screen name={ROUTES.HIIER} options={{headerShown: false, headerRight: () => (
-            <Button
-              onPress={() => console.log('aaaa')}
-              title="Update count"
-            />
-          )}} component={DrawerMenu} />
+        <Stack.Screen name={ROUTES.HIIER} options={{headerShown: false}} component={DrawerMenu} />
         <Stack.Screen name={ROUTES.RESET_PASSWORD} component={ResetPassword} />
-        <Stack.Screen name="Toast" component={Toast} />
+        <Stack.Screen name={ROUTES.TOAST} component={Toast} />
+        <Stack.Screen name={ROUTES.DETAIL_INFORMATION}  component={DetailInformation}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

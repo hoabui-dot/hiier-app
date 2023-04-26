@@ -1,10 +1,10 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import {
   createDrawerNavigator,
   DrawerContentComponentProps,
 } from '@react-navigation/drawer';
 import CustomDrawer from '../../../components/CustomDrawer';
-import { DRAWER } from '../../../constants/ui';
+import { DRAWER, USER_STATUS } from '../../../constants/ui';
 
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
@@ -16,7 +16,10 @@ import FriendCode from './FriendCode';
 import Notification from './Notification';
 import ActivityHistory from './ActivityHistory';
 import { TouchableOpacity } from 'react-native';
-import { DEFAULT_LOCATION } from '../../../utils/defaultValue';
+import {
+  DEFAULT_HIIER_INFORMATION,
+  DEFAULT_LOCATION,
+} from '../../../utils/defaultValue';
 import { TaskApi } from '../../../services/api/task';
 import { Text } from 'react-native';
 
@@ -41,13 +44,12 @@ const DrawerMenu = ({ route }: any) => {
               onPress={() => {
                 TaskApi.setActive(DEFAULT_LOCATION)
                   .then((res) => setIsActive(res.status === 200))
-                  //TODO: resolve this error
                   .catch((err) => console.log('err', err));
               }}
               style={{ marginRight: 20 }}
             >
-              <Text style={{ fontSize: 17, color: isActive ? 'green' : 'red' }}>
-                {isActive ? 'Active' : 'InActive'}
+              <Text style={{ fontSize: 16, color: isActive ? 'green' : 'red' }}>
+                {isActive ? USER_STATUS.ACTIVE : USER_STATUS.INACTIVE}
               </Text>
             </TouchableOpacity>
           ),

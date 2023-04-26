@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import { Text, SafeAreaView, TextInput, View, Pressable } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import Toast from 'react-native-root-toast';
+import { TaskApi } from '../../../services/api/task';
 import axios from 'axios';
 import S from './Styles';
 import G from '../../../utils/GlobalStyles.styled';
 import { useTranslation } from 'react-i18next';
 import Checkbox from 'expo-checkbox';
+import { ROUTES } from '../../../constants/ui';
 import { GREEN_COLOR, WHITE_COLOR } from '../../../constants/ui';
 import Constants from 'expo-constants';
-
 
 export interface InformationRegistrationScreenProps {
   navigation: any;
@@ -38,19 +39,20 @@ const InformationRegistrationScreen = ({
   const { t } = useTranslation();
 
   const onSubmit = async (value: any) => {
-    try {
-      await axios
-        .post(
-          `${Constants.expoConfig?.extra?.apiUrl}/api/account/request-otp`,
-          {phone: value.phone}
-        )
-        .then((response) => {
-          navigation.navigate('ConfirmOTP', {...value, otpMessage: response.data.message});
+    TaskApi.requestOTP({
+      phone: value.phone,
+    })
+      .then((response) => {
+        if (!response.data) return;
+
+        navigation.navigate(ROUTES.CONFIRM_OTP, {
+          ...value,
+          otpMessage: response.data.message,
         });
-    } catch (error) {
-      //TODO: resolve this error
-      console.log('error',error);
-    }
+      })
+      .catch((error) => {
+        console.log('error', error);
+      });
   };
 
   return (
@@ -101,7 +103,7 @@ const InformationRegistrationScreen = ({
                 />
                 <Text style={S.textCheckbox}>{t('MALE')}</Text>
               </View>
-              <View style={[S.checkbox, {marginLeft: 10}]}>
+              <View style={[S.checkbox, { marginLeft: 10 }]}>
                 <Checkbox
                   value={isCheckedFemale}
                   onValueChange={(value) => {
@@ -129,20 +131,6 @@ const InformationRegistrationScreen = ({
             />
           )}
         />
-        {/* <Controller
-          name="email"
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={G.input}
-              placeholder={t('EMAIL') as any}
-              onBlur={onBlur}
-              autoCapitalize="none"
-              onChangeText={onChange}
-              value={value}
-            />
-          )}
-        /> */}
         <View style={{ position: 'relative' }}>
           <Controller
             name="phone"

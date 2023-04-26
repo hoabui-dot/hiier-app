@@ -26,4 +26,5 @@ export const API_URL = {
   // taskCreate: `${API_BASE}/task/payment/vnpay`,
   taskGetAll: `${API_BASE}/task/get-all/`,
   setActive: `${API_BASE}/account/set-active/`,
+  employeeInfo: `${API_BASE}/employee-profile/get/`,
 };

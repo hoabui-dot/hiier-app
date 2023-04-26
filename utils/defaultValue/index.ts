@@ -15,3 +15,15 @@ export const DEFAULT_LOCATION = {
     longitude: 106.746822,
   },
 };
+
+export const DEFAULT_HIIER_INFORMATION = {
+  avatar: '',
+  avgRating: 0,
+  identityNumber: '',
+  name: '',
+  phone: '',
+  level: 0,
+  virtualMoney: 0,
+  isPremium: 0,
+  avatar: '',
+}

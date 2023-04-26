@@ -47,8 +47,8 @@ const Login = ({ navigation }: any) => {
     }).then((response: any) => {
       setResponseOfData(response);
       navigation.navigate('Hiier', {
-        secretHash: response?.resource?.secretHash,
-        token: response?.resource?.token,
+        secretHash: response?.data?.resource?.secretHash,
+        token: response?.data?.resource?.token,
       });
     });
   };

@@ -15,4 +15,16 @@ export const TaskApi = {
   login: async function (account: any): Promise<any> {
     return await http.post(API_URL.login, account);
   },
+  requestOTP: async function (phone: {phone: string}): Promise<any> {
+    return await http.post(API_URL.otpRequest, phone);
+  },
+  verifyOTP: async function (phone: any): Promise<any> {
+    return await http.post(API_URL.verifyOTP, phone);
+  },
+  forgotPassword: async function (value: any): Promise<any> {
+    return await http.post(API_URL.requestForgotPassword, value);
+  },
+  getEmployeeInfo: async function (): Promise<any> {
+    return await http.get(API_URL.employeeInfo);
+  },
 };

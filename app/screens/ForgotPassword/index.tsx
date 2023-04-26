@@ -7,13 +7,15 @@ import axios from 'axios';
 import G from '../../../utils/GlobalStyles.styled';
 import S from './Style';
 import { useTranslation } from 'react-i18next';
+import { TaskApi } from '../../../services/api/task';
+import { GREEN_COLOR, ROUTES } from '../../../constants/ui';
 
 export interface ForgotPasswordProps {
   navigation: any;
 }
 
 const ForgotPassword = ({ navigation }: ForgotPasswordProps) => {
-  const [responseOfForgetPassword, setResponse] = useState<any>({});
+  const [response, setResponse] = useState<any>({});
   const [toastMessage, setToastMessage] = useState<string>('');
   const { t } = useTranslation();
   const { control, handleSubmit } = useForm({
@@ -23,16 +25,12 @@ const ForgotPassword = ({ navigation }: ForgotPasswordProps) => {
   });
 
   const onSubmit = async (value: { phone: string }) => {
-    try {
-      const responseOfForgetPassword = await axios.post(
-        `${process.env.REACT_APP_API}/api/account/request-forget-password`,
-        value
-      );
-      setResponse(responseOfForgetPassword);
-      // TODO: refactor any type
-    } catch (error: any) {
-      setToastMessage(error.message);
-    }
+    TaskApi.forgotPassword(value).then((response) => {
+      if(response.status !== 200) {
+        return;
+      }
+      setResponse(response);
+    })
   };
 
   return (
@@ -59,55 +57,47 @@ const ForgotPassword = ({ navigation }: ForgotPasswordProps) => {
             name="phone"
           />
         </View>
-        {responseOfForgetPassword?.status && (
+        {response?.status && (
           <Text
             style={
-              responseOfForgetPassword?.status === 200
+              response?.status === 200
                 ? G.successMessage
                 : G.errorMessage
             }
           >
-            {responseOfForgetPassword.data.message}
+            {response.data.message}
           </Text>
         )}
         <Pressable style={G.button} onPress={handleSubmit(onSubmit)}>
           <Text style={G.buttonText}>Tiếp theo</Text>
         </Pressable>
       </View>
-      {responseOfForgetPassword?.status && (
+      {response?.status && (
         <View>
           <Text style={{ fontWeight: 'bold' }}>OTP:</Text>
           <OTPInputView
             style={{ width: '100%', paddingHorizontal: 20, height: 80 }}
-            pinCount={6}
+            pinCount={4}
             codeInputFieldStyle={S.underlineStyleBase}
             onCodeFilled={async (code) => {
-              try {
-                const response = await axios.post(
-                  `${process.env.REACT_APP_API}/api/account/verify-otp`,
-                  {
-                    otp: code,
-                    idHash: responseOfForgetPassword?.data.resource?.idHash,
-                  }
-                );
-                if (response.status === 200) {
-                  navigation.navigate('ResetPassword', {
-                    isShowMessage: response.status === 200 ? true : false,
-                  });
-                } else {
-                  setToastMessage(response.data.message);
+              TaskApi.verifyOTP({
+                otp: code,
+                idHash: response?.data.resource?.idHash
+              }).then(response => {
+                if(response?.status !== 200) {
+                  return;
                 }
-                // TODO: refactor any type
-              } catch (error: any) {
-                setToastMessage(error.message);
-              }
+                navigation.navigate(ROUTES.RESET_PASSWORD, {
+                  isShowMessage: true,
+                });
+              }) 
             }}
           />
         </View>
       )}
-      {toastMessage !== '' && (
+      {!!toastMessage.length && (
         <Toast
-          visible={toastMessage !== ''}
+          visible={!!toastMessage.length}
           position={100}
           duration={500}
           shadow={false}
@@ -119,7 +109,7 @@ const ForgotPassword = ({ navigation }: ForgotPasswordProps) => {
               setToastMessage('');
             }, 2000);
           }}
-          backgroundColor="red"
+          backgroundColor={GREEN_COLOR}
         >
           {toastMessage}
         </Toast>

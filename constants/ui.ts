@@ -3,6 +3,7 @@ export const WHITE_COLOR = '#fff';
 export const GREEN_COLOR = 'green';
 export const GRAY_COLOR = '#ccc';
 export const PURPLE_COLOR = 'rgba(123,104,238,0.8)';
+export const PINK_COLOR = '#F4B9C1';
 
 export const defaultLoginValue = {
   phone: '',
@@ -36,6 +37,8 @@ export const ROUTES = {
   FRIENDCODE: 'Friend code',
   SUPPORT: 'Support',
   GENERAL: 'General',
+  DETAIL_INFORMATION: 'DetailInformation',
+  TOAST: "Toast",
 };
 
 export const DRAWER = {
@@ -49,11 +52,16 @@ export const DRAWER = {
 };
 
 export const JOB_TAB= {
-  NEW: "Việc mới",
-  WAITING: "Chờ xác nhận",
-  CONFIRMED: "Xác nhận"
+  NEW: "Chờ việc",
+  WAITING: "Đã nhận",
+  CONFIRMED: "Đang làm"
 }
 
 export const USER_TYPE = {
   EMPLOYEE: "EMPLOYEE"
+}
+
+export const USER_STATUS = {
+  ACTIVE: 'Active',
+  INACTIVE: 'Inactive',
 }

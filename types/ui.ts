@@ -21,3 +21,14 @@ export interface IJobInformation {
   customerName: string;
   phone: string;
 }
+
+export interface IDetailHiierInformation {
+  avatar: string;
+  avgRating: number;
+  identityNumber: string;
+  name: string;
+  phone: string;
+  level: number;
+  virtualMoney: number;
+  isPremium: number;
+}

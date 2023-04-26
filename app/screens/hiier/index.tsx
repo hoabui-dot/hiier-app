@@ -1,4 +1,3 @@
-import 'react-native-gesture-handler';
 import { JOB_TAB } from '../../../constants/ui';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import React from 'react';
