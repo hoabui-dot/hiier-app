@@ -1,3 +1,5 @@
+import { LatLng } from 'react-native-maps';
+
 export interface IDropdownData {
   label: string;
   flat: string;
@@ -8,8 +10,13 @@ export interface IDropdownData {
 export interface ILoginAccount {
   phone: string;
   password: string;
-  role: string
+  role: string;
 }
+
+export type BaseResponse = {
+  resource: any;
+  message: string;
+};
 
 export interface IJobInformation {
   id: string;
@@ -32,3 +39,17 @@ export interface IDetailHiierInformation {
   virtualMoney: number;
   isPremium: number;
 }
+
+export type Address = {
+  id: number;
+  customerName: string;
+  note: string;
+  phone: string;
+  detail: string;
+  location: LatLng;
+};
+
+export type AddressSearchResult = {
+  placeId: string;
+  description: string;
+};

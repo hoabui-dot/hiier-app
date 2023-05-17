@@ -6,12 +6,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ForgotPassword from './app/screens/ForgotPassword';
 import RegisterScreen from './app/screens/InformationRegistrationScreen';
-import { Button } from 'react-native';
-import Hiier from './app/screens/hiier';
 import ResetPassword from './app/screens/ForgotPassword/ResetPassword';
+import useCachedResources from './hooks/useCachedResources';
 import Toast from './components/ToastMessage';
+import Map from './app/screens/Map';
 import ConfirmOTP from './app/screens/ConfirmOTP';
+import theme from './styles/theme';
 import { PURPLE_COLOR, ROUTES, WHITE_COLOR } from './constants/ui';
+import AddressSearch from './app/screens/AddressSearch';
 import vi from './i18n/vi.json';
 import en from './i18n/en.json';
 import 'intl-pluralrules';
@@ -23,6 +25,8 @@ import { initReactI18next, useTranslation } from "react-i18next";
 import { getLocales } from "expo-localization";
 import DrawerMenu from './app/screens/DrawerMenu';
 import DetailInformation from './app/screens/DetailInformation';
+import { NativeBaseProvider } from 'native-base';
+import { SplashScreen } from 'expo-router';
 
 const isAndroid = Platform.OS === "android";
 
@@ -58,11 +62,21 @@ i18n.use(initReactI18next).init({
 });
 
 const App = () => {
+  const isLoadingComplete = useCachedResources();
   const {t} = useTranslation();
 
+  if (!isLoadingComplete) {
+    return (
+      <NativeBaseProvider theme={theme}>
+        <SplashScreen />
+      </NativeBaseProvider>
+    );
+  }
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
+    <NativeBaseProvider theme={theme}>
+      <NavigationContainer>
+      <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Group>
           <Stack.Screen
             name="Login"
@@ -87,8 +101,11 @@ const App = () => {
         <Stack.Screen name={ROUTES.RESET_PASSWORD} component={ResetPassword} />
         <Stack.Screen name={ROUTES.TOAST} component={Toast} />
         <Stack.Screen name={ROUTES.DETAIL_INFORMATION}  component={DetailInformation}/>
+        <Stack.Screen name={ROUTES.MAP} component={Map}/>
+        <Stack.Screen name={ROUTES.ADDRESS_SEARCH} component={AddressSearch}/>
       </Stack.Navigator>
     </NavigationContainer>
+    </NativeBaseProvider>
   );
 };
 export default App;

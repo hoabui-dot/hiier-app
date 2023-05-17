@@ -8,7 +8,7 @@ export const PINK_COLOR = '#F4B9C1';
 export const defaultLoginValue = {
   phone: '',
   password: '',
-  role: ''
+  role: '',
 };
 
 export const COUNTRY = [
@@ -34,11 +34,13 @@ export const ROUTES = {
   RESET_PASSWORD: 'ResetPassword',
   NOTIFICATION: 'Notification',
   FINANCE: 'Finance',
-  FRIENDCODE: 'Friend code',
+  FRIEND_CODE: 'Friend code',
   SUPPORT: 'Support',
   GENERAL: 'General',
   DETAIL_INFORMATION: 'DetailInformation',
-  TOAST: "Toast",
+  TOAST: 'Toast',
+  MAP: 'Map',
+  ADDRESS_SEARCH: 'AddressSearch',
 };
 
 export const DRAWER = {
@@ -46,22 +48,24 @@ export const DRAWER = {
   NOTIFICATION: 'Thông báo từ Hiier',
   TRAINING: 'Chương trình đào tạo',
   FINANCE: 'Tài chính',
-  ACTIVITY_HISTORY: "Nhật ký hoạt động",
-  SUPPORTING: "Hỗ trợ",
-  FRIEND_CODE: "Mã giới thiệu bạn bè"
+  ACTIVITY_HISTORY: 'Nhật ký hoạt động',
+  SUPPORTING: 'Hỗ trợ',
+  FRIEND_CODE: 'Mã giới thiệu bạn bè',
 };
 
-export const JOB_TAB= {
-  NEW: "Chờ việc",
-  WAITING: "Đã nhận",
-  CONFIRMED: "Đang làm"
-}
+export const JOB_TAB = {
+  NEW: 'Chờ việc',
+  WAITING: 'Đã nhận',
+  CONFIRMED: 'Đang làm',
+};
 
 export const USER_TYPE = {
-  EMPLOYEE: "EMPLOYEE"
-}
+  EMPLOYEE: 'EMPLOYEE',
+};
 
 export const USER_STATUS = {
   ACTIVE: 'Active',
   INACTIVE: 'Inactive',
-}
+};
+
+export const GOOGLE_API_KEY = `AIzaSyDzzi_VBcf2Oef6LTViLU767UPNHlnIze4`;

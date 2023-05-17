@@ -14,12 +14,18 @@ import {
 import { Rating, AirbnbRating } from 'react-native-ratings';
 import { PURPLE_COLOR, ROUTES, WHITE_COLOR } from '../../constants/ui';
 import { IDetailHiierInformation } from '../../types/ui';
-import { DEFAULT_HIIER_INFORMATION } from '../../utils/defaultValue';
+import { DEFAULT_HIIER_INFORMATION } from '../../utils/defaultValue/common';
+import { DrawerContentComponentProps } from '@react-navigation/drawer';
 import { TaskApi } from '../../services/api/task';
 
 const { width } = Dimensions.get('screen');
 
-const CustomDrawer = ({ navigation, route, ...props }: any) => {
+export interface CustomDrawerProps extends DrawerContentComponentProps {
+  navigation: any;
+  route: any;
+}
+
+const CustomDrawer = ( {navigation, route, ...props}: CustomDrawerProps ) => {
   const [detailInformation, setDetailInformation] =
   useState<IDetailHiierInformation>(DEFAULT_HIIER_INFORMATION);
 
@@ -79,7 +85,7 @@ const CustomDrawer = ({ navigation, route, ...props }: any) => {
         />
       </View>
       <View style={styles.itemList}>
-        <DrawerItemList {...props} />
+        <DrawerItemList navigation={navigation} {...props} />
       </View>
     </DrawerContentScrollView>
   );

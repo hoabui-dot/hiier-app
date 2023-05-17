@@ -8,6 +8,7 @@ import { DRAWER, USER_STATUS } from '../../../constants/ui';
 
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import Slider from '@react-native-community/slider';
 
 import Hiier from '../hiier';
 import Finance from './Finance';
@@ -16,10 +17,7 @@ import FriendCode from './FriendCode';
 import Notification from './Notification';
 import ActivityHistory from './ActivityHistory';
 import { TouchableOpacity } from 'react-native';
-import {
-  DEFAULT_HIIER_INFORMATION,
-  DEFAULT_LOCATION,
-} from '../../../utils/defaultValue';
+import { DEFAULT_LOCATION } from '../../../utils/defaultValue/common';
 import { TaskApi } from '../../../services/api/task';
 import { Text } from 'react-native';
 
@@ -35,9 +33,7 @@ const DrawerMenu = ({ route }: any) => {
   return (
     <secretHashContext.Provider value={route.params}>
       <Drawer.Navigator
-        drawerContent={(props: DrawerContentComponentProps) => (
-          <CustomDrawer {...props} />
-        )}
+        drawerContent={(props) => <CustomDrawer route={route} {...props} />}
         screenOptions={{
           headerRight: () => (
             <TouchableOpacity
@@ -48,6 +44,16 @@ const DrawerMenu = ({ route }: any) => {
               }}
               style={{ marginRight: 20 }}
             >
+              {/* <Slider
+                style={{ width: 60, height: 60 }}
+                minimumValue={0}
+                maximumValue={1}
+                minimumTrackTintColor="red"
+                maximumTrackTintColor="#000000"
+                onValueChange={e => console.log(e)
+                }
+                step={1}
+              /> */}
               <Text style={{ fontSize: 16, color: isActive ? 'green' : 'red' }}>
                 {isActive ? USER_STATUS.ACTIVE : USER_STATUS.INACTIVE}
               </Text>
@@ -68,11 +74,11 @@ const DrawerMenu = ({ route }: any) => {
           name={DRAWER.NOTIFICATION}
           component={Notification}
           options={{
-            drawerIcon: ({ focused, color, size }) => (
+            drawerIcon: (args) => (
               <MaterialIcons
                 name="notifications-active"
                 size={24}
-                color={color}
+                color={args.color}
               />
             ),
           }}
@@ -81,8 +87,12 @@ const DrawerMenu = ({ route }: any) => {
           name={DRAWER.TRAINING}
           component={Notification}
           options={{
-            drawerIcon: ({ focused, color, size }) => (
-              <MaterialIcons name="library-books" size={24} color={color} />
+            drawerIcon: (args) => (
+              <MaterialIcons
+                name="library-books"
+                size={24}
+                color={args.color}
+              />
             ),
           }}
         />
@@ -90,8 +100,8 @@ const DrawerMenu = ({ route }: any) => {
           name={DRAWER.ACTIVITY_HISTORY}
           component={ActivityHistory}
           options={{
-            drawerIcon: ({ focused, color }) => (
-              <MaterialIcons name="history" size={24} color={color} />
+            drawerIcon: (args) => (
+              <MaterialIcons name="history" size={24} color={args.color} />
             ),
           }}
         />
@@ -99,8 +109,12 @@ const DrawerMenu = ({ route }: any) => {
           name={DRAWER.FINANCE}
           component={Finance}
           options={{
-            drawerIcon: ({ focused, color }) => (
-              <MaterialCommunityIcons name="finance" size={24} color={color} />
+            drawerIcon: (args) => (
+              <MaterialCommunityIcons
+                name="finance"
+                size={24}
+                color={args.color}
+              />
             ),
           }}
         />
@@ -108,8 +122,8 @@ const DrawerMenu = ({ route }: any) => {
           name={DRAWER.FRIEND_CODE}
           component={FriendCode}
           options={{
-            drawerIcon: ({ focused, color }) => (
-              <MaterialIcons name="qr-code" size={24} color={color} />
+            drawerIcon: (args) => (
+              <MaterialIcons name="qr-code" size={24} color={args.color} />
             ),
           }}
         />
@@ -117,8 +131,12 @@ const DrawerMenu = ({ route }: any) => {
           name={DRAWER.SUPPORTING}
           component={Supporting}
           options={{
-            drawerIcon: ({ focused, color }) => (
-              <MaterialIcons name="support-agent" size={24} color={color} />
+            drawerIcon: (args) => (
+              <MaterialIcons
+                name="support-agent"
+                size={24}
+                color={args.color}
+              />
             ),
           }}
         />

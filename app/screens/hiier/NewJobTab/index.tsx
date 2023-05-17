@@ -11,23 +11,24 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { BASEURL } from '../../../../services/api/urls';
 import io from 'socket.io-client';
 import { addAuthorizationHeader } from '../../../../services/token';
-import { TaskApi } from '../../../../services/api/task';
 import { IJobInformation } from '../../../../types/ui';
-import { DEFAULT_JOB_INFORMATION } from '../../../../utils/defaultValue';
+import { DEFAULT_JOB_INFORMATION } from '../../../../utils/defaultValue/common';
 import SwipeButton from 'rn-swipe-button';
 
 import { secretHashContext } from '../../DrawerMenu';
-import { PURPLE_COLOR, WHITE_COLOR } from '../../../../constants/ui';
+import { PURPLE_COLOR, ROUTES, WHITE_COLOR } from '../../../../constants/ui';
 
 const { width, height } = Dimensions.get('screen');
-const NewJobTab = () => {
+
+export interface NewJobTabProps {
+  navigation: any;
+  route: any;
+}
+
+const NewJobTab = ({navigation, route}: NewJobTabProps) => {
   const [isJobModal, setIsJobModal] = useState<boolean>(false);
   const [jobInformation, setJobInformation] = useState<IJobInformation>(
     DEFAULT_JOB_INFORMATION
-  );
-  console.log(
-    '🚀 ~ file: index.tsx:23 ~ NewJobTab ~ jobInformation:',
-    jobInformation
   );
 
   const loginCode = useContext(secretHashContext);
@@ -51,12 +52,13 @@ const NewJobTab = () => {
         socket.off('subscribe/' + loginCode.secretHash);
       };
     }
-    return () => {};
+    return () => { };
   }, [socket]);
 
   const InformationJob = ({
     title,
     description,
+    
   }: {
     title: string;
     description: any;
@@ -137,6 +139,8 @@ const NewJobTab = () => {
       <View style={{ display: 'flex' }}>
         <Text>Hiện tại chưa có công việc mới, vui lòng quay lại sau</Text>
       </View>
+      <TouchableOpacity onPress={() => navigation.navigate(ROUTES.ADDRESS_SEARCH)}><Text>Move to map</Text></TouchableOpacity>
+
       <TouchableOpacity onPress={() => setIsJobModal(true)}>
         <Text>Show Popup</Text>
       </TouchableOpacity>
