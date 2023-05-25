@@ -11,7 +11,7 @@ import {
   DrawerContentScrollView,
   DrawerItemList,
 } from '@react-navigation/drawer';
-import { Rating, AirbnbRating } from 'react-native-ratings';
+import { AirbnbRating } from 'react-native-ratings';
 import { PURPLE_COLOR, ROUTES, WHITE_COLOR } from '../../constants/ui';
 import { IDetailHiierInformation } from '../../types/ui';
 import { DEFAULT_HIIER_INFORMATION } from '../../utils/defaultValue/common';

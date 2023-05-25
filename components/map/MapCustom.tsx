@@ -1,19 +1,23 @@
 import { Entypo } from '@expo/vector-icons';
-import { Center, Icon } from 'native-base';
-import { useEffect, useRef, useState } from 'react';
-import { Keyboard, Platform, StyleSheet, View } from 'react-native';
+import { Icon } from 'native-base';
+import { useEffect, useRef } from 'react';
+import ZoomButton from '../ZoomButton';
+import { StyleSheet, View, Button } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Marker, Region } from 'react-native-maps';
 
 interface MapCustomProps {
   region: Region;
-  setRegion: (region: Region) => void;
 }
-const MapCustom = ({ region, setRegion }: MapCustomProps) => {
+const MapCustom = ({ region }: MapCustomProps) => {
   const mapView = useRef<MapView>(null);
 
   useEffect(() => {
-    mapView.current?.animateToRegion(region as Region, 200);
+    mapView.current?.animateToRegion(region, 200);
   }, [region]);
+
+  const handleGoToMarkerLocation = () => {
+    mapView.current?.animateToRegion(region);
+  };
 
   return (
     <View style={styles.container}>
@@ -22,20 +26,14 @@ const MapCustom = ({ region, setRegion }: MapCustomProps) => {
         style={styles.container}
         initialRegion={region}
         provider={PROVIDER_GOOGLE}
-        // region={region}
-        onRegionChangeComplete={(region, details) => {
-          if (Platform.OS === 'ios') {
-            if (details.isGesture) {
-              setRegion(region);
-            }
-          } else {
-            setRegion(region);
-          }
-        }}
-      />
-      <Center style={styles.container}>
-        <Icon as={Entypo} name={'location-pin'} size={10} color={'red.500'} />
-      </Center>
+        zoomEnabled={true}
+        region={region}
+      >
+        <Marker coordinate={region}>
+          <Icon as={Entypo} name={'location-pin'} size={10} color={'red.500'} />
+        </Marker>
+      </MapView>
+      <ZoomButton onGoCurrentLocation={handleGoToMarkerLocation} />
     </View>
   );
 };

@@ -1,6 +1,7 @@
 export const BLACK_COLOR = '#000';
-export const WHITE_COLOR = '#fff';
+export const WHITE_COLOR = 'white';
 export const GREEN_COLOR = 'green';
+export const RED_COLOR = 'red';
 export const GRAY_COLOR = '#ccc';
 export const PURPLE_COLOR = 'rgba(123,104,238,0.8)';
 export const PINK_COLOR = '#F4B9C1';
@@ -55,8 +56,7 @@ export const DRAWER = {
 
 export const JOB_TAB = {
   NEW: 'Chờ việc',
-  WAITING: 'Đã nhận',
-  CONFIRMED: 'Đang làm',
+  CONFIRMED: 'Đã nhận',
 };
 
 export const USER_TYPE = {

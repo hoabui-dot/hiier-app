@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Alert, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Region } from 'react-native-maps';
-import { RootStackScreenProps } from '../../../types/navigation';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Center, ITheme, useTheme } from 'native-base';
 import MapCustom from '../../../components/map/MapCustom';
@@ -29,7 +28,6 @@ const MapScreen = ({ route, navigation }: any) => {
 
   //Get formattedAddress by region
   const getFormattedAddress = async (_region: Region) => {
-    
     const res = await reverseGeocoding(_region);
     setAddress({
       ...address,
@@ -68,23 +66,22 @@ const MapScreen = ({ route, navigation }: any) => {
     <>
       <SafeAreaView style={styles.container}>
         <Header
-          headerText={'Pin Address'}
+          headerText={'VỊ TRÍ HIỆN TẠI'}
           leftPress={() => navigation.goBack()}
           backButton
         />
         <View style={styles.mapView}>
           <Center style={[styles.detail, styles.top]}>
-            <TouchableOpacity
+            <Text
               style={styles.address}
-              onPress={handleMapNavigate}
             >
               <Text style={styles.addressText}>{address.detail}</Text>
-            </TouchableOpacity>
+            </Text>
           </Center>
           <MapCustom region={region} setRegion={setRegion} />
           <Center style={styles.detail}>
             <ButtonBase
-              title='Confirm'
+              title='Xác nhận'
               onPress={toggleShowModal}
               variant={'solid'}
               containerStyle={{ width: '100%' }}
@@ -138,8 +135,10 @@ const makeStyles = ({ colors, sizes, fontSizes }: ITheme) =>
       backgroundColor: colors.white,
       color: colors.gray['500'],
       padding: sizes.padding * 2,
+      marginTop: sizes['1.5'] * 2,
       paddingVertical: sizes.padding,
       borderRadius: sizes.radius,
+      overflow: 'hidden',
     },
     addressText: {
       fontSize: fontSizes.sm,

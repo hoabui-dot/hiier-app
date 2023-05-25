@@ -3,12 +3,16 @@ import { View, StyleSheet } from 'react-native';
 
 export interface ColBaseProps {
   numRows: 1 | 2 | 3 | 4;
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
-const Col = ({ numRows, children }: ColBaseProps) => (
-  <View style={styles[`${numRows}col`]}>{children}</View>
-);
+// const Col = ({ numRows, children }:ColBaseProps) => (
+//   <View style={styles[`${numRows}col`]}>{children}</View>
+// );
+
+const Col = (children: any) => {
+  return <View>{children}</View>
+}
 
 export default Col;
 

@@ -19,14 +19,21 @@ export type BaseResponse = {
 };
 
 export interface IJobInformation {
-  id: string;
-  address: string;
-  duration: number;
-  totalPrice: number;
-  wageMoney: string;
-  paymentMethod: string;
+  id: number;
   customerName: string;
-  phone: string;
+  customerPhone: string;
+  equipment: string;
+  address: {
+    detail: string;
+    customerName: string;
+    phone: string;
+  };
+  paymentMethod: string;
+  taskName: string; //công việc
+  totalPrice: number; //tổng tiền
+  tipMoney: number; 
+  overtimePrice: number; //phí làm việc ngoài giờ
+  duration: number;
 }
 
 export interface IDetailHiierInformation {
@@ -49,7 +56,3 @@ export type Address = {
   location: LatLng;
 };
 
-export type AddressSearchResult = {
-  placeId: string;
-  description: string;
-};

@@ -1,19 +1,28 @@
 export const DEFAULT_JOB_INFORMATION = {
-  id: '',
-  address: 'test address',
-  duration: 300,
-  totalPrice: 3000,
-  wageMoney: 'sdasdasdas',
-  paymentMethod: 'asdasdasdas',
-  customerName: 'asdas',
-  phone: 'test phone',
-}
+  id: 0,
+  customerName: '',
+  customerPhone: '',
+  equipment: '',
+  address: {
+    detail: '',
+    customerName: '',
+    phone: '',
+  },
+  paymentMethod: '',
+  taskName: '', //công việc
+  totalPrice: 0, //tổng tiền
+  tipMoney: 0, 
+  overtimePrice: 0, //phí làm việc ngoài giờ
+  duration: 0,
+};
+
+export const DEFAULT_LAT_LONG = {
+  latitude: 10.783087,
+  longitude: 106.746822,
+};
 
 export const DEFAULT_LOCATION = {
-  location: {
-    latitude: 10.783087,
-    longitude: 106.746822,
-  },
+  location: DEFAULT_LAT_LONG,
 };
 
 export const DEFAULT_HIIER_INFORMATION = {
@@ -25,7 +34,7 @@ export const DEFAULT_HIIER_INFORMATION = {
   level: 0,
   virtualMoney: 0,
   isPremium: 0,
-}
+};
 
 export const initAddress = {
   id: -1,
@@ -33,15 +42,11 @@ export const initAddress = {
   note: '',
   phone: '',
   detail: '',
-  location: {
-    latitude: 0,
-    longitude: 0,
-  },
+  ...DEFAULT_LOCATION,
 };
 
 export const initRegion = {
-  latitude: 10.8230989,
-  longitude: 106.6296638,
+  ...DEFAULT_LAT_LONG,
   latitudeDelta: 0.003,
   longitudeDelta: 0.003,
 };

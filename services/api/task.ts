@@ -12,6 +12,9 @@ export const TaskApi = {
   setActive: async function (location: any): Promise<any> {
     return await http.put(API_URL.setActive, location);
   },
+  setInActive: async function (): Promise<any> {
+    return await http.put(API_URL.setInActive);
+  },
   login: async function (account: any): Promise<any> {
     return await http.post(API_URL.login, account);
   },
@@ -26,5 +29,11 @@ export const TaskApi = {
   },
   getEmployeeInfo: async function (): Promise<any> {
     return await http.get(API_URL.employeeInfo);
+  },
+  doneBooking: async function (id: number | undefined): Promise<any> {
+    return await http.put(`${API_URL.doneBooking}${id}`);
+  },
+  cancelBooking: async function (id: number | undefined): Promise<any> {
+    return await http.put(`${API_URL.cancelBooking}${id}`);
   },
 };

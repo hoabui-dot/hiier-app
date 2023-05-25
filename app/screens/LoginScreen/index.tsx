@@ -5,10 +5,14 @@ import Svg, { Image } from 'react-native-svg';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { ILoginAccount } from '../../../types/ui';
+import * as ExpoLocation from 'expo-location';
+import { reverseGeocoding } from '../../../services/api/googleMapApi';
 
-import { defaultLoginValue } from '../../../constants/ui';
+import { defaultLoginValue, ROUTES } from '../../../constants/ui';
 import { USER_TYPE } from '../../../constants/ui';
 import { WHITE_COLOR, GREEN_COLOR } from '../../../constants/ui';
+import { Address } from '../../../types/ui';
+import { initAddress } from '../../../utils/defaultValue/common';
 
 import {
   Text,
@@ -17,6 +21,7 @@ import {
   View,
   Dimensions,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import { TaskApi } from '../../../services/api/task';
 
@@ -31,6 +36,7 @@ export interface LoginProps {
 const Login = ({ navigation }: any) => {
   // TODO: get default value by isoCode
   const [responseOfData, setResponseOfData] = useState<any>({});
+  const [locationLoading, setLocationLoading] = useState<boolean>(false);
   const [isSuccessMessage, setIsSuccessMessage] = useState<boolean>(false);
   const { control, handleSubmit } = useForm({
     defaultValues: defaultLoginValue,
@@ -39,17 +45,35 @@ const Login = ({ navigation }: any) => {
 
   const { height } = Dimensions.get('window');
 
-  const onSubmit = async (value: ILoginAccount) => {
+  const onSubmit = (value: ILoginAccount) => {
     TaskApi.login({
       phone: value.phone,
       password: value.password,
       role: USER_TYPE.EMPLOYEE,
-    }).then((response: any) => {
-      setResponseOfData(response);
-      navigation.navigate('Hiier', {
-        secretHash: response?.data?.resource?.secretHash,
-        token: response?.data?.resource?.token,
+    }).then(async (response: any) => {
+      const { status } = await ExpoLocation.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert(status);
+        return;
+      }
+      const location = await ExpoLocation.getCurrentPositionAsync({
+        accuracy: ExpoLocation.Accuracy.Highest,
       });
+      const res = await reverseGeocoding(location.coords);
+      if (location && res) {
+        setLocationLoading(false);
+        const _address: Address = {
+          ...initAddress,
+          detail: res.formatted_address,
+          location: location.coords,
+        };
+        navigation.navigate(ROUTES.HIIER, {
+          secretHash: response?.data?.resource?.secretHash,
+          token: response?.data?.resource?.token,
+          address: _address,
+        });
+      }
+      setResponseOfData(response);
     });
   };
 
@@ -66,7 +90,7 @@ const Login = ({ navigation }: any) => {
               />
             </Svg>
           </View>
-          <Text style={S.title}>{t('FOR_PARTNER')}</Text>
+          <Text style={S.title}>Dành cho Hiier</Text>
         </View>
         <View style={[S.box, { height: height / 2, width: '100%' }]}>
           <Controller
@@ -78,8 +102,7 @@ const Login = ({ navigation }: any) => {
                 </View> */}
                 <TextInput
                   style={[G.input, S.input]}
-                  // TODO: refactor any type
-                  placeholder={t('ENTER_PHONE') as any}
+                  placeholder="Nhập số điện thoại"
                   onBlur={onBlur}
                   autoCapitalize="none"
                   onChangeText={onChange}
@@ -94,7 +117,7 @@ const Login = ({ navigation }: any) => {
             name="phone"
           />
           {responseOfData?.response?.status === 400 && (
-            <Text style={G.errorMessage}>{t('SIGN_UP_INFOR_ERROR')}</Text>
+            <Text style={G.errorMessage}>Đăng nhập thất bại</Text>
           )}
           <Controller
             control={control}
@@ -106,7 +129,7 @@ const Login = ({ navigation }: any) => {
               <TextInput
                 style={G.input}
                 // TODO: refactor any type by andrew
-                placeholder={t('ENTER_PASSWORD') as any}
+                placeholder={'Nhập mật khẩu'}
                 autoCapitalize="none"
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -117,7 +140,7 @@ const Login = ({ navigation }: any) => {
             name="password"
           />
           <TouchableOpacity style={G.button} onPress={handleSubmit(onSubmit)}>
-            <Text style={G.buttonText}>{t('LOGIN')}</Text>
+            <Text style={G.buttonText}>Đăng nhập</Text>
           </TouchableOpacity>
           <View
             style={{
@@ -128,10 +151,10 @@ const Login = ({ navigation }: any) => {
             }}
           >
             <Link to={{ screen: t('REGISTRATION_ACCOUNT') } as any}>
-              {t('REGISTER')}
+              <Text>Đăng ký</Text>
             </Link>
             <Link to={{ screen: t('ForgotPassword') } as any}>
-              {t('FOGOT_PASSWORD')}
+              <Text>Quên mật khẩu</Text>
             </Link>
           </View>
         </View>

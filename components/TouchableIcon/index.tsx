@@ -31,8 +31,8 @@ const TouchableIcon = ({
   const styles = useMemo(() => makeStyles(theme), []);
 
   return (
-      <TouchableOpacity {...props} style={[styles.container, containerStyle]}>
-      <HStack justifyContent={'space-between'} alignItems={'center'}>
+    <TouchableOpacity {...props} style={[styles.container, containerStyle]}>
+      <HStack justifyContent="space-between" alignItems="center">
         <HStack alignItems={'center'} flexShrink={1}>
           {iconLeft ?? <Icon as={Icons.Smile} />}
           <Text style={[styles.text, textStyle]}>{title}</Text>
