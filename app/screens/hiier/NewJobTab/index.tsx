@@ -8,7 +8,7 @@ import io from 'socket.io-client';
 import { addAuthorizationHeader } from '../../../../services/token';
 import { IJobInformation } from '../../../../types/ui';
 import MapCustom from '../../../../components/map/MapCustom';
-import { Region } from 'react-native-maps';
+import notification from '../../../../utils/helpers/notification';
 import Card from '../../../../components/Card';
 import {
   DEFAULT_JOB_INFORMATION,
@@ -16,9 +16,9 @@ import {
 } from '../../../../utils/defaultValue/common';
 import SwipeButton from 'rn-swipe-button';
 import { secretHashContext } from '../../DrawerMenu';
-
 import { JOB_TAB, PURPLE_COLOR, WHITE_COLOR } from '../../../../constants/ui';
 import { ITheme, useTheme } from 'native-base';
+import firebaseMessage from '../../../../utils/helpers/firebaseMessage';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -39,35 +39,26 @@ const NewJobTab = ({ navigation, route }: any) => {
   const socket = io(API_URL.webSocket);
 
   useEffect(() => {
+    firebaseMessage.firebasePushSetup();
+  }, []);
+
+  useEffect(() => {
     if (loginValue.secretHash) {
       socket.emit('subscribe-direct-notification', loginValue.secretHash);
+      socket.on('subscribed/' + loginValue.secretHash, (response) => {
+        console.log(
+          '🚀 ~ file: index.tsx:43 ~ socket.on ~ response:',
+          response
+        );
+      });
       socket.on('notification/' + loginValue.secretHash, (res) => {
         setJobInformation(res);
         setIsJobModal(true);
+        //truyền tin nhắn vào trong firebase
+        notification.schedulePushNotification('hello !');
       });
     }
   }, [socket]);
-
-  const zoomIn = () => {
-    const mapRegion: Region = {
-      latitude: (region as Region).latitude,
-      longitude: (region as Region).longitude,
-      latitudeDelta: (region as Region).latitudeDelta / 2,
-      longitudeDelta: (region as Region).longitudeDelta / 2,
-    };
-
-    setRegion(mapRegion);
-  };
-
-  const zoomOut = () => {
-    const mapRegion: Region = {
-      latitude: (region as Region).latitude,
-      longitude: (region as Region).longitude,
-      latitudeDelta: (region as Region).latitudeDelta * 2,
-      longitudeDelta: (region as Region).longitudeDelta * 2,
-    };
-    setRegion(mapRegion);
-  };
 
   const DescriptionCard = ({
     title,
@@ -79,7 +70,9 @@ const NewJobTab = ({ navigation, route }: any) => {
     return (
       <Card cardStyle={{ marginTop: 10 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={{ fontWeight: 'bold', marginRight: 10 }}>{title}</Text>
+          <Text
+            style={{ fontWeight: 'bold', marginRight: 10 }}
+          >{`${title}:`}</Text>
           <Text style={{ flex: 1 }}>{description}</Text>
         </View>
       </Card>
@@ -107,31 +100,31 @@ const NewJobTab = ({ navigation, route }: any) => {
             </View>
             <View>
               <DescriptionCard
-                title="Khách hàng:"
+                title="Khách hàng"
                 description={jobInformation.customerName}
               />
               <DescriptionCard
-                title="Điện thoại:"
+                title="Điện thoại"
                 description={jobInformation.customerPhone}
               />
               <DescriptionCard
-                title="Tại:"
+                title="Tại"
                 description={jobInformation.address.detail}
               />
               <DescriptionCard
-                title="Dụng cụ:"
+                title="Dụng cụ"
                 description={jobInformation.equipment}
               />
               <DescriptionCard
-                title="Thanh toán:"
+                title="Thanh toán"
                 description={jobInformation.paymentMethod}
               />
               <DescriptionCard
-                title="Tổng tiền:"
+                title="Tổng tiền"
                 description={jobInformation.totalPrice}
               />
               <DescriptionCard
-                title="Phí ngoài giờ:"
+                title="Phí ngoài giờ"
                 description={jobInformation.overtimePrice}
               />
             </View>

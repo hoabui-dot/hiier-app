@@ -56,9 +56,7 @@ const CustomDrawer = ( {navigation, route, ...props}: CustomDrawerProps ) => {
           <Text style={styles.text}>{detailInformation.name}</Text>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate(ROUTES.DETAIL_INFORMATION, {
-                hiierInformation: detailInformation,
-              });
+              navigation.navigate(ROUTES.DETAIL_INFORMATION, detailInformation);
             }}
           >
             <Text style={[styles.text, { color: 'red', fontWeight: '400' }]}>

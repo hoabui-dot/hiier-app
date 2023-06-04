@@ -49,7 +49,7 @@ export const DRAWER = {
   NOTIFICATION: 'Thông báo từ Hiier',
   TRAINING: 'Chương trình đào tạo',
   FINANCE: 'Tài chính',
-  ACTIVITY_HISTORY: 'Nhật ký hoạt động',
+  JOB_HISTORY: 'Lịch sử làm viêc',
   SUPPORTING: 'Hỗ trợ',
   FRIEND_CODE: 'Mã giới thiệu bạn bè',
 };
@@ -57,6 +57,16 @@ export const DRAWER = {
 export const JOB_TAB = {
   NEW: 'Chờ việc',
   CONFIRMED: 'Đã nhận',
+};
+
+export const JOB_HISTORY_TAB = {
+  DONE: 'Hoàn thành việc',
+  CANCELED: 'huỷ việc',
+};
+
+export const FINANCE_TAB = {
+  HI_BAY: 'HiPay',
+  TRADING: 'Giao dịch',
 };
 
 export const USER_TYPE = {
@@ -69,3 +79,26 @@ export const USER_STATUS = {
 };
 
 export const GOOGLE_API_KEY = `AIzaSyDzzi_VBcf2Oef6LTViLU767UPNHlnIze4`;
+
+export const TASK_STATUS = {
+  DONE: 'done',
+  CANCELED: 'canceled',
+  PENDING: 'pending',
+};
+
+export const JOB_NOTIFICATION = {
+  content: {
+    title: 'Công việc mới! 📬',
+    body: '',
+  },
+  trigger: { seconds: 2 },
+};
+
+export const jobNotificationMessage = {
+  content: {
+    title: 'Công việc mới 📬',
+    body: 'Nhanh nhanh vào ứng dụng để xem công việc mới nào Hiier ơi 📬',
+    data: { data: '' },
+  },
+  trigger: { seconds: 1 },
+};

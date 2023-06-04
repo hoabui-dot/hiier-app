@@ -30,4 +30,5 @@ export const API_URL = {
   employeeInfo: `${API_BASE}/employee-profile/get/`,
   doneBooking: `${API_BASE}/task/done/`,
   cancelBooking: `${API_BASE}/task/cancel/`,
+  JobHistory: `${API_BASE}/task/list-for-employee`,
 };

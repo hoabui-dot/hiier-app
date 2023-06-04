@@ -14,7 +14,7 @@ import Finance from './Finance';
 import Supporting from './Supporting';
 import FriendCode from './FriendCode';
 import Notification from './Notification';
-import ActivityHistory from './ActivityHistory';
+import JobHistory from './ActivityHistory';
 import { StyleSheet } from 'react-native';
 import { Address } from '../../../types/ui';
 import { ITheme, useTheme } from 'native-base';
@@ -30,7 +30,7 @@ const DrawerMenu = ({ route }: any) => {
   const theme = useTheme();
   const Drawer = createDrawerNavigator();
   const styles = useMemo(() => makeStyles(theme), []);
-
+  
   return (
     <secretHashContext.Provider value={route.params}>
       <Drawer.Navigator
@@ -77,8 +77,8 @@ const DrawerMenu = ({ route }: any) => {
           }}
         />
         <Drawer.Screen
-          name={DRAWER.ACTIVITY_HISTORY}
-          component={ActivityHistory}
+          name={DRAWER.JOB_HISTORY}
+          component={JobHistory}
           options={{
             drawerIcon: (args) => (
               <MaterialIcons name="history" size={24} color={args.color} />

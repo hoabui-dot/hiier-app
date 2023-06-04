@@ -1,6 +1,7 @@
 import http from '../http';
 import { Address, BaseResponse } from '../../types/ui';
-import { API_URL } from './urls';
+import { API_URL, BASEURL } from './urls';
+import axios from 'axios';
 
 export const AddressApi = {
   create: async function (data: Address): Promise<BaseResponse> {

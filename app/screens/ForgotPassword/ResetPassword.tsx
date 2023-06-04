@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Text, TextInput, View, Pressable } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import G from '../../../utils/GlobalStyles.styled';

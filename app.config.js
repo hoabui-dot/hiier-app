@@ -4,4 +4,7 @@ module.exports = {
   extra: {
     apiUrl: process.env.REACT_APP_API,
   },
+  ios: {
+    bundleIdentifier: 'com.company.name',
+  },
 };

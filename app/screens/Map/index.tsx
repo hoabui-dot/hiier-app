@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Alert, StyleSheet, View, TouchableOpacity } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
 import { Region } from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Center, ITheme, useTheme } from 'native-base';
@@ -18,6 +18,7 @@ const MapScreen = ({ route, navigation }: any) => {
   const styles = useMemo(() => makeStyles(theme), []);
   const [showModal, setShowModal] = useState<boolean>(false);
 
+  console.log('route.params', route.params);
 
   const [address, setAddress] = useState<Address>(route.params);
   const [region, setRegion] = useState<Region>({
@@ -59,9 +60,6 @@ const MapScreen = ({ route, navigation }: any) => {
     }
   };
 
-  const handleMapNavigate = () => {
-    navigation.navigate('AddressSearch', { placeDetail: address.detail });
-  };
   return (
     <>
       <SafeAreaView style={styles.container}>
@@ -78,7 +76,7 @@ const MapScreen = ({ route, navigation }: any) => {
               <Text style={styles.addressText}>{address.detail}</Text>
             </Text>
           </Center>
-          <MapCustom region={region} setRegion={setRegion} />
+          <MapCustom region={region} />
           <Center style={styles.detail}>
             <ButtonBase
               title='Xác nhận'

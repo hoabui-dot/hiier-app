@@ -56,3 +56,31 @@ export type Address = {
   location: LatLng;
 };
 
+export interface IDoneTaskHistory {
+  serviceName: string;
+  totalPrice: number;
+  finishTime: number;
+  address: {
+    customerName: string;
+    detail: string;
+  }
+}
+
+export interface ICanceledTaskHistory {
+  serviceName: string;
+  totalPrice: number;
+  canceledTime: number;
+  address: {
+    customerName: string;
+    detail: string;
+  }
+}
+
+export interface IJobNotification {
+  content: {
+    title: string;
+    body: string;
+    data?: {data: string},
+  };
+  trigger: {seconds:  number};
+}

@@ -27,7 +27,6 @@ import { TaskApi } from '../../../services/api/task';
 
 import S from './Login.styled';
 import G from '../../../utils/GlobalStyles.styled';
-// import DropdownPhoneCode from './DropdownPhoneCode';
 
 export interface LoginProps {
   navigation: any;

@@ -15,7 +15,13 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.company.name",
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "useFrameworks": "static",
+      "config": {
+        "hermesEnabled": true
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -33,7 +39,10 @@
         {
           "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
         }
-      ]
+      ],
+      "@react-native-firebase/app",
+      "@react-native-firebase/perf",
+      "@react-native-firebase/crashlytics"
     ]
   }
 }
