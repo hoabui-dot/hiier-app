@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Platform } from 'react-native';
 
 import LoginScreens from './app/screens/LoginScreen';
@@ -7,33 +7,30 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ForgotPassword from './app/screens/ForgotPassword';
 import RegisterScreen from './app/screens/InformationRegistrationScreen';
 import ResetPassword from './app/screens/ForgotPassword/ResetPassword';
-import useCachedResources from './hooks/useCachedResources';
-import { secretHashContext } from './app/screens/DrawerMenu';
-import { jobNotificationMessage } from './constants/ui';
-import { schedulePushNotification } from './utils/helpers/NotificationMessage';
-import { API_URL } from './services/api/urls';
 import Toast from './components/ToastMessage';
-import io from 'socket.io-client';
+import ChatMessage from './app/screens/ChatMessage';
 import Map from './app/screens/Map';
 import ConfirmOTP from './app/screens/ConfirmOTP';
 import theme from './styles/theme';
 import { PURPLE_COLOR, ROUTES, WHITE_COLOR } from './constants/ui';
+import io from 'socket.io-client';
 import AddressSearch from './app/screens/AddressSearch';
 import vi from './i18n/vi.json';
 import en from './i18n/en.json';
 import 'intl-pluralrules';
+import { secretHashContext } from './app/screens/DrawerMenu';
 
 import i18n from 'i18next';
 import { initReactI18next, useTranslation } from 'react-i18next';
 import * as Notifications from 'expo-notifications';
+import firebaseMessage from './utils/helpers/firebaseMessage';
 
 // Could be anything that returns default preferred language
 import { getLocales } from 'expo-localization';
 import DrawerMenu from './app/screens/DrawerMenu';
 import DetailInformation from './app/screens/DetailInformation';
 import { NativeBaseProvider } from 'native-base';
-import { SplashScreen } from 'expo-router';
-import messaging from '@react-native-firebase/messaging';
+import { API_URL } from './services/api/urls';
 
 const isAndroid = Platform.OS === 'ios';
 
@@ -68,7 +65,7 @@ i18n.use(initReactI18next).init({
     },
   },
   lng: getLocales()[0].languageCode,
-  fallbackLng: 'en', 
+  fallbackLng: 'en',
   interpolation: {
     escapeValue: false,
   },
@@ -77,6 +74,12 @@ i18n.use(initReactI18next).init({
 
 const App = () => {
   const { t } = useTranslation();
+  const socket = io(API_URL.webSocket);
+  const loginValue = useContext(secretHashContext);
+
+  useEffect(() => {
+    socket.emit('subscribe-global-notification', loginValue.secretHash); //global notification
+  }, [socket]);
 
   return (
     <NativeBaseProvider theme={theme}>
@@ -120,6 +123,10 @@ const App = () => {
             component={DetailInformation}
           />
           <Stack.Screen name={ROUTES.MAP} component={Map} />
+          <Stack.Screen
+            name={ROUTES.CHAT_MESSAGE}
+            component={ChatMessage}
+          />
           <Stack.Screen
             name={ROUTES.ADDRESS_SEARCH}
             component={AddressSearch}

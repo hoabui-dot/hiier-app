@@ -42,6 +42,7 @@ export const ROUTES = {
   TOAST: 'Toast',
   MAP: 'Map',
   ADDRESS_SEARCH: 'AddressSearch',
+  CHAT_MESSAGE: "ChatMessage",
 };
 
 export const DRAWER = {
@@ -102,3 +103,17 @@ export const jobNotificationMessage = {
   },
   trigger: { seconds: 1 },
 };
+
+export const DEFAULT_HIPAY = {
+  balance: 0,
+  bankName: '',
+  bankNumber: 0,
+  customerReceive: '',
+}
+
+export const TRANSACTION_HISTORY_TYPE = {
+  TOP_UP: "TOP_UP",
+  WITH_DRAW: "WITH_DRAW"
+}
+
+export const USER_SESSION = 'user_session';

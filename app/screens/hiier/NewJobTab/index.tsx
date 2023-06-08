@@ -18,7 +18,6 @@ import SwipeButton from 'rn-swipe-button';
 import { secretHashContext } from '../../DrawerMenu';
 import { JOB_TAB, PURPLE_COLOR, WHITE_COLOR } from '../../../../constants/ui';
 import { ITheme, useTheme } from 'native-base';
-import firebaseMessage from '../../../../utils/helpers/firebaseMessage';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -34,28 +33,35 @@ const NewJobTab = ({ navigation, route }: any) => {
     ...initRegion,
     ...route.params?.location,
   });
-
-  addAuthorizationHeader(loginValue.token);
-  const socket = io(API_URL.webSocket);
-
+  
   useEffect(() => {
-    firebaseMessage.firebasePushSetup();
-  }, []);
+    addAuthorizationHeader(loginValue.token);
+  }, [])
+
+  const socket = io(API_URL.webSocket, { transports: ['polling'] });
 
   useEffect(() => {
     if (loginValue.secretHash) {
-      socket.emit('subscribe-direct-notification', loginValue.secretHash);
+      socket.emit('subscribe-notification', loginValue.secretHash); //notification of account with get and post
+      socket.emit('subscribe-on-task-created', loginValue.secretHash); //update location
+      socket.emit('task-set', loginValue.secretHash); //get task
+
       socket.on('subscribed/' + loginValue.secretHash, (response) => {
         console.log(
           '🚀 ~ file: index.tsx:43 ~ socket.on ~ response:',
           response
         );
       });
-      socket.on('notification/' + loginValue.secretHash, (res) => {
+      socket.on('task-set/' + loginValue.secretHash, (res) => {
+        console.log('🚀 ~ task set:', res);
         setJobInformation(res);
         setIsJobModal(true);
-        //truyền tin nhắn vào trong firebase
-        notification.schedulePushNotification('hello !');
+      });
+      socket.on('notification', (res) => {
+        console.log('🚀 ~ file: notification global:', res);
+      });
+      socket.on('notification/' + loginValue.secretHash, (res) => {
+        console.log('🚀 ~ file: notification:', res);
       });
     }
   }, [socket]);
@@ -109,7 +115,7 @@ const NewJobTab = ({ navigation, route }: any) => {
               />
               <DescriptionCard
                 title="Tại"
-                description={jobInformation.address.detail}
+                description={jobInformation.address?.detail}
               />
               <DescriptionCard
                 title="Dụng cụ"

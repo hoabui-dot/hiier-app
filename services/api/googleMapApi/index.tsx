@@ -12,8 +12,6 @@ export const reverseGeocoding = async ({ latitude, longitude }: LatLng) => {
       '&key=' +
       GOOGLE_API_KEY
   ).then((response) => response.json());
-  console.log("🚀 ~ file: index.tsx:15 ~ reverseGeocoding ~ res:", res)
-
   return res.results[0];
 };
 

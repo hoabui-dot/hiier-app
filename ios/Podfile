@@ -1,9 +1,3 @@
-# Override Firebase SDK Version
-$FirebaseSDKVersion = '10.7.0'
-# right after `use_frameworks! :linkage => :static`
-$RNFirebaseAsStaticFramework = true
-use_frameworks! :linkage => :static
-
 require File.join(File.dirname(`node --print "require.resolve('expo/package.json')"`), "scripts/autolinking")
 require File.join(File.dirname(`node --print "require.resolve('react-native/package.json')"`), "scripts/react_native_pods")
 require File.join(File.dirname(`node --print "require.resolve('@react-native-community/cli-platform-ios/package.json')"`), "native_modules")
@@ -56,7 +50,6 @@ target 'MyApp' do
 
   use_react_native!(
     :path => config[:reactNativePath],
-    # :hermes_enabled => true
     :hermes_enabled => podfile_properties['expo.jsEngine'] == nil || podfile_properties['expo.jsEngine'] == 'hermes',
     :fabric_enabled => flags[:fabric_enabled],
     # An absolute path to your application root.

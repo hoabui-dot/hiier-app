@@ -16,6 +16,7 @@ export interface ILoginAccount {
 export type BaseResponse = {
   resource: any;
   message: string;
+  status: number;
 };
 
 export interface IJobInformation {
@@ -84,3 +85,48 @@ export interface IJobNotification {
   };
   trigger: {seconds:  number};
 }
+
+export interface IHiPay {
+  balance: number;
+  bankName: string;
+  bankNumber: number;
+  customerReceive: string;
+}
+
+export interface ITransactionHistory {
+  amount: number;
+  content: string;
+  time: number;
+  status: string;
+  type: ITransactionHistoryType;
+}
+
+export type Message = {
+  avatar: string;
+  content: string;
+  fromId: number;
+  groupChatId: number;
+  id: number;
+  isRead: boolean;
+  isYou: string;
+  name: string;
+  time: string;
+};
+
+export type GenderKey = 'MALE' | 'FEMALE';
+
+export type Profile = {
+  avatar: string;
+  dob: string;
+  fullName: string;
+  gender: GenderKey;
+  identifyNumber: string;
+};
+
+export type UserSession = {
+  secretHash: string;
+  token: string;
+  profile: Profile;
+};
+
+export type ITransactionHistoryType = "TOP_UP" | "WITH_DRAW";

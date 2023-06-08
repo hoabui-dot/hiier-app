@@ -62,4 +62,13 @@ export const TaskApi = {
       `${API_URL.JobHistory}?status=${value.status}&page=${value.page}&size=${value.size}`
     );
   },
+  getWalletInfo: async function (): Promise<any> {
+    return await http.get(API_URL.getWalletInfo)
+  },
+  getTransactionHistory: async function (): Promise<any> {
+    return await http.get(API_URL.getTransactionHistory)
+  },
+  onWithDraw: async function (value: number): Promise<any> {
+    return await http.put(API_URL.onWithDraw, value)
+  }
 };

@@ -17,7 +17,10 @@ const DoneTaskHistory = () => {
         status: TASK_STATUS.DONE,
         page: 0,
         size: 20,
-      }).then((response) => setData(response.data.resource.list || []));
+      }).then((response) => {
+        console.log("🚀 ~ file: DoneTaskHistory.tsx:21 ~ getJobHistory ~ response:", response)
+        setData(response.data.resource.list || [])
+      });
     }
     getJobHistory();
   }, []);

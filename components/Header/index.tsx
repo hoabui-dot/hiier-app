@@ -1,69 +1,82 @@
-import { Center, Heading, HStack, Icon, ITheme, useTheme } from 'native-base';
+import { HStack, ITheme, useTheme } from 'native-base';
 import { ReactNode, useMemo } from 'react';
 import { TouchableOpacity, StyleSheet, View, ViewStyle } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
+import Heading from '../Heading';
+import Icon from '../../utils/Icon/Icon';
+import Icons from '../../utils/Icon/Icons';
+import { useNavigation } from '@react-navigation/native';
 
 interface HeaderProps {
   headerText?: ReactNode;
-  leftIcon?: ReactNode;
-  rightIcon?: ReactNode;
-  leftPress?: () => void;
-  rightPress?: () => void;
+  leftElement?: ReactNode;
+  rightElement?: ReactNode;
   backButton?: boolean;
   shadow?: number | string;
-  variant?: 'tab' | 'stack';
+  variant?: 'light' | 'dark' | 'transparentLight' | 'transparentDark';
 }
 
 const Header = ({
-  leftIcon,
-  rightIcon,
+  leftElement,
+  rightElement,
   headerText,
-  leftPress,
-  rightPress,
   backButton,
-  shadow,
-  variant = 'stack',
+  shadow = 1,
+  variant = 'dark',
 }: HeaderProps) => {
   const theme = useTheme();
   const styles = useMemo(() => makeStyles(theme), []);
 
-  const LeftIconRender = () => {
+  const navigation = useNavigation();
+
+  const variantTintColor = () => {
+    switch (variant) {
+      case 'transparentLight':
+        return 'white';
+      case 'transparentDark':
+        return 'primary.tan';
+      case 'light':
+        return 'primary.tan';
+      case 'dark':
+        return 'primary.gold';
+      default:
+        return 'white';
+    }
+  };
+
+  const LeftElementRender = () => {
     if (backButton) {
-      return <Icon as={AntDesign} name={'left'} size={6} color={'white'} />;
+      return (
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Icon as={Icons.Left} size={6} color={variantTintColor()} />
+        </TouchableOpacity>
+      );
     } else {
-      if (leftIcon) {
-        return leftIcon;
+      if (leftElement) {
+        return leftElement;
       }
     }
     return;
   };
 
-  const RightIconRender = () => {
-    if (rightIcon) {
-      return rightIcon;
+  const RightElementRender = () => {
+    if (rightElement) {
+      return rightElement;
     }
     return;
   };
   return (
-      <HStack
+    <HStack
       justifyContent={'space-between'}
       alignItems={'center'}
       style={[styles.container, styles[`${variant}Container`]]}
       shadow={shadow}
     >
-      <View style={styles.iconWrap}>
-        <TouchableOpacity onPress={() => !!leftPress && leftPress()}>
-          {LeftIconRender()}
-        </TouchableOpacity>
-      </View>
-      <Heading style={[styles.text, styles[`${variant}Text`]]} size={'sm'}>
+      <View style={styles.iconWrap}>{LeftElementRender()}</View>
+      <Heading style={[styles.text, styles[`${variant}Text`]]} fontSize={'lg'}>
         {headerText}
       </Heading>
-      <View style={styles.iconWrap}>
-        <TouchableOpacity onPress={() => !!rightPress && rightPress()}>
-          {RightIconRender()}
-        </TouchableOpacity>
-      </View>
+      <View style={styles.iconWrap}>{RightElementRender()}</View>
     </HStack>
   );
 };
@@ -73,29 +86,47 @@ const makeStyles = ({ colors, sizes }: ITheme) =>
     container: {
       justifyContent: 'space-between',
       alignItems: 'center',
-      // paddingHorizontal: sizes.padding2,
+      paddingHorizontal: sizes.padding2,
       // paddingVertical: sizes.padding2,
-      minHeight: 55,
       position: 'relative',
       zIndex: 999,
-      backgroundColor: colors.violet['400'],
+      height: 55,
     },
     text: {
       textTransform: 'capitalize',
-      color: colors.white,
     },
     iconWrap: {
       minWidth: 30,
     },
 
-    stackContainer: {},
-    tabContainer: {
+    darkContainer: {
+      backgroundColor: colors.primary.charcoal,
+    },
+    lightContainer: {
       backgroundColor: colors.white,
     },
 
-    stackText: {},
-    tabText: {
-      color: colors.violet['400'],
+    darkText: {
+      color: colors.primary.gold,
+    },
+    lightText: {
+      color: colors.primary.tan,
+    },
+
+    transparentLightContainer: {
+      backgroundColor: 'transparent',
+      marginBottom: -55,
+    },
+    transparentLightText: {
+      color: colors.white,
+    },
+
+    transparentDarkContainer: {
+      backgroundColor: 'transparent',
+      marginBottom: -55,
+    },
+    transparentDarkText: {
+      color: colors.primary.gold,
     },
   });
 

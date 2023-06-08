@@ -1,6 +1,6 @@
 import { Entypo } from '@expo/vector-icons';
 import { Icon } from 'native-base';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ZoomButton from '../ZoomButton';
 import { StyleSheet, View } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Marker, Region } from 'react-native-maps';
@@ -9,14 +9,17 @@ interface MapCustomProps {
   region: Region;
 }
 const MapCustom = ({ region }: MapCustomProps) => {
+  const [isReady, setIsReady] = useState<boolean>(false);
   const mapView = useRef<MapView>(null);
 
   useEffect(() => {
-    mapView.current?.animateToRegion(region, 200);
-  }, [region]);
+    if (isReady) {
+      mapView.current?.animateToRegion(region, 200);
+    }
+  }, [region, isReady]);
 
   const handleGoToMarkerLocation = () => {
-    mapView.current?.animateToRegion(region);
+    mapView.current?.animateToRegion(region, 200);
   };
 
   return (
@@ -27,6 +30,7 @@ const MapCustom = ({ region }: MapCustomProps) => {
         initialRegion={region}
         provider={PROVIDER_GOOGLE}
         zoomEnabled={true}
+        onMapReady={() => setIsReady(true)}
         region={region}
       >
         <Marker coordinate={region}>

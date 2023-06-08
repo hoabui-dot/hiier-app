@@ -45,6 +45,10 @@ const theme = extendTheme({
     primary: {
       100: '#ede9fe',
       400: '#a78bfa',
+      tan: '#B68D40',
+      cream: '#F4EBD0',
+      charcoal: '#122620',
+      gold: '#D6AD60',
     }, // violet
     secondary: {
       100: '#f4f4f5',

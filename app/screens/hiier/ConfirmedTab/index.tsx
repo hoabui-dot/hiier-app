@@ -13,9 +13,11 @@ import Card from '../../../../components/Card';
 import { TaskApi } from '../../../../services/api/task';
 import { ITheme, useTheme, Icon, Modal } from 'native-base';
 import Icons from '../../../../utils/Icon/Icons';
-import { GRAY_COLOR, WHITE_COLOR } from '../../../../constants/ui';
+import { GRAY_COLOR, ROUTES, WHITE_COLOR } from '../../../../constants/ui';
 import { IJobInformation } from '../../../../types/ui';
 import ButtonBase from '../../../../components/Base/ButtonBase';
+import { DEFAULT_JOB_INFORMATION } from '../../../../utils/defaultValue/common';
+import { MessageApi } from '../../../../services/api/message';
 
 export interface ConfirmedTabProps {
   navigation: any;
@@ -26,8 +28,8 @@ const { width, height } = Dimensions.get('screen');
 
 const ConfirmedTab = ({ navigation, route }: ConfirmedTabProps) => {
   const [jobInformation, setJobInformation] = useState<
-    IJobInformation | undefined
-  >(route.params);
+  IJobInformation | undefined
+  >(route.params || DEFAULT_JOB_INFORMATION);
   const [isConfirmModal, setIsConfirmModal] = useState<boolean>(false);
   const theme = useTheme();
   const styles = useMemo(() => makeStyles(theme), []);
@@ -41,12 +43,14 @@ const ConfirmedTab = ({ navigation, route }: ConfirmedTabProps) => {
       if (res.status === 200) {
         setJobInformation(undefined);
       }
+    }).catch(err => {
+      console.log('lỡi: ', err);
+      
     });
   };
 
   const onCancelJob = () => {
     TaskApi.cancelBooking(jobInformation?.id).then((res) => {
-      console.log("🚀 ~ file: index.tsx:49 ~ TaskApi.cancelBooking ~ res:", res)
       if (res.status === 200) {
         setJobInformation(undefined);
         setIsConfirmModal(false);
@@ -96,6 +100,17 @@ const ConfirmedTab = ({ navigation, route }: ConfirmedTabProps) => {
       </KeyboardAvoidingView>
     </Modal>
   );
+
+  const onChatMessage = async () => {
+    await MessageApi.getChatGroupList().then((response) => {
+      console.log("🚀 ~ file: index.tsx:106 ~ awaitMessageApi.getChatGroupList ~ response:", response)
+      navigation.navigate(ROUTES.CHAT_MESSAGE, {
+        customerName: jobInformation?.customerName,
+        id: response.data.resource[0].groupId,
+        avatar: response.data.resource[0].avatar
+      })
+    });
+  }
 
   return (
     <SafeAreaView style={[styles.container, styles.wrapContent]}>
@@ -148,7 +163,7 @@ const ConfirmedTab = ({ navigation, route }: ConfirmedTabProps) => {
           <View style={styles.informationJob}>
             <Text style={{ marginRight: 8 }}>Tại:</Text>
             <Text style={{ fontWeight: 'bold' }}>
-              {jobInformation.address.detail}
+              {jobInformation.address?.detail}
             </Text>
           </View>
           <View style={styles.informationJob}>
@@ -163,6 +178,7 @@ const ConfirmedTab = ({ navigation, route }: ConfirmedTabProps) => {
             </Text>
             <View style={styles.featureCard}>
               <TouchableOpacity
+                onPress={onChatMessage}
                 style={{ flexDirection: 'column', alignItems: 'center' }}
               >
                 <Icon as={Icons.Message} size={8} />

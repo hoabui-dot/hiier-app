@@ -5,6 +5,7 @@ import {
   MaterialIcons,
   Ionicons,
   MaterialCommunityIcons,
+  FontAwesome5
 } from '@expo/vector-icons';
 
 export default {
@@ -23,4 +24,8 @@ export default {
       color="black"
     />
   ),
+  Send: <FontAwesome name='send' />,
+  Visa: <FontAwesome name="cc-visa" size={24} color="black" />,
+  Coin: <FontAwesome5 name="bitcoin" size={24} color="black" />,
+  Left: <AntDesign name='left' />,
 };
