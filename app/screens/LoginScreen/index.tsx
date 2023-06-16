@@ -32,11 +32,13 @@ export interface LoginProps {
   navigation: any;
 }
 
-const Login = ({ navigation }: any) => {
+const Login = ({ route, navigation }: any) => {
+  console.log('🚀 ~ file: index.tsx:36 ~ Login ~ route:', route);
   // TODO: get default value by isoCode
   const [responseOfData, setResponseOfData] = useState<any>({});
   const [locationLoading, setLocationLoading] = useState<boolean>(false);
   const [isSuccessMessage, setIsSuccessMessage] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const { control, handleSubmit } = useForm({
     defaultValues: defaultLoginValue,
   });
@@ -72,7 +74,10 @@ const Login = ({ navigation }: any) => {
           address: _address,
         });
       }
+      setIsSuccessMessage(true);
       setResponseOfData(response);
+    }).catch(err => {
+      setErrorMessage(err.errors.message)
     });
   };
 
@@ -138,6 +143,7 @@ const Login = ({ navigation }: any) => {
             )}
             name="password"
           />
+          <Text style={{color: 'red'}}>{errorMessage}</Text>
           <TouchableOpacity style={G.button} onPress={handleSubmit(onSubmit)}>
             <Text style={G.buttonText}>Đăng nhập</Text>
           </TouchableOpacity>
@@ -175,6 +181,25 @@ const Login = ({ navigation }: any) => {
           textColor={WHITE_COLOR}
         >
           {responseOfData.data.message}
+          test
+        </Toast>
+      )}
+      {route?.params?.isRegister ?? (
+        <Toast
+          position={100}
+          duration={500}
+          shadow={false}
+          animation={true}
+          textStyle={{ color: 'white', fontSize: 16 }}
+          hideOnPress={true}
+          style={{position: 'absolute', }}
+          onShown={() => {
+            setTimeout(() => {
+            }, 2000);
+          }}
+          backgroundColor={GREEN_COLOR}
+        >
+          <Text>Đăng ký tài khoản thành công</Text>
         </Toast>
       )}
     </SafeAreaView>

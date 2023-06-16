@@ -43,6 +43,9 @@ export const ROUTES = {
   MAP: 'Map',
   ADDRESS_SEARCH: 'AddressSearch',
   CHAT_MESSAGE: "ChatMessage",
+  PAYMENT: 'Payment',
+  PAYMENT_WITH_DRAW: 'WithDraw',
+  LOGIN: "Login"
 };
 
 export const DRAWER = {

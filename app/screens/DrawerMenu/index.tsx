@@ -14,6 +14,7 @@ import Finance from './Finance';
 import Supporting from './Supporting';
 import FriendCode from './FriendCode';
 import Notification from './Notification';
+import Payment from '../Payment'
 import JobHistory from './ActivityHistory';
 import { StyleSheet } from 'react-native';
 import { Address } from '../../../types/ui';
@@ -87,8 +88,9 @@ const DrawerMenu = ({ route }: any) => {
         />
         <Drawer.Screen
           name={DRAWER.FINANCE}
-          component={Finance}
+          component={Payment}
           options={{
+            headerShown: false,
             drawerIcon: (args) => (
               <MaterialCommunityIcons
                 name="finance"

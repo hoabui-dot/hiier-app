@@ -1,9 +1,12 @@
-import React from 'react';
-import { View, Text } from 'react-native';
+import React, { useContext, useMemo, useState } from 'react';
+import { View, Text, SafeAreaView, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import S from './styles';
 import G from '../../../utils/GlobalStyles.styled';
-import axios from 'axios';
+import { TaskApi } from '../../../services/api/task';
+import { ROUTES } from '../../../constants/ui';
+import Header from '../../../components/Header';
+import { ITheme, useTheme } from 'native-base';
 
 export interface ConfirmOTPProps {
   route: any;
@@ -11,10 +14,14 @@ export interface ConfirmOTPProps {
 }
 
 const ConfirmOTP = ({ route, navigation }: ConfirmOTPProps) => {
-  const { fullName, gender, identifyNumber, password, phone, otpMessage } = route.params;
+  const { otpMessage, fullName, phone, secretHash } = route.params;
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const theme = useTheme();
+  const styles = useMemo(() => makeStyles(theme), []);
 
   return (
-    <View style={[G.container, S.wrapContent]}>
+    <KeyboardAvoidingView style={styles.container}>
+      <Header headerText='XÁC NHẬN OTP' backButton/>
       <Text style={S.infoText}>{`Xin chào ${fullName} - ${phone}`}</Text>
       <Text style={S.subTitle}>
         Tải khoản đã đăng ký nhưng chưa kích hoạt, vui lòng kiểm tra tin nhắn và
@@ -25,34 +32,41 @@ const ConfirmOTP = ({ route, navigation }: ConfirmOTPProps) => {
         pinCount={4}
         style={{ width: '60%', height: 50 }}
         codeInputFieldStyle={S.underlineStyleBase}
-        onCodeFilled={ async (value) => {
-          const otp = otpMessage.split(' - ')[1]
-          if(otp === value) {
-            try {
-              await axios.post(`${process.env.REACT_APP_API}/api/account/employee-registration`,
-                {
-                  password: password,
-                  phone: phone,
-                  fullName: fullName,
-                  identifyNumber: identifyNumber,
-                  gender: gender,
-                  otp: otp
-                }
-                ).then((response) => {
-                  if(response.status === 200) {
-                    navigation.navigate('Login')
-                  }
-                })
-            } catch (err) {
-              //TODO: resolve this error
-              console.log("err", err)
-            }
-          }
+        onCodeFilled={async (value) => {
+          TaskApi.verifyOTP({otp: value, idHash: secretHash})
+            .then((response) => {
+              console.log('response', response);
+              navigation.navigate(ROUTES.LOGIN, {
+                isRegister: true
+              });
+            })
+            .catch((err) => {
+              setErrorMessage(err.errors.message);
+              console.log(
+                '🚀 ~ file: index.tsx:43 ~ onCodeFilled={ ~ err:',
+                err
+              );
+            });
         }}
       />
+      <Text style={{ color: 'red' }}>{errorMessage}</Text>
       <Text style={G.successMessage}>{otpMessage}</Text>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
 export default ConfirmOTP;
+
+const makeStyles = (args: ITheme) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    body: {
+      marginTop: 20,
+      paddingHorizontal: 20
+    },
+    input: {
+      paddingTop: 20,
+    },
+  });

@@ -51,6 +51,7 @@ const ConfirmedTab = ({ navigation, route }: ConfirmedTabProps) => {
 
   const onCancelJob = () => {
     TaskApi.cancelBooking(jobInformation?.id).then((res) => {
+      console.log("🚀 ~ file: index.tsx:54 ~ TaskApi.cancelBooking ~ res:", res)
       if (res.status === 200) {
         setJobInformation(undefined);
         setIsConfirmModal(false);
@@ -103,7 +104,6 @@ const ConfirmedTab = ({ navigation, route }: ConfirmedTabProps) => {
 
   const onChatMessage = async () => {
     await MessageApi.getChatGroupList().then((response) => {
-      console.log("🚀 ~ file: index.tsx:106 ~ awaitMessageApi.getChatGroupList ~ response:", response)
       navigation.navigate(ROUTES.CHAT_MESSAGE, {
         customerName: jobInformation?.customerName,
         id: response.data.resource[0].groupId,

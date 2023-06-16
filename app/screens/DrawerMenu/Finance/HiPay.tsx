@@ -29,6 +29,7 @@ import { IHiPay, IJobNotification } from '../../../../types/ui';
 import {
   DEFAULT_HIPAY,
   jobNotificationMessage,
+  ROUTES,
 } from '../../../../constants/ui';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Card from '../../../../components/Card';
@@ -36,6 +37,7 @@ import { ITheme, useTheme, Icon, Modal, Center } from 'native-base';
 import { TaskApi } from '../../../../services/api/task';
 import ButtonBase from '../../../../components/Base/ButtonBase';
 import InputBase from '../../../../components/Base/InputBase'
+import Constants from 'expo-constants';
 
 // Notifications.setNotificationHandler({
 //   handleNotification: async () => ({
@@ -50,7 +52,7 @@ const { width, height } = Dimensions.get('screen');
 //   await Notifications.scheduleNotificationAsync(notification);
 // }
 
-export const hiPay = () => {
+export const hiPay = ({navigation}: any) => {
   const notificationListener = useRef<any>();
   const responseListener = useRef<any>();
   const loginValue = useContext(secretHashContext);
@@ -66,10 +68,7 @@ export const hiPay = () => {
   useEffect(() => {
     async function getWalletInfo() {
       await TaskApi.getWalletInfo()
-        .then((response) => {
-          console.log('🚀 ~ file: HiPay.tsx:57 ~ .then ~ response:', response);
-          setData(response.data?.resource || []);
-        })
+        .then((response) => setData(response.data?.resource || []))
         .catch((err) => console.log('errrrr: ', err));
     }
 
@@ -164,22 +163,11 @@ export const hiPay = () => {
           </View>
         </View>
         <View style={styles.cardFooter}>
-          <TouchableOpacity onPress={() => setIsWithDrawModal(true)}>
+          <TouchableOpacity onPress={() => navigation.navigate(ROUTES.PAYMENT)}>
             <Text style={styles.rechargeTextButton}>Rút tiền</Text>
           </TouchableOpacity>
         </View>
       </Card>
-      {/* <View style={styles.bankCard}>
-        <View>
-          <Icon as={Icons.Visa} size={8} />
-        </View>
-        <View>
-          <Text>{data.bankNumber}</Text>
-        </View>
-        <View>
-          <Text>{data.customerReceive}</Text>
-        </View>
-      </View> */}
       <WithDrawModal isOpen={isWithDrawModal} onClose={setIsWithDrawModal} />
     </SafeAreaView>
   );
@@ -191,6 +179,7 @@ const makeStyles = ({ colors, sizes, fontSizes }: ITheme) =>
   StyleSheet.create({
     container: {
       marginHorizontal: 10,
+      marginTop: - Constants.statusBarHeight
     },
     card: {
       marginTop: 10,

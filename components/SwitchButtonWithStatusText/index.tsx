@@ -84,28 +84,6 @@ const SwitchButtonWithStatusText = () => {
             },
           ]}
         >
-          <Animated.Text
-            style={[
-              styles.statusText,
-              styles.leftText,
-              {
-                opacity: initialOpacityOn,
-              },
-            ]}
-          >
-            Bật
-          </Animated.Text>
-          <Animated.Text
-            style={[
-              styles.statusText,
-              styles.rightText,
-              {
-                opacity: initialOpacityOff,
-              },
-            ]}
-          >
-            Tắt
-          </Animated.Text>
           <Animated.View
             style={[
               styles.circle,

@@ -1,34 +1,29 @@
-import { ITheme, useTheme } from 'native-base';
-import React, { useEffect, useMemo, useState } from 'react';
-import { Icon } from 'native-base';
-import { ScrollView, StyleSheet, View, Text } from 'react-native';
-import { TaskApi } from '../../../../services/api/task';
-import Icons from '../../../../utils/Icon/Icons';
-import {
-  ITransactionHistory,
-} from '../../../../types/ui';
-import { TRANSACTION_HISTORY_TYPE } from '../../../../constants/ui';
+import { Icon, ITheme, useTheme } from "native-base";
+import React, { useEffect, useMemo, useState } from "react";
+import { Text, View, ScrollView, StyleSheet } from "react-native";
+import { TRANSACTION_HISTORY_TYPE } from "../../constants/ui";
+import { TaskApi } from "../../services/api/task";
+import { ITransactionHistory } from "../../types/ui";
+import Icons from "../../utils/Icon/Icons";
 
-
-const Trading = () => {
+const Transfer = () => {
+  const [data, setData] = useState<ITransactionHistory[]>([]);
   const theme = useTheme();
   const styles = useMemo(() => makeStyles(theme), []);
-  const [data, setData] = useState<ITransactionHistory[]>([]);
 
   useEffect(() => {
-    TaskApi.getTransactionHistory()
+    async function getTransactionHistory () {
+      TaskApi.getTransactionHistory()
       .then((response) => {
-        console.log(
-          '🚀 ~ file: Trading.tsx:16 ~ TaskApi.getTransactionHistory ~ response:',
-          response
-        );
         setData(response.data?.resource || []);
       })
       .catch((err) => {
         console.log('🚀 ~ file: Trading.tsx:26 ~ useEffect ~ err:', err);
       });
-  }, []);
+    }
 
+    getTransactionHistory()
+  }, []);
   return (
     <ScrollView style={styles.container}>
       {data.map((history) => (
@@ -68,10 +63,10 @@ const Trading = () => {
         </View>
       ))}
     </ScrollView>
-  );
-};
+  )
+}
 
-export default Trading;
+export default Transfer;
 
 const makeStyles = ({ colors, sizes, fontSizes }: ITheme) =>
   StyleSheet.create({

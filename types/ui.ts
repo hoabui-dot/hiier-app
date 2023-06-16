@@ -14,6 +14,7 @@ export interface ILoginAccount {
 }
 
 export type BaseResponse = {
+  data: any;
   resource: any;
   message: string;
   status: number;
@@ -32,7 +33,7 @@ export interface IJobInformation {
   paymentMethod: string;
   taskName: string; //công việc
   totalPrice: number; //tổng tiền
-  tipMoney: number; 
+  tipMoney: number;
   overtimePrice: number; //phí làm việc ngoài giờ
   duration: number;
 }
@@ -57,33 +58,28 @@ export type Address = {
   location: LatLng;
 };
 
-export interface IDoneTaskHistory {
+export interface ITaskHistory {
+  addressCustomerName: string;
+  addressCustomerPhone: string;
+  addressDetail: string;
+  addressNote: null;
+  id: number;
+  serviceKey: string;
   serviceName: string;
+  taskStatus: {
+    stateTus: string;
+    time: number;
+  };
   totalPrice: number;
-  finishTime: number;
-  address: {
-    customerName: string;
-    detail: string;
-  }
-}
-
-export interface ICanceledTaskHistory {
-  serviceName: string;
-  totalPrice: number;
-  canceledTime: number;
-  address: {
-    customerName: string;
-    detail: string;
-  }
 }
 
 export interface IJobNotification {
   content: {
     title: string;
     body: string;
-    data?: {data: string},
+    data?: { data: string };
   };
-  trigger: {seconds:  number};
+  trigger: { seconds: number };
 }
 
 export interface IHiPay {
@@ -111,7 +107,18 @@ export type Message = {
   isYou: string;
   name: string;
   time: string;
+  messagePage: {
+    list: IMessageItem[];
+  };
 };
+
+export interface IMessageItem {
+  id: number;
+  content: string;
+  isRead: boolean;
+  isYou: boolean;
+  time: Date;
+}
 
 export type GenderKey = 'MALE' | 'FEMALE';
 
@@ -129,4 +136,50 @@ export type UserSession = {
   profile: Profile;
 };
 
-export type ITransactionHistoryType = "TOP_UP" | "WITH_DRAW";
+export type IWallet = {
+  id: number;
+  balance: number;
+  hiiPoint: number;
+  bankNumber: string;
+  bankName: string;
+  customerReceive: string;
+};
+
+export type VerifyOTPParams = {
+  idHash: string;
+  otp: string | null;
+};
+
+export type CustomerRegisterParams = {
+  password: string;
+  email: string;
+  phone: string;
+  fullName: string;
+  otp: string | null;
+};
+
+export type IPaymentMethod = {
+  key: string;
+  title: string;
+  paymentMethod: PaymentMethodKey;
+};
+
+export type Transaction = {
+  id: number;
+  time: string;
+  content: string;
+  type: string;
+  status: string;
+  amount: number;
+};
+
+export interface IRegistrationAccount {
+  fullName: string;
+  password: string;
+  phone: string;
+  identifyNumber: string;
+  gender: string;
+}
+
+export type PaymentMethodKey = 'COD' | 'MOMO' | 'VNPAY' | 'ZALOPAY';
+export type ITransactionHistoryType = 'TOP_UP' | 'WITH_DRAW';

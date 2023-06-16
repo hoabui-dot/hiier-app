@@ -1,28 +1,28 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { SafeAreaView, View, Text, StyleSheet } from 'react-native';
+import { SafeAreaView, View, Text, StyleSheet, ScrollView } from 'react-native';
 import { TASK_STATUS } from '../../../../constants/ui';
 import { TaskApi } from '../../../../services/api/task';
 import Card from '../../../../components/Card';
-import { ICanceledTaskHistory } from '../../../../types/ui';
+import { ITaskHistory } from '../../../../types/ui';
 import { ITheme, useTheme } from 'native-base';
 
 const CancelTaskHistory = () => {
   const theme = useTheme();
   const styles = useMemo(() => makeStyles(theme), []);
-  const [data, setData] = useState<ICanceledTaskHistory[]>([]);
+  const [data, setData] = useState<ITaskHistory[]>([]);
   useEffect(() => {
     async function getJobHistory() {
       await TaskApi.listForEmployee({
         status: TASK_STATUS.CANCELED,
         page: 0,
         size: 20,
-      }).then((response) => setData(response.data.resource.list || []));
+      }).then((response) => setData(response.data?.resource?.list || []));
     }
     getJobHistory();
   }, []);
 
   return (
-    <SafeAreaView>
+    <ScrollView>
       {data.map((task) => (
         <Card cardStyle={{ flexDirection: 'column', margin: 10, padding: 20 }}>
           <View>
@@ -31,7 +31,7 @@ const CancelTaskHistory = () => {
           <View style={styles.informationJob}>
             <Text style={{ marginRight: 8 }}>Kết thúc vào:</Text>
             <Text style={[styles.violetBoldText, styles.violetFontSize]}>
-              {(new Date(task.canceledTime)).toLocaleString()}
+              {(new Date(task.taskStatus?.time)).toLocaleString()}
             </Text>
           </View>
           <View style={styles.informationJob}>
@@ -43,18 +43,18 @@ const CancelTaskHistory = () => {
           <View style={styles.informationJob}>
             <Text style={{ marginRight: 8 }}>Tên:</Text>
             <Text style={[styles.violetBoldText, styles.violetFontSize]}>
-              {task.address.customerName}
+              {task.addressCustomerName}
             </Text>
           </View>
           <View style={styles.informationJob}>
             <Text style={{ marginRight: 8 }}>Tại:</Text>
             <Text style={[styles.violetBoldText, styles.violetFontSize]}>
-              {task.address.detail}
+              {task.addressDetail}
             </Text>
           </View>
         </Card>
       ))}
-    </SafeAreaView>
+    </ScrollView>
   );
 };
 

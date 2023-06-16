@@ -43,7 +43,6 @@ const AddressSearchScreen = ({ navigation }: any) => {
     <SafeAreaView style={styles.container}>
       <Header
         headerText="Add & Update Address"
-        leftPress={() => navigation.goBack()}
         backButton
       />
 

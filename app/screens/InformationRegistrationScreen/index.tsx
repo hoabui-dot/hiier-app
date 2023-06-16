@@ -1,16 +1,26 @@
-import React, { useState } from 'react';
-import { Text, SafeAreaView, TextInput, View, Pressable } from 'react-native';
+import React, { useMemo, useState } from 'react';
+import {
+  Text,
+  TextInput,
+  View,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableOpacity
+} from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import Toast from 'react-native-root-toast';
+import Header from '../../../components/Header';
 import { TaskApi } from '../../../services/api/task';
 import axios from 'axios';
 import S from './Styles';
 import G from '../../../utils/GlobalStyles.styled';
 import { useTranslation } from 'react-i18next';
 import Checkbox from 'expo-checkbox';
-import { ROUTES } from '../../../constants/ui';
+import { GRAY_COLOR, RED_COLOR, ROUTES } from '../../../constants/ui';
 import { GREEN_COLOR, WHITE_COLOR } from '../../../constants/ui';
-import Constants from 'expo-constants';
+import { ITheme, useTheme } from 'native-base';
+import { IRegistrationAccount } from '../../../types/ui';
 
 export interface InformationRegistrationScreenProps {
   navigation: any;
@@ -19,8 +29,11 @@ export interface InformationRegistrationScreenProps {
 const InformationRegistrationScreen = ({
   navigation,
 }: InformationRegistrationScreenProps) => {
+  const theme = useTheme();
+  const styles = useMemo(() => makeStyles(theme), []);
   const [isCheckedMale, setIsCheckedMale] = useState(false);
   const [isCheckedFemale, setIsCheckedFemale] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const [OTPMess, setOTPMess] = useState<any>({});
   const {
     control,
@@ -38,36 +51,40 @@ const InformationRegistrationScreen = ({
 
   const { t } = useTranslation();
 
-  const onSubmit = async (value: any) => {
-    TaskApi.requestOTP({
-      phone: value.phone,
-    })
+  const onSubmit = async (value: IRegistrationAccount) => {
+    TaskApi.registration(value)
       .then((response) => {
+        setErrorMessage('');
         if (!response.data) return;
 
         navigation.navigate(ROUTES.CONFIRM_OTP, {
-          ...value,
-          otpMessage: response.data.message,
+          otpMessage: response.data?.message,
+          fullName: value.fullName,
+          phone: value.phone,
+          secretHash: response.data?.resource?.secretHash
         });
       })
-      .catch((error) => {
-        console.log('error', error);
-      });
+      .catch((error) => setErrorMessage(error.errors.message));
   };
 
   return (
-    <SafeAreaView style={[G.container]}>
-      <View>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.container}
+    >
+      <Header headerText="ĐĂNG KÝ TÀI KHOẢN" backButton />
+      <View style={styles.body}>
         <Controller
           name="fullName"
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
-              style={G.input}
+              style={styles.input}
               onBlur={onBlur}
-              placeholder={t('HIIER_NAME') as any}
+              placeholder="Họ tên"
               autoCapitalize="none"
               onChangeText={onChange}
+              placeholderTextColor={GRAY_COLOR}
               value={value}
             />
           )}
@@ -77,8 +94,9 @@ const InformationRegistrationScreen = ({
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
-              style={G.input}
-              placeholder={t('PASSWORD') as any}
+              style={styles.input}
+              placeholder="Mật khẩu"
+              placeholderTextColor={GRAY_COLOR}
               onBlur={onBlur}
               secureTextEntry={true}
               autoCapitalize="none"
@@ -101,7 +119,7 @@ const InformationRegistrationScreen = ({
                     setIsCheckedFemale(!value);
                   }}
                 />
-                <Text style={S.textCheckbox}>{t('MALE')}</Text>
+                <Text style={S.textCheckbox}>Nam</Text>
               </View>
               <View style={[S.checkbox, { marginLeft: 10 }]}>
                 <Checkbox
@@ -112,7 +130,7 @@ const InformationRegistrationScreen = ({
                     setIsCheckedMale(!value);
                   }}
                 />
-                <Text style={S.textCheckbox}>{t('FEMALE')}</Text>
+                <Text style={S.textCheckbox}>Nữ</Text>
               </View>
             </View>
           )}
@@ -122,8 +140,9 @@ const InformationRegistrationScreen = ({
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
-              style={G.input}
-              placeholder={t('IDENTIFY_NUMBER') as any}
+              style={styles.input}
+              placeholder="Số CMND"
+              placeholderTextColor={GRAY_COLOR}
               onBlur={onBlur}
               autoCapitalize="none"
               onChangeText={onChange}
@@ -137,9 +156,10 @@ const InformationRegistrationScreen = ({
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
               <TextInput
-                style={G.input}
+                style={styles.input}
                 onBlur={onBlur}
-                placeholder={t('PHONE') as any}
+                placeholder="Số điện thoại"
+                placeholderTextColor={GRAY_COLOR}
                 autoCapitalize="none"
                 onChangeText={onChange}
                 value={value}
@@ -147,14 +167,15 @@ const InformationRegistrationScreen = ({
             )}
           />
         </View>
+        <Text style={styles.errorMessage}>{errorMessage}</Text>
         {OTPMess?.status === 200 ? (
-          <Text style={{ color: 'green' }}>{OTPMess.data.message}</Text>
+          <Text style={{ color: GREEN_COLOR }}>{OTPMess.data.message}</Text>
         ) : (
           ''
         )}
-        <Pressable onPress={handleSubmit(onSubmit)} style={G.button}>
-          <Text style={G.buttonText}>{t('REGISTER')}</Text>
-        </Pressable>
+        <TouchableOpacity onPress={handleSubmit(onSubmit)} style={G.button}>
+          <Text style={G.buttonText}>Đăng Ký</Text>
+        </TouchableOpacity>
       </View>
       <View>
         <Toast
@@ -169,8 +190,31 @@ const InformationRegistrationScreen = ({
           {t('SIGN_UP_SUCCESSFULL')}
         </Toast>
       </View>
-    </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 
 export default InformationRegistrationScreen;
+
+const makeStyles = (args: ITheme) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    body: {
+      paddingHorizontal: 20,
+    },
+    input: {
+      height: 30,
+      width: '100%',
+      borderColor: GRAY_COLOR,
+      borderBottomWidth: 0.5,
+      fontSize: 18,
+      padding: 7,
+      marginTop: 30,
+    },
+    errorMessage: {
+      color: RED_COLOR,
+      marginTop: 10
+    }
+  });

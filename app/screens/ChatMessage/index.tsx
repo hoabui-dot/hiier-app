@@ -7,12 +7,13 @@ import {
   TouchableOpacity,
   View,
   Image,
+  KeyboardAvoidingView
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ViewBottom from '../../../components/ViewBottom';
 import Input from '../../../components/Input';
 import Header from '../../../components/Header';
-import { Message } from '../../../types/ui';
+import { IMessageItem } from '../../../types/ui';
 import Text from '../../../components/Text';
 import Icon from '../../../utils/Icon/Icon';
 import Icons from '../../../utils/Icon/Icons';
@@ -25,19 +26,19 @@ const ChatScreen = ({ route, navigation }: any) => {
   const theme = useTheme();
   const styles = useMemo(() => makeStyles(theme), []);
 
-  const [messages, setMessages] = useState<Message[] | null>(null);
+  const [messages, setMessages] = useState<IMessageItem[]>([]);
   const [messInput, setMessInput] = useState<string>('');
   const [isSendMessage, setIsSendMessage] = useState<boolean>(false);
 
   // const isFocused = useIsFocused();
   useEffect(() => {
     const getMessage = async () => {
-      const res = await MessageApi.getAll(route.params.id);
-      setMessages(res.data.resource);
+      const res = await MessageApi.getAll({id: route.params.id, page: 0, size: 20});
+      setMessages(res.data?.resource?.messagePage?.list);
       setMessInput('');
     };
     getMessage();
-  }, [isSendMessage]);
+  }, [isSendMessage, messages]);
 
   const onChangeInput = (value: string) => {
     setMessInput(value);
@@ -46,8 +47,10 @@ const ChatScreen = ({ route, navigation }: any) => {
   const submit = async () => {
     if (messInput) {
       try {
-        const res = await MessageApi.create(route.params.id, messInput);
+        const res = await MessageApi.create(route.params?.id, messInput);
         if (res.status === 200) {
+          setMessInput('');
+          setMessages([...messages, res.data?.resource])
           setIsSendMessage(true);
         } else {
           setIsSendMessage(false);
@@ -65,7 +68,7 @@ const ChatScreen = ({ route, navigation }: any) => {
     const initSocket = async () => {
       const secretHash = await SecureStoreHelper.getUserSecretHash();
       // socket.emit('subscribe-direct-notification', secretHash);
-      socket.on(`message-receive/${route.params.id}/${secretHash}`, (res) => {
+      socket.on(`message-receive/${route.params?.id}/${secretHash}`, (res) => {
         console.log('notification', res);
         notification.schedulePushNotification(res);
       });
@@ -74,10 +77,10 @@ const ChatScreen = ({ route, navigation }: any) => {
   }, [socket]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <KeyboardAvoidingView style={styles.container}>
       <Header
         backButton
-        headerText={route.params.customerName}
+        headerText={route.params?.customerName}
         shadow={2}
         variant="light"
       />
@@ -96,7 +99,7 @@ const ChatScreen = ({ route, navigation }: any) => {
                 style={styles.userImage}
                 source={{
                   uri: route.params?.avatar
-                    ? route.params.avatar
+                    ? route.params?.avatar
                     : 'https://assets.capitalfm.com/2017/43/taylor-swift-1508765921.jpg',
                 }}
               />
@@ -131,7 +134,7 @@ const ChatScreen = ({ route, navigation }: any) => {
           </TouchableOpacity>
         </HStack>
       </ViewBottom>
-    </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 

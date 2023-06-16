@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
-import { Text, View, TextInput, Pressable } from 'react-native';
+import React, { useMemo, useState } from 'react';
+import { Text, View, TextInput, StyleSheet, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import Toast from 'react-native-root-toast';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
-import axios from 'axios';
 import G from '../../../utils/GlobalStyles.styled';
 import S from './Style';
 import { useTranslation } from 'react-i18next';
 import { TaskApi } from '../../../services/api/task';
 import { GREEN_COLOR, ROUTES } from '../../../constants/ui';
+import Header from '../../../components/Header';
+import { ITheme, useTheme } from 'native-base';
 
 export interface ForgotPasswordProps {
   navigation: any;
@@ -17,7 +18,8 @@ export interface ForgotPasswordProps {
 const ForgotPassword = ({ navigation }: ForgotPasswordProps) => {
   const [response, setResponse] = useState<any>({});
   const [toastMessage, setToastMessage] = useState<string>('');
-  const { t } = useTranslation();
+  const theme = useTheme();
+  const styles = useMemo(() => makeStyles(theme), []);
   const { control, handleSubmit } = useForm({
     defaultValues: {
       phone: '',
@@ -30,14 +32,17 @@ const ForgotPassword = ({ navigation }: ForgotPasswordProps) => {
         return;
       }
       setResponse(response);
+    }).catch(err => {
+      console.log('err', err);
     })
   };
 
   return (
-    <View style={G.container}>
-      <View>
+    <KeyboardAvoidingView style={styles.container}>
+      <Header headerText='QUÊN MẬT KHẨU'  backButton />
+      <View style={styles.body}>
         <View style={S.wrapContent}>
-          <TextInput style={G.paragraph}>{`${t('PHONE')}:`}</TextInput>
+          <TextInput style={G.paragraph}>Số điện Thoại:</TextInput>
           <Controller
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
@@ -68,11 +73,7 @@ const ForgotPassword = ({ navigation }: ForgotPasswordProps) => {
             {response.data.message}
           </Text>
         )}
-        <Pressable style={G.button} onPress={handleSubmit(onSubmit)}>
-          <Text style={G.buttonText}>Tiếp theo</Text>
-        </Pressable>
-      </View>
-      {response?.status && (
+        {response?.status && (
         <View>
           <Text style={{ fontWeight: 'bold' }}>OTP:</Text>
           <OTPInputView
@@ -80,21 +81,26 @@ const ForgotPassword = ({ navigation }: ForgotPasswordProps) => {
             pinCount={4}
             codeInputFieldStyle={S.underlineStyleBase}
             onCodeFilled={async (code) => {
-              TaskApi.verifyOTP({
+              TaskApi.verifyForgotPassword({
                 otp: code,
-                idHash: response?.data.resource?.idHash
-              }).then(response => {
-                if(response?.status !== 200) {
+                idHash: response.data?.resource?.idHash
+              }).then(res => {
+                if(res?.status !== 200) {
                   return;
                 }
                 navigation.navigate(ROUTES.RESET_PASSWORD, {
                   isShowMessage: true,
+                  idHash: response.data?.resource?.idHash
                 });
               }) 
             }}
           />
         </View>
       )}
+        <TouchableOpacity style={G.button} onPress={handleSubmit(onSubmit)}>
+          <Text style={G.buttonText}>Tiếp theo</Text>
+        </TouchableOpacity>
+      </View>
       {!!toastMessage.length && (
         <Toast
           visible={!!toastMessage.length}
@@ -114,8 +120,22 @@ const ForgotPassword = ({ navigation }: ForgotPasswordProps) => {
           {toastMessage}
         </Toast>
       )}
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
 export default ForgotPassword;
+
+const makeStyles = (args: ITheme) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    body: {
+      marginTop: 20,
+      paddingHorizontal: 20
+    },
+    input: {
+      paddingTop: 20,
+    },
+  });

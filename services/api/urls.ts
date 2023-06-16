@@ -1,8 +1,6 @@
 export const BASEURL =
   'http://startupproject-env.eba-fp42mrnc.ap-southeast-1.elasticbeanstalk.com';
 
-// export const BASEURL = 'https://bf85-14-186-123-80.ngrok-free.app'
-
 const API_BASE = `${BASEURL}/api`;
 
 export const API_URL = {
@@ -15,7 +13,8 @@ export const API_URL = {
   checkToken: `${API_BASE}/account/check-token`,
   requestForgotPassword: `${API_BASE}/account/request-forget-password/`,
   resetPassword: `${API_BASE}/account/reset-password/`,
-  verifyOTP: `${API_BASE}/account/verify-otp/`,
+  verifyOTP: `${API_BASE}/account/verify-otp-employee-registration/`,
+  verifyForgotPassword: `${API_BASE}/account/verify-otp-forget-password`,
   profileView: `${API_BASE}/profile/view/`,
   profileUpdate: `${API_BASE}/profile/update/`,
   serviceGetAll: `${API_BASE}/service/get-all/`,
@@ -23,7 +22,6 @@ export const API_URL = {
   addressCreate: `${API_BASE}/address/create/`,
   addressList: `${API_BASE}/address/list`,
   taskCreate: `${API_BASE}/task/create`,
-  // taskCreate: `${API_BASE}/task/payment/vnpay`,
   taskGetAll: `${API_BASE}/task/get-all/`,
   setActive: `${API_BASE}/account/set-active`,
   setInActive: `${API_BASE}/account/set-offline`,
@@ -31,11 +29,16 @@ export const API_URL = {
   doneBooking: `${API_BASE}/task/done/`,
   cancelBooking: `${API_BASE}/task/cancel/`,
   JobHistory: `${API_BASE}/task/list-for-employee`,
+  acceptTask: `${API_BASE}/task/accept/`,
+
+  // Wallet
   getWalletInfo: `${API_BASE}/wallet/get-info`,
   getTransactionHistory: `${API_BASE}/transaction-history/get-all`,
   onWithDraw: `${API_BASE}/wallet/with-draw`,
+
   notificationGetNew: `${API_BASE}/advertise/get-all/`,
   messageGetAll: `${API_BASE}/message/get-history-message/`,
   messageCreate: `${API_BASE}/message/create/`,
-  getChatList: `${API_BASE}/group-chat/get-group-chat-by-user-login`
+  getChatList: `${API_BASE}/group-chat/get-group-chat-by-user-login`,
+  registration: `${API_BASE}/account/employee-registration`
 };

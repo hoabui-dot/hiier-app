@@ -1,11 +1,11 @@
 import { HStack, ITheme, useTheme } from 'native-base';
 import { ReactNode, useMemo } from 'react';
-import { TouchableOpacity, StyleSheet, View, ViewStyle } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
+import { TouchableOpacity, StyleSheet, View } from 'react-native';
 import Heading from '../Heading';
 import Icon from '../../utils/Icon/Icon';
 import Icons from '../../utils/Icon/Icons';
 import { useNavigation } from '@react-navigation/native';
+import Constants from 'expo-constants';
 
 interface HeaderProps {
   headerText?: ReactNode;
@@ -14,6 +14,7 @@ interface HeaderProps {
   backButton?: boolean;
   shadow?: number | string;
   variant?: 'light' | 'dark' | 'transparentLight' | 'transparentDark';
+  style?: any
 }
 
 const Header = ({
@@ -23,6 +24,7 @@ const Header = ({
   backButton,
   shadow = 1,
   variant = 'dark',
+  style
 }: HeaderProps) => {
   const theme = useTheme();
   const styles = useMemo(() => makeStyles(theme), []);
@@ -87,10 +89,10 @@ const makeStyles = ({ colors, sizes }: ITheme) =>
       justifyContent: 'space-between',
       alignItems: 'center',
       paddingHorizontal: sizes.padding2,
-      // paddingVertical: sizes.padding2,
       position: 'relative',
       zIndex: 999,
-      height: 55,
+      paddingTop: 16 + Constants.statusBarHeight,
+      paddingBottom: 16,
     },
     text: {
       textTransform: 'capitalize',

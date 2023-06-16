@@ -28,4 +28,5 @@ export default {
   Visa: <FontAwesome name="cc-visa" size={24} color="black" />,
   Coin: <FontAwesome5 name="bitcoin" size={24} color="black" />,
   Left: <AntDesign name='left' />,
+  Recharge: <Ionicons name='download-outline' />,
 };

@@ -18,6 +18,7 @@ import SwipeButton from 'rn-swipe-button';
 import { secretHashContext } from '../../DrawerMenu';
 import { JOB_TAB, PURPLE_COLOR, WHITE_COLOR } from '../../../../constants/ui';
 import { ITheme, useTheme } from 'native-base';
+import { TaskApi } from '../../../../services/api/task';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -44,8 +45,15 @@ const NewJobTab = ({ navigation, route }: any) => {
     if (loginValue.secretHash) {
       socket.emit('subscribe-notification', loginValue.secretHash); //notification of account with get and post
       socket.emit('subscribe-on-task-created', loginValue.secretHash); //update location
-      socket.emit('task-set', loginValue.secretHash); //get task
+      // socket.emit('task-set', loginValue.secretHash); //get task
 
+      socket.on('new-task', (res) => {
+        console.log("🚀 ~ file: index.tsx:51 ~ socket.on ~ res:", res)
+        socket.emit('update-location', loginValue.secretHash,{
+          latitude: region.latitude,
+          longitude: region.longitude
+        })
+      })
       socket.on('subscribed/' + loginValue.secretHash, (response) => {
         console.log(
           '🚀 ~ file: index.tsx:43 ~ socket.on ~ response:',
@@ -141,6 +149,7 @@ const NewJobTab = ({ navigation, route }: any) => {
               width={313}
               title="Trượt để nhận việc"
               onSwipeSuccess={() => {
+                TaskApi.acceptTask(jobInformation.id)
                 navigation.navigate(JOB_TAB.CONFIRMED, jobInformation);
                 setIsJobModal(false);
               }}

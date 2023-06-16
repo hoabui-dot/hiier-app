@@ -1,6 +1,12 @@
 // import { BaseResponse, Task } from '../../utils/types';
+import { IRegistrationAccount } from '../../types/ui';
 import http from '../http';
 import { API_URL } from './urls';
+
+export interface IVerifyOTP {
+  idHash: string;
+  otp: string;
+}
 
 export const TaskApi = {
   create: async function (data: any): Promise<any> {
@@ -21,8 +27,14 @@ export const TaskApi = {
   requestOTP: async function (phone: { phone: string }): Promise<any> {
     return await http.post(API_URL.otpRequest, phone);
   },
-  verifyOTP: async function (phone: any): Promise<any> {
-    return await http.post(API_URL.verifyOTP, phone);
+  registration: async function name(value: IRegistrationAccount) {
+    return await http.post(API_URL.registration, value);
+  },
+  verifyOTP: async function (value: IVerifyOTP): Promise<any> {
+    return await http.post(API_URL.verifyOTP, value);
+  },
+  verifyForgotPassword: async function (value: IVerifyOTP): Promise<any> {
+    return await http.post(API_URL.verifyForgotPassword, value)
   },
   forgotPassword: async function (value: any): Promise<any> {
     return await http.post(API_URL.requestForgotPassword, value);
@@ -63,12 +75,21 @@ export const TaskApi = {
     );
   },
   getWalletInfo: async function (): Promise<any> {
-    return await http.get(API_URL.getWalletInfo)
+    return await http.get(API_URL.getWalletInfo);
   },
   getTransactionHistory: async function (): Promise<any> {
-    return await http.get(API_URL.getTransactionHistory)
+    return await http.get(API_URL.getTransactionHistory);
   },
-  onWithDraw: async function (value: number): Promise<any> {
-    return await http.put(API_URL.onWithDraw, value)
+  onWithDraw: async function (value: any): Promise<any> {
+    return await http.put(API_URL.onWithDraw, value);
+  },
+  resetPassword: async function (value: {
+    idHash: string;
+    newPassword: string;
+  }): Promise<any> {
+    return await http.post(API_URL.resetPassword, value);
+  },
+  acceptTask: async function (id: number) {
+    return await http.put(`${API_URL.acceptTask}${id}`)
   }
 };
