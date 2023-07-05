@@ -1,5 +1,10 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { Text, View, StyleSheet, Dimensions } from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  Dimensions,
+} from 'react-native';
 import { Modal } from 'native-base';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Center } from 'native-base';
@@ -8,7 +13,6 @@ import io from 'socket.io-client';
 import { addAuthorizationHeader } from '../../../../services/token';
 import { IJobInformation } from '../../../../types/ui';
 import MapCustom from '../../../../components/map/MapCustom';
-import notification from '../../../../utils/helpers/notification';
 import Card from '../../../../components/Card';
 import {
   DEFAULT_JOB_INFORMATION,
@@ -34,10 +38,10 @@ const NewJobTab = ({ navigation, route }: any) => {
     ...initRegion,
     ...route.params?.location,
   });
-  
+
   useEffect(() => {
     addAuthorizationHeader(loginValue.token);
-  }, [])
+  }, []);
 
   const socket = io(API_URL.webSocket, { transports: ['polling'] });
 
@@ -48,12 +52,12 @@ const NewJobTab = ({ navigation, route }: any) => {
       // socket.emit('task-set', loginValue.secretHash); //get task
 
       socket.on('new-task', (res) => {
-        console.log("🚀 ~ file: index.tsx:51 ~ socket.on ~ res:", res)
-        socket.emit('update-location', loginValue.secretHash,{
+        console.log('🚀 ~ file: index.tsx:51 ~ socket.on ~ res:', res);
+        socket.emit('update-location', loginValue.secretHash, {
           latitude: region.latitude,
-          longitude: region.longitude
-        })
-      })
+          longitude: region.longitude,
+        });
+      });
       socket.on('subscribed/' + loginValue.secretHash, (response) => {
         console.log(
           '🚀 ~ file: index.tsx:43 ~ socket.on ~ response:',
@@ -105,6 +109,7 @@ const NewJobTab = ({ navigation, route }: any) => {
             style={{
               flex: 1,
               flexDirection: 'column',
+              flexWrap: 'wrap',
               justifyContent: 'space-between',
               padding: 15,
             }}
@@ -129,10 +134,10 @@ const NewJobTab = ({ navigation, route }: any) => {
                 title="Dụng cụ"
                 description={jobInformation.equipment}
               />
-              <DescriptionCard
+              {/* <DescriptionCard
                 title="Thanh toán"
                 description={jobInformation.paymentMethod}
-              />
+              /> */}
               <DescriptionCard
                 title="Tổng tiền"
                 description={jobInformation.totalPrice}
@@ -146,10 +151,10 @@ const NewJobTab = ({ navigation, route }: any) => {
               disabled={false}
               swipeSuccessThreshold={70}
               height={70}
-              width={313}
+              width="100%"
               title="Trượt để nhận việc"
               onSwipeSuccess={() => {
-                TaskApi.acceptTask(jobInformation.id)
+                TaskApi.acceptTask(jobInformation.id);
                 navigation.navigate(JOB_TAB.CONFIRMED, jobInformation);
                 setIsJobModal(false);
               }}

@@ -5,36 +5,45 @@ import {
   View,
   Text,
   TouchableOpacity,
+  Image,
+  Dimensions
 } from 'react-native';
 import Header from '../../../components/Header';
-import { Image } from 'expo-image';
 import Card from '../../../components/Card';
 import { ITheme, useTheme, Icon } from 'native-base';
 import Icons from '../../../utils/Icon/Icons';
-import { RED_COLOR, ROUTES } from '../../../constants/ui';
+import { RED_COLOR } from '../../../constants/ui';
+import Constants from 'expo-constants';
 
 export interface DetailInformationProps {
   navigation: any;
   route: any;
 }
 
+const { width } = Dimensions.get('screen');
+
 const DetailInformation = ({ navigation, route }: DetailInformationProps) => {
+  console.log('🚀 ~ file: index.tsx:22 ~ DetailInformation ~ route:', route);
   const theme = useTheme();
   const styles = useMemo(() => makeStyles(theme), []);
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header
-        headerText="THÔNG TIN CỦA TÔI"
-        leftPress={() => navigation.goBack()}
-        backButton
-      />
+      <Header headerText="THÔNG TIN CỦA TÔI" backButton />
       <Card cardStyle={{ margin: 10 }}>
         <View style={styles.mainInformation}>
-          <Icon as={Icons.ImageProfile} size={40} />
-          
-          <Text>{route.params.name}</Text>
-          <Text>{route.params.phone}</Text>
+          <View style={styles.wrapImage}>
+          {route.params?.avatar ? (
+            <Image
+              style={styles.userImage}
+              source={{ uri: route.params?.avatar }}
+            />
+          ) : (
+            <Icon as={Icons.ImageProfile} size={40} />
+          )}
+          </View>
+          <Text>{route.params?.name}</Text>
+          <Text>{route.params?.phone}</Text>
         </View>
       </Card>
       <Card cardStyle={{ marginHorizontal: 10 }}>
@@ -53,6 +62,7 @@ const makeStyles = (args: ITheme) =>
     container: {
       flex: 1,
       position: 'relative',
+      marginTop: - Constants.statusBarHeight
     },
     mainInformation: {
       flexDirection: 'column',
@@ -62,4 +72,12 @@ const makeStyles = (args: ITheme) =>
     restart: {
       color: RED_COLOR,
     },
+    userImage: {
+      width: 110,
+      height: 110,
+      borderRadius: 110 / 2,
+    },
+    wrapImage: {
+      marginBottom: 10
+    }
   });

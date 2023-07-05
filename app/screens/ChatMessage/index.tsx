@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   View,
   Image,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ViewBottom from '../../../components/ViewBottom';
@@ -33,7 +34,11 @@ const ChatScreen = ({ route, navigation }: any) => {
   // const isFocused = useIsFocused();
   useEffect(() => {
     const getMessage = async () => {
-      const res = await MessageApi.getAll({id: route.params.id, page: 0, size: 20});
+      const res = await MessageApi.getAll({
+        id: route.params.id,
+        page: 0,
+        size: 20,
+      });
       setMessages(res.data?.resource?.messagePage?.list);
       setMessInput('');
     };
@@ -50,7 +55,7 @@ const ChatScreen = ({ route, navigation }: any) => {
         const res = await MessageApi.create(route.params?.id, messInput);
         if (res.status === 200) {
           setMessInput('');
-          setMessages([...messages, res.data?.resource])
+          setMessages([...messages, res.data?.resource]);
           setIsSendMessage(true);
         } else {
           setIsSendMessage(false);
@@ -77,7 +82,10 @@ const ChatScreen = ({ route, navigation }: any) => {
   }, [socket]);
 
   return (
-    <KeyboardAvoidingView style={styles.container}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.container}
+    >
       <Header
         backButton
         headerText={route.params?.customerName}
@@ -168,7 +176,7 @@ const makeStyles = ({ colors, sizes, fontSizes }: ITheme) =>
       marginVertical: sizes.padding / 2,
       padding: sizes.padding,
       borderRadius: sizes.radius,
-      maxWidth: sizes['4/5']
+      maxWidth: sizes['4/5'],
     },
     rightMessage: {
       backgroundColor: colors.primary.cream,
@@ -190,8 +198,8 @@ const makeStyles = ({ colors, sizes, fontSizes }: ITheme) =>
     wrapMessage: {
       flexDirection: 'row',
       alignItems: 'center',
-      paddingVertical: 8
-    }
+      paddingVertical: 8,
+    },
   });
 
 export default ChatScreen;

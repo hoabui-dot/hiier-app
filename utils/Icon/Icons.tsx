@@ -5,7 +5,8 @@ import {
   MaterialIcons,
   Ionicons,
   MaterialCommunityIcons,
-  FontAwesome5
+  FontAwesome5,
+  Feather
 } from '@expo/vector-icons';
 
 export default {
@@ -29,4 +30,5 @@ export default {
   Coin: <FontAwesome5 name="bitcoin" size={24} color="black" />,
   Left: <AntDesign name='left' />,
   Recharge: <Ionicons name='download-outline' />,
+  Call: <Feather name="phone-call" size={24} color="black" />
 };

@@ -1,6 +1,6 @@
 import { ITheme, useTheme } from 'native-base';
 import { useMemo, useState } from 'react';
-import { useWindowDimensions, View, StyleSheet } from 'react-native';
+import { useWindowDimensions, StyleSheet } from 'react-native';
 import {
   TabView,
   SceneMap,

@@ -181,5 +181,21 @@ export interface IRegistrationAccount {
   gender: string;
 }
 
+export interface IQuizzes {
+  name: string;
+  numberAnswerPassed: string;
+  qadtoList: IQuizzesItem[]
+}
+
+export interface IQuizzesItem {
+  questionContent: string;
+  questionId: number;
+  answerDTOList: IAnswerDTOItem[]
+}
+
+export interface IAnswerDTOItem {
+  answerContent: string;
+}
+
 export type PaymentMethodKey = 'COD' | 'MOMO' | 'VNPAY' | 'ZALOPAY';
 export type ITransactionHistoryType = 'TOP_UP' | 'WITH_DRAW';

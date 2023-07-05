@@ -3,6 +3,8 @@ import { JOB_HISTORY_TAB } from '../../../../constants/ui';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import DoneTaskHistory from './DoneTaskHistory';
 import CancelTaskHistory from './CancelTaskHistory';
+import { View } from 'react-native';
+import Header from '../../../../components/Header';
 
 const JobHistory = () => {
   const Tab = createMaterialTopTabNavigator();

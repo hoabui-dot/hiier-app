@@ -14,6 +14,7 @@ import Finance from './Finance';
 import Supporting from './Supporting';
 import FriendCode from './FriendCode';
 import Notification from './Notification';
+import TrainingHiier from './Training';
 import Payment from '../Payment'
 import JobHistory from './ActivityHistory';
 import { StyleSheet } from 'react-native';
@@ -37,7 +38,12 @@ const DrawerMenu = ({ route }: any) => {
       <Drawer.Navigator
         drawerContent={(props) => <CustomDrawer route={route} {...props} />}
         screenOptions={{
-          headerStyle: styles.backgroundViolet,
+          headerStyle: {
+            backgroundColor: '#122620'
+          },
+          headerTitleStyle: {
+            color: '#D6AD60'
+          },
           headerRight: () => <SwitchButtonWithStatusText />,
         }}
       >
@@ -66,7 +72,7 @@ const DrawerMenu = ({ route }: any) => {
         />
         <Drawer.Screen
           name={DRAWER.TRAINING}
-          component={Notification}
+          component={TrainingHiier}
           options={{
             drawerIcon: (args) => (
               <MaterialIcons
@@ -133,6 +139,6 @@ const makeStyles = (args: ITheme) =>
   StyleSheet.create({
     backgroundViolet: {
       backgroundColor: args.colors.violet['400'],
-      height: 80
+      height: 80,
     },
   });

@@ -91,5 +91,11 @@ export const TaskApi = {
   },
   acceptTask: async function (id: number) {
     return await http.put(`${API_URL.acceptTask}${id}`)
+  },
+  getQuizzesList: async function () {
+    return await http.get(`${API_URL.getQuizzesList}`)
+  },
+  onSubmitAnswer: async function (value: {questionId: number, answerId: number}[]) {
+    return await http.post(API_URL.submitAnswer, value)
   }
 };

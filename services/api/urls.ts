@@ -40,5 +40,9 @@ export const API_URL = {
   messageGetAll: `${API_BASE}/message/get-history-message/`,
   messageCreate: `${API_BASE}/message/create/`,
   getChatList: `${API_BASE}/group-chat/get-group-chat-by-user-login`,
-  registration: `${API_BASE}/account/employee-registration`
+  registration: `${API_BASE}/account/employee-registration`,
+
+  //Quizzes
+  getQuizzesList: `${API_BASE}/start-quiz/get-question/`,
+  submitAnswer: `${API_BASE}/start-quiz/submit-answer/`
 };

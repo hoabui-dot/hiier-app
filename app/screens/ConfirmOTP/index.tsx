@@ -1,5 +1,5 @@
 import React, { useContext, useMemo, useState } from 'react';
-import { View, Text, SafeAreaView, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { Text, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import S from './styles';
 import G from '../../../utils/GlobalStyles.styled';

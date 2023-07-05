@@ -37,8 +37,6 @@ import { NativeBaseProvider } from 'native-base';
 import { API_URL } from './services/api/urls';
 import PaymentTopUpScreen from './app/screens/PaymentWithDrawScreen';
 
-const isAndroid = Platform.OS === 'ios';
-
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -46,19 +44,6 @@ Notifications.setNotificationHandler({
     shouldSetBadge: false,
   }),
 });
-
-if (isAndroid) {
-  require('@formatjs/intl-locale/polyfill');
-
-  require('@formatjs/intl-pluralrules/polyfill');
-  require('@formatjs/intl-pluralrules/locale-data/vi');
-  require('@formatjs/intl-pluralrules/locale-data/en');
-
-  require('@formatjs/intl-displaynames/polyfill');
-  require('@formatjs/intl-displaynames/locale-data/vi');
-  require('@formatjs/intl-displaynames/locale-data/en');
-}
-
 const Stack = createNativeStackNavigator();
 i18n.use(initReactI18next).init({
   resources: {

@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Dimensions,
   KeyboardAvoidingView,
+  Linking
 } from 'react-native';
 import { Center } from 'native-base';
 import Card from '../../../../components/Card';
@@ -112,6 +113,10 @@ const ConfirmedTab = ({ navigation, route }: ConfirmedTabProps) => {
     });
   }
 
+  const onCall = () => {
+
+  }
+
   return (
     <SafeAreaView style={[styles.container, styles.wrapContent]}>
       {!jobInformation && (
@@ -183,6 +188,13 @@ const ConfirmedTab = ({ navigation, route }: ConfirmedTabProps) => {
               >
                 <Icon as={Icons.Message} size={8} />
                 <Text style={styles.descriptionTitle}>Gửi tin nhắn</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => Linking.openURL(`tel://${jobInformation.customerPhone}`)}
+                style={{ flexDirection: 'column', alignItems: 'center', marginLeft: 16 }}
+              >
+                <Icon as={Icons.Call} size={8} />
+                <Text style={styles.descriptionTitle}>Điện thoại</Text>
               </TouchableOpacity>
             </View>
           </View>
