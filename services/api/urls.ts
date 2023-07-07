@@ -1,7 +1,18 @@
+import { Linking } from 'react-native';
+
 export const BASEURL =
   'http://startupproject-env.eba-fp42mrnc.ap-southeast-1.elasticbeanstalk.com';
-
 const API_BASE = `${BASEURL}/api`;
+
+export const onDirectionOfGoogleMap = ({
+  origin,
+  destination,
+}: {
+  origin: string;
+  destination: string;
+}) => {
+  return Linking.openURL(`https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}&travelmode=driving`);
+};
 
 export const API_URL = {
   webSocket:
@@ -44,5 +55,5 @@ export const API_URL = {
 
   //Quizzes
   getQuizzesList: `${API_BASE}/start-quiz/get-question/`,
-  submitAnswer: `${API_BASE}/start-quiz/submit-answer/`
+  submitAnswer: `${API_BASE}/start-quiz/submit-answer/`,
 };

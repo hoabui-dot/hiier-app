@@ -8,8 +8,10 @@ import {
   StyleSheet,
   ScrollView,
   Dimensions,
+  Button,
+  TextInput
 } from 'react-native';
-import { DEFAULT_QUIZZES } from '../../../constants/ui';
+import { DEFAULT_QUIZZES, GOOGLE_API_KEY, GRAY_COLOR } from '../../../constants/ui';
 import { TaskApi } from '../../../services/api/task';
 import RadioGroup, { RadioButtonProps } from 'react-native-radio-buttons-group';
 import { IQuizzes } from '../../../types/ui';
@@ -17,6 +19,9 @@ import { DEFAULT_CHARACTER } from '../../../constants/ui';
 import cloneDeep from 'lodash/cloneDeep';
 import { Checkbox } from 'native-base';
 import Constants from 'expo-constants';
+import * as SecureStore from 'expo-secure-store';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import MapViewDirections from 'react-native-maps-directions';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -30,8 +35,10 @@ const TrainingHiier = () => {
   const theme = useTheme();
   const styles = useMemo(() => makeStyles(theme), []);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [selectedAnswer, setSelectedAnswer] = useState<IAnswer[]>([]);
-  console.log("🚀 ~ file: Training.tsx:33 ~ TrainingHiier ~ selectedAnswer:", selectedAnswer)
+  const [selectedAnswer, setSelectedAnswer] = useState<any[]>([]);
+  const [key, onChangeKey] = React.useState('newKey');
+  const [value, onChangeValue] = React.useState('Your value here');
+  console.log("🚀 ~ file: Training.tsx:40 ~ TrainingHiier ~ value:", value)
 
   useEffect(() => { 
     const getQuizzesList = async function () {
@@ -67,7 +74,7 @@ const TrainingHiier = () => {
               <View key={index}>
                 <Text>{`${index + 1}. ${quiz.questionContent}`}</Text>
                 <View style={styles.answerList}>
-                  <Checkbox.Group>
+                  <Checkbox.Group onChange={e => setSelectedAnswer(e)}>
                     {quiz.answerDTOList?.map((answer, idx) => (
                       <Checkbox key={idx} onChange={() => setSelectedAnswer([...selectedAnswer, {questionId: quiz.questionId, answerId: idx}])} value={idx.toString()}>
                         <Text>{answer.answerContent}</Text>

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import {
   Text,
   View,
@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Dimensions,
   KeyboardAvoidingView,
-  Linking
+  Linking,
 } from 'react-native';
 import { Center } from 'native-base';
 import Card from '../../../../components/Card';
@@ -19,6 +19,8 @@ import { IJobInformation } from '../../../../types/ui';
 import ButtonBase from '../../../../components/Base/ButtonBase';
 import { DEFAULT_JOB_INFORMATION } from '../../../../utils/defaultValue/common';
 import { MessageApi } from '../../../../services/api/message';
+import { onDirectionOfGoogleMap } from '../../../../services/api/urls';
+import { secretHashContext } from '../../DrawerMenu';
 
 export interface ConfirmedTabProps {
   navigation: any;
@@ -28,37 +30,44 @@ export interface ConfirmedTabProps {
 const { width, height } = Dimensions.get('screen');
 
 const ConfirmedTab = ({ navigation, route }: ConfirmedTabProps) => {
+  console.log('🚀 ~ file: index.tsx:31 ~ ConfirmedTab ~ route:', route);
   const [jobInformation, setJobInformation] = useState<
-  IJobInformation | undefined
+    IJobInformation | undefined
   >(route.params || DEFAULT_JOB_INFORMATION);
   const [isConfirmModal, setIsConfirmModal] = useState<boolean>(false);
   const theme = useTheme();
   const styles = useMemo(() => makeStyles(theme), []);
+  const loginValue = useContext(secretHashContext);
 
   useEffect(() => {
     setJobInformation(route.params);
   }, [route.params]);
 
   const onFinishJob = () => {
-    TaskApi.doneBooking(jobInformation?.id).then((res) => {
-      if (res.status === 200) {
-        setJobInformation(undefined);
-      }
-    }).catch(err => {
-      console.log('lỡi: ', err);
-      
-    });
+    TaskApi.doneBooking(jobInformation?.id)
+      .then((res) => {
+        if (res.status === 200) {
+          setJobInformation(undefined);
+        }
+      })
+      .catch((err) => {
+        console.log('lỡi: ', err);
+      });
   };
 
   const onCancelJob = () => {
-    TaskApi.cancelBooking(jobInformation?.id).then((res) => {
-      console.log("🚀 ~ file: index.tsx:54 ~ TaskApi.cancelBooking ~ res:", res)
-      if (res.status === 200) {
-        setJobInformation(undefined);
-        setIsConfirmModal(false);
-      }
-    }).catch(err => console.log('err', err)
-    );
+    TaskApi.cancelBooking(jobInformation?.id)
+      .then((res) => {
+        console.log(
+          '🚀 ~ file: index.tsx:54 ~ TaskApi.cancelBooking ~ res:',
+          res
+        );
+        if (res.status === 200) {
+          setJobInformation(undefined);
+          setIsConfirmModal(false);
+        }
+      })
+      .catch((err) => console.log('err', err));
   };
 
   const ConfirmModal = ({
@@ -94,8 +103,16 @@ const ConfirmedTab = ({ navigation, route }: ConfirmedTabProps) => {
               </View>
             </Modal.Body>
             <Modal.Footer style={styles.footerConfirmModal}>
-              <ButtonBase title='Huỷ' onPress={() => setIsConfirmModal(false)} containerStyle={styles.buttonModal}/>
-              <ButtonBase title='Xác nhận' onPress={onCancelJob} containerStyle={styles.buttonModal}/>
+              <ButtonBase
+                title="Huỷ"
+                onPress={() => setIsConfirmModal(false)}
+                containerStyle={styles.buttonModal}
+              />
+              <ButtonBase
+                title="Xác nhận"
+                onPress={onCancelJob}
+                containerStyle={styles.buttonModal}
+              />
             </Modal.Footer>
           </Modal.Content>
         </Center>
@@ -108,14 +125,12 @@ const ConfirmedTab = ({ navigation, route }: ConfirmedTabProps) => {
       navigation.navigate(ROUTES.CHAT_MESSAGE, {
         customerName: jobInformation?.customerName,
         id: response.data.resource[0].groupId,
-        avatar: response.data.resource[0].avatar
-      })
+        avatar: response.data.resource[0].avatar,
+      });
     });
-  }
+  };
 
-  const onCall = () => {
-
-  }
+  const onCall = () => {};
 
   return (
     <SafeAreaView style={[styles.container, styles.wrapContent]}>
@@ -190,11 +205,33 @@ const ConfirmedTab = ({ navigation, route }: ConfirmedTabProps) => {
                 <Text style={styles.descriptionTitle}>Gửi tin nhắn</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => Linking.openURL(`tel://${jobInformation.customerPhone}`)}
-                style={{ flexDirection: 'column', alignItems: 'center', marginLeft: 16 }}
+                onPress={() =>
+                  Linking.openURL(`tel://${jobInformation.customerPhone}`)
+                }
+                style={{
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  marginLeft: 16,
+                }}
               >
                 <Icon as={Icons.Call} size={8} />
                 <Text style={styles.descriptionTitle}>Điện thoại</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() =>
+                  onDirectionOfGoogleMap({
+                    origin: loginValue.address.detail,
+                    destination: jobInformation.address.detail,
+                  })
+                }
+                style={{
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  marginLeft: 16,
+                }}
+              >
+                <Icon as={Icons.Map} size={8} />
+                <Text style={styles.descriptionTitle}>Bản đồ</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -318,6 +355,6 @@ const makeStyles = ({ colors, sizes, fontSizes }: ITheme) =>
     footerConfirmModal: {
       flex: 1,
       justifyContent: 'space-between',
-      marginBottom: 26
-    }
+      marginBottom: 26,
+    },
   });
