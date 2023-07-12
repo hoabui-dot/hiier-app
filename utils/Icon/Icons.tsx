@@ -6,7 +6,7 @@ import {
   Ionicons,
   MaterialCommunityIcons,
   FontAwesome5,
-  Feather
+  Feather,
 } from '@expo/vector-icons';
 
 export default {
@@ -30,6 +30,10 @@ export default {
   Coin: <FontAwesome5 name="bitcoin" size={24} color="black" />,
   Left: <AntDesign name='left' />,
   Recharge: <Ionicons name='download-outline' />,
-  Call: <Feather name="phone-call" size={24} color="black" />,
-  Map: <FontAwesome5 name="map-marked-alt" size={24} color="black" />
+  Call: <Feather name="phone-call" color="black" />,
+  Map: <FontAwesome5 name="map-marked-alt" size={24} color="black" />,
+  Email: <MaterialCommunityIcons name="email-outline" size={24} color="black" />,
+  Lock: <FontAwesome name="lock" size={24} color="black" />,
+  ShowPassword: <Entypo name="eye" size={24} color="black" />,
+  HiddenPassword: <Entypo name="eye-with-line" size={24} color="black" />
 };

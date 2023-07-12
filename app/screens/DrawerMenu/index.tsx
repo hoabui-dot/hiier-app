@@ -1,7 +1,5 @@
 import React, { createContext, useMemo } from 'react';
-import {
-  createDrawerNavigator,
-} from '@react-navigation/drawer';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import CustomDrawer from '../../../components/CustomDrawer';
 import { DRAWER } from '../../../constants/ui';
 
@@ -15,10 +13,11 @@ import Supporting from './Supporting';
 import FriendCode from './FriendCode';
 import Notification from './Notification';
 import TrainingHiier from './Training';
-import Payment from '../Payment'
+import Payment from '../Payment';
 import JobHistory from './ActivityHistory';
 import { StyleSheet } from 'react-native';
 import { Address } from '../../../types/ui';
+import Tools from './Tools';
 import { ITheme, useTheme } from 'native-base';
 import { DEFAULT_LOGIN_NAVIGATION_VALUE } from '../../../utils/defaultValue/navigation';
 
@@ -32,17 +31,17 @@ const DrawerMenu = ({ route }: any) => {
   const theme = useTheme();
   const Drawer = createDrawerNavigator();
   const styles = useMemo(() => makeStyles(theme), []);
-  
+
   return (
     <secretHashContext.Provider value={route.params}>
       <Drawer.Navigator
         drawerContent={(props) => <CustomDrawer route={route} {...props} />}
         screenOptions={{
           headerStyle: {
-            backgroundColor: '#122620'
+            backgroundColor: '#122620',
           },
           headerTitleStyle: {
-            color: '#D6AD60'
+            color: '#D6AD60',
           },
           headerRight: () => <SwitchButtonWithStatusText />,
         }}
@@ -112,6 +111,19 @@ const DrawerMenu = ({ route }: any) => {
           options={{
             drawerIcon: (args) => (
               <MaterialIcons name="qr-code" size={24} color={args.color} />
+            ),
+          }}
+        />
+        <Drawer.Screen
+          name={DRAWER.TOOLS}
+          component={Tools}
+          options={{
+            drawerIcon: (args) => (
+              <MaterialIcons
+                name="cleaning-services"
+                size={24}
+                color={args.color}
+              />
             ),
           }}
         />

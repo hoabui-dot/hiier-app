@@ -97,5 +97,11 @@ export const TaskApi = {
   },
   onSubmitAnswer: async function (value: {questionId: number, answerId: number}[]) {
     return await http.post(API_URL.submitAnswer, value)
+  },
+  getProductTools: async function () {
+    return await http.get(API_URL.getProductTool)
+  },
+  getChemicalTools: async function () {
+    return await http.get(API_URL.getChemicalTool)
   }
 };

@@ -199,3 +199,12 @@ export interface IAnswerDTOItem {
 
 export type PaymentMethodKey = 'COD' | 'MOMO' | 'VNPAY' | 'ZALOPAY';
 export type ITransactionHistoryType = 'TOP_UP' | 'WITH_DRAW';
+
+export interface IProductTool {
+  amount: number;
+  id: number;
+  image: string;
+  ranges: string;
+  store: string;
+  type: string;
+}

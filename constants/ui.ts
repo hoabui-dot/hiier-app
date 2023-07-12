@@ -2,8 +2,8 @@ export const BLACK_COLOR = '#000';
 export const WHITE_COLOR = 'white';
 export const GREEN_COLOR = 'green';
 export const RED_COLOR = 'red';
-export const GRAY_COLOR = '#ccc';
-export const PURPLE_COLOR = 'rgba(123,104,238,0.8)';
+export const GRAY_COLOR = '#9E9E9E';
+export const PURPLE_COLOR = '#683DB4';
 export const PINK_COLOR = '#F4B9C1';
 
 export const defaultLoginValue = {
@@ -56,7 +56,13 @@ export const DRAWER = {
   JOB_HISTORY: 'Lịch sử làm viêc',
   SUPPORTING: 'Hỗ trợ',
   FRIEND_CODE: 'Mã giới thiệu bạn bè',
+  TOOLS: "Công cụ làm việc"
 };
+
+export const TOOLS = {
+  TOOL: 'Công cụ',
+  CHEMICAL: 'Hoá học'
+}
 
 export const JOB_TAB = {
   NEW: 'Chờ việc',
@@ -165,3 +171,15 @@ export const DEFAULT_CHARACTER = [
   '8',
   '9',
 ]
+
+export const FOCUS_INPUT_WHEN_USER_LOGIN = {
+  PHONE: 'PHONE',
+  PASSWORD: 'PASSWORD',
+}
+
+export const FOCUS_INPUT_WITH_REGISTRATION = {
+  NAME: 'NAME',
+  PASSWORD: 'PASSWORD',
+  IDENTIFY: 'IDENTIFY',
+  PHONE: 'PHONE'
+}

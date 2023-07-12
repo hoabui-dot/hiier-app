@@ -1,7 +1,9 @@
 import { Linking } from 'react-native';
 
 export const BASEURL =
-  'http://startupproject-env.eba-fp42mrnc.ap-southeast-1.elasticbeanstalk.com';
+  // 'http://startupproject-env.eba-fp42mrnc.ap-southeast-1.elasticbeanstalk.com';
+  'https://hii-cleaning.com'
+  // 'https://93a4-2402-800-63a7-971f-9855-de63-9049-3ffb.ngrok-free.app'
 const API_BASE = `${BASEURL}/api`;
 
 export const onDirectionOfGoogleMap = ({
@@ -56,4 +58,6 @@ export const API_URL = {
   //Quizzes
   getQuizzesList: `${API_BASE}/start-quiz/get-question/`,
   submitAnswer: `${API_BASE}/start-quiz/submit-answer/`,
+  getProductTool: `${API_BASE}/tool/get-product`,
+  getChemicalTool: `${API_BASE}/tool/get-chemical`
 };
