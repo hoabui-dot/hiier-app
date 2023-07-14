@@ -28,6 +28,8 @@ import {
 import { GREEN_COLOR, WHITE_COLOR } from '../../../constants/ui';
 import { ITheme, useTheme } from 'native-base';
 import { IRegistrationAccount } from '../../../types/ui';
+import Icons from '../../../utils/Icon/Icons';
+import Icon from '../../../utils/Icon/Icon';
 
 export interface InformationRegistrationScreenProps {
   navigation: any;
@@ -45,6 +47,7 @@ const InformationRegistrationScreen = ({
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [isBlurInput, setIsBlurInput] = useState<string>('');
   const [OTPMess, setOTPMess] = useState<any>({});
+  const [isShownPassword, setIsShownPassword] = useState<boolean>(false);
   const {
     control,
     handleSubmit,
@@ -88,52 +91,82 @@ const InformationRegistrationScreen = ({
           name="fullName"
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={[
-                styles.input,
-                isBlurInput === FOCUS_INPUT_WITH_REGISTRATION.NAME
-                  ? styles.focusInput
-                  : {},
-              ]}
-              onFocus={() => setIsBlurInput(FOCUS_INPUT_WITH_REGISTRATION.NAME)}
-              onBlur={() => {
-                setIsBlurInput('');
-                onBlur;
-              }}
-              placeholder="Họ tên"
-              autoCapitalize="none"
-              onChangeText={onChange}
-              placeholderTextColor={GRAY_COLOR}
-              selectionColor={PURPLE_COLOR}
-              value={value}
-            />
+            <View style={styles.wrapInput}>
+              <TextInput
+                style={[
+                  styles.input,
+                  isBlurInput === FOCUS_INPUT_WITH_REGISTRATION.NAME
+                    ? styles.focusInput
+                    : {},
+                ]}
+                onFocus={() =>
+                  setIsBlurInput(FOCUS_INPUT_WITH_REGISTRATION.NAME)
+                }
+                onBlur={() => {
+                  setIsBlurInput('');
+                  onBlur;
+                }}
+                placeholder="Họ tên"
+                autoCapitalize="none"
+                onChangeText={onChange}
+                placeholderTextColor={GRAY_COLOR}
+                selectionColor={PURPLE_COLOR}
+                value={value}
+              />
+            </View>
           )}
         />
         <Controller
           name="password"
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={[
-                styles.input,
-                isBlurInput === FOCUS_INPUT_WITH_REGISTRATION.PASSWORD
-                  ? styles.focusInput
-                  : {},
-              ]}
-              placeholder="Mật khẩu"
-              placeholderTextColor={GRAY_COLOR}
-              onFocus={() =>
-                setIsBlurInput(FOCUS_INPUT_WITH_REGISTRATION.PASSWORD)
-              }
-              onBlur={() => {
-                setIsBlurInput('');
-                onBlur;
-              }}
-              secureTextEntry={true}
-              autoCapitalize="none"
-              onChangeText={onChange}
-              value={value}
-            />
+            <View style={styles.wrapInput}>
+              <TextInput
+                style={[
+                  styles.input,
+                  isBlurInput === FOCUS_INPUT_WITH_REGISTRATION.PASSWORD
+                    ? styles.focusInput
+                    : {},
+                ]}
+                placeholder="Mật khẩu"
+                placeholderTextColor={GRAY_COLOR}
+                onFocus={() =>
+                  setIsBlurInput(FOCUS_INPUT_WITH_REGISTRATION.PASSWORD)
+                }
+                onBlur={() => {
+                  setIsBlurInput('');
+                  onBlur;
+                }}
+                secureTextEntry={isShownPassword}
+                autoCapitalize="none"
+                onChangeText={onChange}
+                value={value}
+              />
+              <TouchableOpacity
+                onPress={() => setIsShownPassword(!isShownPassword)}
+                style={styles.shownPassword}
+              >
+                {isShownPassword ? (
+                  <Icon
+                    as={Icons.HiddenPassword}
+                    color={
+                      isBlurInput === FOCUS_INPUT_WITH_REGISTRATION.PASSWORD
+                        ? PURPLE_COLOR
+                        : GRAY_COLOR
+                    }
+                  />
+                ) : (
+                  <Icon
+                    as={Icons.ShowPassword}
+                    color={
+                      isBlurInput === FOCUS_INPUT_WITH_REGISTRATION.PASSWORD
+                        ? PURPLE_COLOR
+                        : GRAY_COLOR
+                    }
+                  />
+                )}
+              </TouchableOpacity>
+            </View>
           )}
         />
         <Controller
@@ -174,26 +207,28 @@ const InformationRegistrationScreen = ({
           name="identifyNumber"
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              style={[
-                styles.input,
-                isBlurInput === FOCUS_INPUT_WITH_REGISTRATION.IDENTIFY
-                  ? styles.focusInput
-                  : {},
-              ]}
-              placeholder="Số CMND"
-              placeholderTextColor={GRAY_COLOR}
-              onFocus={() =>
-                setIsBlurInput(FOCUS_INPUT_WITH_REGISTRATION.IDENTIFY)
-              }
-              onBlur={() => {
-                setIsBlurInput('');
-                onBlur;
-              }}
-              autoCapitalize="none"
-              onChangeText={onChange}
-              value={value}
-            />
+            <View style={styles.wrapInput}>
+              <TextInput
+                style={[
+                  styles.input,
+                  isBlurInput === FOCUS_INPUT_WITH_REGISTRATION.IDENTIFY
+                    ? styles.focusInput
+                    : {},
+                ]}
+                placeholder="Số CMND"
+                placeholderTextColor={GRAY_COLOR}
+                onFocus={() =>
+                  setIsBlurInput(FOCUS_INPUT_WITH_REGISTRATION.IDENTIFY)
+                }
+                onBlur={() => {
+                  setIsBlurInput('');
+                  onBlur;
+                }}
+                autoCapitalize="none"
+                onChangeText={onChange}
+                value={value}
+              />
+            </View>
           )}
         />
         <View style={{ position: 'relative' }}>
@@ -201,26 +236,28 @@ const InformationRegistrationScreen = ({
             name="phone"
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={[
-                  styles.input,
-                  isBlurInput === FOCUS_INPUT_WITH_REGISTRATION.PHONE
-                    ? styles.focusInput
-                    : {},
-                ]}
-                onFocus={() =>
-                  setIsBlurInput(FOCUS_INPUT_WITH_REGISTRATION.PHONE)
-                }
-                onBlur={() => {
-                  setIsBlurInput('');
-                  onBlur;
-                }}
-                placeholder="Số điện thoại"
-                placeholderTextColor={GRAY_COLOR}
-                autoCapitalize="none"
-                onChangeText={onChange}
-                value={value}
-              />
+              <View style={styles.wrapInput}>
+                <TextInput
+                  style={[
+                    styles.input,
+                    isBlurInput === FOCUS_INPUT_WITH_REGISTRATION.PHONE
+                      ? styles.focusInput
+                      : {},
+                  ]}
+                  onFocus={() =>
+                    setIsBlurInput(FOCUS_INPUT_WITH_REGISTRATION.PHONE)
+                  }
+                  onBlur={() => {
+                    setIsBlurInput('');
+                    onBlur;
+                  }}
+                  placeholder="Số điện thoại"
+                  placeholderTextColor={GRAY_COLOR}
+                  autoCapitalize="none"
+                  onChangeText={onChange}
+                  value={value}
+                />
+              </View>
             )}
           />
         </View>
@@ -274,7 +311,6 @@ const makeStyles = (args: ITheme) =>
       borderRadius: 8,
       backgroundColor: '#FAFAFA',
       fontSize: 16,
-      marginTop: 18,
     },
     checkbox: {
       borderColor: PURPLE_COLOR,
@@ -294,5 +330,14 @@ const makeStyles = (args: ITheme) =>
       borderWidth: 1,
       borderColor: PURPLE_COLOR,
       backgroundColor: '#F3ECFE',
+    },
+    shownPassword: {
+      position: 'absolute',
+      right: 20,
+      top: 20,
+    },
+    wrapInput: {
+      marginTop: 20,
+      position: 'relative',
     },
   });

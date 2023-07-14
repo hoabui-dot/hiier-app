@@ -2,9 +2,12 @@ export const BLACK_COLOR = '#000';
 export const WHITE_COLOR = 'white';
 export const GREEN_COLOR = 'green';
 export const RED_COLOR = 'red';
+export const GOLD_COLOR = '#D6AD60'
 export const GRAY_COLOR = '#9E9E9E';
 export const PURPLE_COLOR = '#683DB4';
 export const PINK_COLOR = '#F4B9C1';
+export const LIGHT_GRAY_COLOR = '#F9F9F9'
+export const PLACE_HOLDER_TEXT_COLOR = '#949494'
 
 export const defaultLoginValue = {
   phone: '',
@@ -29,7 +32,7 @@ export const COUNTRY = [
 export const IMAGE = '../assets/hi_logo.png';
 
 export const ROUTES = {
-  CONFIRM_OTP: 'ConfirmOTP',
+  CONFIRM_OTP: 'RegistrationOTP',
   FORGOT_PASSWORD: 'ForgotPassword',
   HIIER: 'Hiier',
   RESET_PASSWORD: 'ResetPassword',
@@ -45,11 +48,12 @@ export const ROUTES = {
   CHAT_MESSAGE: "ChatMessage",
   PAYMENT: 'Payment',
   PAYMENT_WITH_DRAW: 'WithDraw',
-  LOGIN: "Login"
+  LOGIN: "Login",
+  CONFIRM_FORGOT_PASSWORD_OTP: 'ForgotPasswordOTP'
 };
 
 export const DRAWER = {
-  HIIER: 'Hiier',
+  JOB: 'Job',
   NOTIFICATION: 'Thông báo từ Hiier',
   TRAINING: 'Chương trình đào tạo',
   FINANCE: 'Tài chính',
@@ -182,4 +186,11 @@ export const FOCUS_INPUT_WITH_REGISTRATION = {
   PASSWORD: 'PASSWORD',
   IDENTIFY: 'IDENTIFY',
   PHONE: 'PHONE'
+}
+
+export const ONE_MINUTE = 60;
+
+export const RESET_PASSWORD_VALUE = {
+  NEW_PASSWORD: 'NEW_PASSWORD',
+  CONFIRM_PASSWORD: 'CONFIRM_PASSWORD',
 }

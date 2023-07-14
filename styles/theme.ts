@@ -58,11 +58,6 @@ const theme = extendTheme({
 
     blackTransparent: 'rgba(0,0,0,0.5)',
   },
-  fonts: {
-    heading: 'Roboto',
-    body: 'Roboto',
-    mono: 'Roboto',
-  },
   config: {
     // Changing initialColorMode to 'dark'
     initialColorMode: 'light',

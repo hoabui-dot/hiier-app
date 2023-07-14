@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     color: GREEN_COLOR,
     marginTop: 2,
+    textAlign: 'center'
   },
 });
 

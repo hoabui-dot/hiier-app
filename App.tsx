@@ -6,11 +6,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ForgotPassword from './app/screens/ForgotPassword';
 import RegisterScreen from './app/screens/InformationRegistrationScreen';
-import ResetPassword from './app/screens/ForgotPassword/ResetPassword';
+import ResetPassword from './app/screens/ForgotPassword/resetPassword';
 import Toast from './components/ToastMessage';
 import ChatMessage from './app/screens/ChatMessage';
 import Map from './app/screens/Map';
-import ConfirmOTP from './app/screens/ConfirmOTP';
+import RegistrationOTP from './app/screens/RegistrationOTP';
 import Payment from './app/screens/Payment';
 import PaymentWithDrawScreen from './app/screens/PaymentWithDrawScreen';
 import theme from './styles/theme';
@@ -36,6 +36,7 @@ import DetailInformation from './app/screens/DetailInformation';
 import { NativeBaseProvider } from 'native-base';
 import { API_URL } from './services/api/urls';
 import PaymentTopUpScreen from './app/screens/PaymentWithDrawScreen';
+import ForgotPasswordOTP from './app/screens/ForgotPasswordOTP';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -94,7 +95,10 @@ const App = () => {
                 headerTintColor: WHITE_COLOR,
               }}
             />
-            <Stack.Screen name={ROUTES.CONFIRM_OTP} component={ConfirmOTP} />
+            <Stack.Screen
+              name={ROUTES.CONFIRM_OTP}
+              component={RegistrationOTP}
+            />
             <Stack.Screen
               name={ROUTES.FORGOT_PASSWORD}
               component={ForgotPassword}
@@ -124,6 +128,10 @@ const App = () => {
             <Stack.Screen
               name={ROUTES.ADDRESS_SEARCH}
               component={AddressSearch}
+            />
+            <Stack.Screen
+              name={ROUTES.CONFIRM_FORGOT_PASSWORD_OTP}
+              component={ForgotPasswordOTP}
             />
           </Stack.Navigator>
         </NavigationContainer>

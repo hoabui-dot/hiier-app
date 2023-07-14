@@ -6,9 +6,9 @@ import {
   StyleSheet,
   ScrollView,
   ActivityIndicator,
-  Dimensions
+  Dimensions,
 } from 'react-native';
-import { TASK_STATUS } from '../../../../constants/ui';
+import { GOLD_COLOR, TASK_STATUS } from '../../../../constants/ui';
 import { TaskApi } from '../../../../services/api/task';
 import Card from '../../../../components/Card';
 import { ITaskHistory } from '../../../../types/ui';
@@ -16,7 +16,6 @@ import { ITheme, useTheme } from 'native-base';
 import Constants from 'expo-constants';
 
 const { width, height } = Dimensions.get('screen');
-
 
 const CancelTaskHistory = () => {
   const theme = useTheme();
@@ -42,7 +41,7 @@ const CancelTaskHistory = () => {
     <ScrollView>
       {isLoading ? (
         <View style={styles.wrapLoading}>
-          <ActivityIndicator style={styles.loading} size="large" />
+          <ActivityIndicator color={GOLD_COLOR} size="large" />
         </View>
       ) : (
         data.map((task) => (

@@ -6,7 +6,7 @@ import { DRAWER } from '../../../constants/ui';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
-import Hiier from '../hiier';
+import Job from '../hiier';
 import SwitchButtonWithStatusText from '../../../components/SwitchButtonWithStatusText';
 import Finance from './Finance';
 import Supporting from './Supporting';
@@ -47,8 +47,8 @@ const DrawerMenu = ({ route }: any) => {
         }}
       >
         <Drawer.Screen
-          name={DRAWER.HIIER}
-          component={Hiier}
+          name={DRAWER.JOB}
+          component={Job}
           options={{
             headerTitle: () => <></>,
             drawerIcon: (args) => (

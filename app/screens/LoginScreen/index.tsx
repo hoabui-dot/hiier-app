@@ -12,6 +12,7 @@ import {
   defaultLoginValue,
   FOCUS_INPUT_WHEN_USER_LOGIN,
   GRAY_COLOR,
+  PLACE_HOLDER_TEXT_COLOR,
   PURPLE_COLOR,
   ROUTES,
 } from '../../../constants/ui';
@@ -33,7 +34,6 @@ import {
 } from 'react-native';
 import { TaskApi } from '../../../services/api/task';
 
-import S from './Login.styled';
 import G from '../../../utils/GlobalStyles.styled';
 import { ITheme, useTheme } from 'native-base';
 import { StyleSheet } from 'react-native';
@@ -122,13 +122,14 @@ const Login = ({ route, navigation }: any) => {
                   styles.input,
                   isBlurInput === FOCUS_INPUT_WHEN_USER_LOGIN.PHONE
                     ? styles.focusInput
-                    : styles.input,
+                    : {},
                 ]}
                 placeholder="Số điện thoại"
                 onBlur={() => {
                   setIsBlurInput('');
                   onBlur;
                 }}
+                placeholderTextColor={PLACE_HOLDER_TEXT_COLOR}
                 onFocus={() =>
                   setIsBlurInput(FOCUS_INPUT_WHEN_USER_LOGIN.PHONE)
                 }
@@ -169,10 +170,11 @@ const Login = ({ route, navigation }: any) => {
                   styles.input,
                   isBlurInput === FOCUS_INPUT_WHEN_USER_LOGIN.PASSWORD
                     ? styles.focusInput
-                    : styles.input,
+                    : {},
                 ]}
                 placeholder={'Mật khẩu'}
                 autoCapitalize="none"
+                placeholderTextColor={PLACE_HOLDER_TEXT_COLOR}
                 onFocus={() =>
                   setIsBlurInput(FOCUS_INPUT_WHEN_USER_LOGIN.PASSWORD)
                 }
@@ -188,7 +190,7 @@ const Login = ({ route, navigation }: any) => {
                 onPress={() => setIsShowPassword(!isShownPassword)}
                 style={styles.shownPassword}
               >
-                {!isShownPassword ? (
+                {isShownPassword ? (
                   <Icon
                     as={Icons.HiddenPassword}
                     color={
