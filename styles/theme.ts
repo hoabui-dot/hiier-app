@@ -15,6 +15,8 @@ const theme = extendTheme({
     base: 8,
     font: 14,
     radius: 10,
+    circleRadius: 30,
+    paddingBasic: 4,
     padding: 10,
     padding2: 15,
     // app dimensions
@@ -50,12 +52,13 @@ const theme = extendTheme({
       charcoal: '#122620',
       gold: '#D6AD60',
     }, // violet
+    purple: '#683DB4',
     secondary: {
-      100: '#f4f4f5',
+      100: '#F4F4F4',
       400: '#a1a1aa',
       500: '#71717a',
     }, // gray
-
+    gray: '#9E9E9E',
     blackTransparent: 'rgba(0,0,0,0.5)',
   },
   config: {

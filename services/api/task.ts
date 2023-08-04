@@ -34,7 +34,7 @@ export const TaskApi = {
     return await http.post(API_URL.verifyOTP, value);
   },
   verifyForgotPassword: async function (value: IVerifyOTP): Promise<any> {
-    return await http.post(API_URL.verifyForgotPassword, value)
+    return await http.post(API_URL.verifyForgotPassword, value);
   },
   forgotPassword: async function (value: any): Promise<any> {
     return await http.post(API_URL.requestForgotPassword, value);
@@ -90,18 +90,26 @@ export const TaskApi = {
     return await http.post(API_URL.resetPassword, value);
   },
   acceptTask: async function (id: number) {
-    return await http.put(`${API_URL.acceptTask}${id}`)
+    return await http.put(`${API_URL.acceptTask}${id}`);
   },
   getQuizzesList: async function () {
-    return await http.get(`${API_URL.getQuizzesList}`)
+    return await http.get(`${API_URL.getQuizzesList}`);
   },
-  onSubmitAnswer: async function (value: {questionId: number, answerId: number}[]) {
-    return await http.post(API_URL.submitAnswer, value)
+  onSubmitAnswer: async function (
+    value: { questionId: number; answerId: number }[]
+  ) {
+    return await http.post(API_URL.submitAnswer, value);
   },
   getProductTools: async function () {
-    return await http.get(API_URL.getProductTool)
+    return await http.get(API_URL.getProductTool);
   },
   getChemicalTools: async function () {
-    return await http.get(API_URL.getChemicalTool)
-  }
+    return await http.get(API_URL.getChemicalTool);
+  },
+  getAlreadyTaskDate: async function () {
+    return http.get(API_URL.getAlreadyTaskDate);
+  },
+  getTaskList: async function (date: number) {
+    return http.get(`${API_URL.getTaskList}${date}`);
+  },
 };

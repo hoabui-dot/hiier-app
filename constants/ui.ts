@@ -7,7 +7,11 @@ export const GRAY_COLOR = '#9E9E9E';
 export const PURPLE_COLOR = '#683DB4';
 export const PINK_COLOR = '#F4B9C1';
 export const LIGHT_GRAY_COLOR = '#F9F9F9'
-export const PLACE_HOLDER_TEXT_COLOR = '#949494'
+export const PLACE_HOLDER_TEXT_COLOR = '#949494';
+export const LIGHT_PURPLE_COLOR = '#EFE7FD';
+export const PURPLE_GRADIENT_START = "#8B4EF9";
+export const PURPLE_GRADIENT_CENTER = "#7B3AF9";
+export const PURPLE_GRADIENT_END = "#6829F8";
 
 export const defaultLoginValue = {
   phone: '',
@@ -71,6 +75,7 @@ export const TOOLS = {
 export const JOB_TAB = {
   NEW: 'Chờ việc',
   CONFIRMED: 'Đã nhận',
+  CALENDAR: "Lịch làm việc"
 };
 
 export const JOB_HISTORY_TAB = {

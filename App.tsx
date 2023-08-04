@@ -6,7 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ForgotPassword from './app/screens/ForgotPassword';
 import RegisterScreen from './app/screens/InformationRegistrationScreen';
-import ResetPassword from './app/screens/ForgotPassword/resetPassword';
+import ResetPassword from './app/screens/ForgotPassword/ResetPassword';
 import Toast from './components/ToastMessage';
 import ChatMessage from './app/screens/ChatMessage';
 import Map from './app/screens/Map';
@@ -38,6 +38,11 @@ import { API_URL } from './services/api/urls';
 import PaymentTopUpScreen from './app/screens/PaymentWithDrawScreen';
 import ForgotPasswordOTP from './app/screens/ForgotPasswordOTP';
 
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -67,6 +72,20 @@ const App = () => {
   const { t } = useTranslation();
   const socket = io(API_URL.webSocket);
   const secrectHash = useContext(secretHashContext);
+
+  // Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyDkM8EBuS7gjZ-GeoOikimKs0o6Izzeu-g",
+  authDomain: "hiier-cleaning-service-app.firebaseapp.com",
+  databaseURL: "https://hiier-cleaning-service-app-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "hiier-cleaning-service-app",
+  storageBucket: "hiier-cleaning-service-app.appspot.com",
+  messagingSenderId: "477776771945",
+  appId: "1:477776771945:web:7e4a68b1f7fd88072d5bf8"
+};
+
+// Initialize Firebase
+initializeApp(firebaseConfig);
 
   useEffect(() => {
     socket.emit('subscribe-global-notification', secrectHash.secretHash); //global notification

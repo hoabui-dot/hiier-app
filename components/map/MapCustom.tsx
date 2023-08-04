@@ -9,7 +9,6 @@ interface MapCustomProps {
   region: Region;
 }
 const MapCustom = ({ region }: MapCustomProps) => {
-  console.log("🚀 ~ file: MapCustom.tsx:12 ~ MapCustom ~ region1111:", region)
   const [isReady, setIsReady] = useState<boolean>(false);
   const mapView = useRef<MapView>(null);
 

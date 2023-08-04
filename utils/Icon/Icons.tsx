@@ -8,6 +8,7 @@ import {
   FontAwesome5,
   Feather,
 } from '@expo/vector-icons';
+import { RED_COLOR } from '../../constants/ui';
 
 export default {
   ImageProfile: (
@@ -35,5 +36,6 @@ export default {
   Email: <MaterialCommunityIcons name="email-outline" size={24} color="black" />,
   Lock: <FontAwesome name="lock" size={24} color="black" />,
   ShowPassword: <Entypo name="eye" size={24} color="black" />,
-  HiddenPassword: <Entypo name="eye-with-line" size={24} color="black" />
+  HiddenPassword: <Entypo name="eye-with-line" size={24} color="black" />,
+  Logout: <MaterialIcons name="logout" size={24} color={RED_COLOR} />
 };

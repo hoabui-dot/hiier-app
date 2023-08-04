@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import Toast from 'react-native-root-toast';
 import { Link } from '@react-navigation/native';
-import Svg, { Image } from 'react-native-svg';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { ILoginAccount } from '../../../types/ui';
@@ -11,6 +10,7 @@ import { reverseGeocoding } from '../../../services/api/googleMapApi';
 import {
   defaultLoginValue,
   FOCUS_INPUT_WHEN_USER_LOGIN,
+  GOLD_COLOR,
   GRAY_COLOR,
   PLACE_HOLDER_TEXT_COLOR,
   PURPLE_COLOR,
@@ -31,12 +31,15 @@ import {
   Dimensions,
   TouchableOpacity,
   Alert,
+  ActivityIndicator,
+  KeyboardAvoidingView,
 } from 'react-native';
 import { TaskApi } from '../../../services/api/task';
 
 import G from '../../../utils/GlobalStyles.styled';
 import { ITheme, useTheme } from 'native-base';
 import { StyleSheet } from 'react-native';
+import { Platform } from 'react-native';
 
 export interface LoginProps {
   navigation: any;
@@ -51,8 +54,9 @@ const Login = ({ route, navigation }: any) => {
   const [isSuccessMessage, setIsSuccessMessage] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
-  const [isShownPassword, setIsShowPassword] = useState<boolean>(false);
+  const [isShownPassword, setIsShowPassword] = useState<boolean>(true);
   const [isBlurInput, setIsBlurInput] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { control, handleSubmit } = useForm({
     defaultValues: defaultLoginValue,
   });
@@ -61,12 +65,14 @@ const Login = ({ route, navigation }: any) => {
   const styles = useMemo(() => makeStyles(theme), []);
 
   const onSubmit = (value: ILoginAccount) => {
+    setIsLoading(true);
     TaskApi.login({
       phone: value.phone,
       password: value.password,
       role: USER_TYPE.EMPLOYEE,
     })
       .then(async (response: any) => {
+        setIsLoading(false);
         const { status } =
           await ExpoLocation.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
@@ -94,6 +100,7 @@ const Login = ({ route, navigation }: any) => {
         setResponseOfData(response);
       })
       .catch((err) => {
+        setIsLoading(false);
         setErrorMessage(err.errors.message);
       });
   };
@@ -101,126 +108,135 @@ const Login = ({ route, navigation }: any) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ flex: 1, justifyContent: 'center' }}>
-        <View style={{ marginBottom: 20 }}>
-          <Text style={styles.title}>Login to your Account</Text>
-        </View>
-        <Controller
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <View style={styles.wrapInput}>
-              <Icon
-                color={
-                  isBlurInput === FOCUS_INPUT_WHEN_USER_LOGIN.PHONE
-                    ? PURPLE_COLOR
-                    : GRAY_COLOR
-                }
-                style={styles.inputIcon}
-                as={Icons.Call}
-              />
-              <TextInput
-                style={[
-                  styles.input,
-                  isBlurInput === FOCUS_INPUT_WHEN_USER_LOGIN.PHONE
-                    ? styles.focusInput
-                    : {},
-                ]}
-                placeholder="Số điện thoại"
-                onBlur={() => {
-                  setIsBlurInput('');
-                  onBlur;
-                }}
-                placeholderTextColor={PLACE_HOLDER_TEXT_COLOR}
-                onFocus={() =>
-                  setIsBlurInput(FOCUS_INPUT_WHEN_USER_LOGIN.PHONE)
-                }
-                autoCapitalize="none"
-                onChangeText={onChange}
-                value={value}
-              />
-            </View>
-          )}
-          rules={{
-            minLength: 4,
-            maxLength: 16,
-          }}
-          name="phone"
-        />
-        {responseOfData?.response?.status === 400 && (
-          <Text style={G.errorMessage}>Đăng nhập thất bại</Text>
-        )}
-        <Controller
-          control={control}
-          rules={{
-            maxLength: 16,
-            minLength: 4,
-          }}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <View style={[styles.wrapInput, { marginTop: 18 }]}>
-              <Icon
-                color={
-                  isBlurInput === FOCUS_INPUT_WHEN_USER_LOGIN.PASSWORD
-                    ? PURPLE_COLOR
-                    : GRAY_COLOR
-                }
-                style={styles.inputIcon}
-                as={Icons.Lock}
-              />
-              <TextInput
-                style={[
-                  styles.input,
-                  isBlurInput === FOCUS_INPUT_WHEN_USER_LOGIN.PASSWORD
-                    ? styles.focusInput
-                    : {},
-                ]}
-                placeholder={'Mật khẩu'}
-                autoCapitalize="none"
-                placeholderTextColor={PLACE_HOLDER_TEXT_COLOR}
-                onFocus={() =>
-                  setIsBlurInput(FOCUS_INPUT_WHEN_USER_LOGIN.PASSWORD)
-                }
-                onBlur={() => {
-                  setIsBlurInput('');
-                  onBlur;
-                }}
-                onChangeText={onChange}
-                value={value}
-                secureTextEntry={isShownPassword}
-              />
-              <TouchableOpacity
-                onPress={() => setIsShowPassword(!isShownPassword)}
-                style={styles.shownPassword}
-              >
-                {isShownPassword ? (
-                  <Icon
-                    as={Icons.HiddenPassword}
-                    color={
-                      isBlurInput === FOCUS_INPUT_WHEN_USER_LOGIN.PASSWORD
-                        ? PURPLE_COLOR
-                        : GRAY_COLOR
-                    }
-                  />
-                ) : (
-                  <Icon
-                    as={Icons.ShowPassword}
-                    color={
-                      isBlurInput === FOCUS_INPUT_WHEN_USER_LOGIN.PASSWORD
-                        ? PURPLE_COLOR
-                        : GRAY_COLOR
-                    }
-                  />
-                )}
-              </TouchableOpacity>
-            </View>
-          )}
-          name="password"
-        />
-        <Text style={{ color: 'red' }}>{errorMessage}</Text>
-        <TouchableOpacity
-          style={styles.submitButton}
-          onPress={handleSubmit(onSubmit)}
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
-          <Text style={styles.submitButtonText}>Đăng nhập</Text>
-        </TouchableOpacity>
+          <View style={{ marginBottom: 20 }}>
+            <Text style={styles.title}>Login to your Account</Text>
+          </View>
+          <Controller
+            control={control}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <View style={styles.wrapInput}>
+                <Icon
+                  color={
+                    isBlurInput === FOCUS_INPUT_WHEN_USER_LOGIN.PHONE
+                      ? PURPLE_COLOR
+                      : GRAY_COLOR
+                  }
+                  style={styles.inputIcon}
+                  as={Icons.Call}
+                />
+                <TextInput
+                  style={[
+                    styles.input,
+                    isBlurInput === FOCUS_INPUT_WHEN_USER_LOGIN.PHONE
+                      ? styles.focusInput
+                      : {},
+                  ]}
+                  placeholder="Số điện thoại"
+                  onBlur={() => {
+                    setIsBlurInput('');
+                    onBlur;
+                  }}
+                  placeholderTextColor={PLACE_HOLDER_TEXT_COLOR}
+                  onFocus={() =>
+                    setIsBlurInput(FOCUS_INPUT_WHEN_USER_LOGIN.PHONE)
+                  }
+                  autoCapitalize="none"
+                  onChangeText={onChange}
+                  value={value}
+                />
+              </View>
+            )}
+            rules={{
+              minLength: 4,
+              maxLength: 16,
+            }}
+            name="phone"
+          />
+          {responseOfData?.response?.status === 400 && (
+            <Text style={G.errorMessage}>Đăng nhập thất bại</Text>
+          )}
+          <Controller
+            control={control}
+            rules={{
+              maxLength: 16,
+              minLength: 4,
+            }}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <View style={[styles.wrapInput, { marginTop: 18 }]}>
+                <Icon
+                  color={
+                    isBlurInput === FOCUS_INPUT_WHEN_USER_LOGIN.PASSWORD
+                      ? PURPLE_COLOR
+                      : GRAY_COLOR
+                  }
+                  style={styles.inputIcon}
+                  as={Icons.Lock}
+                />
+                <TextInput
+                  style={[
+                    styles.input,
+                    isBlurInput === FOCUS_INPUT_WHEN_USER_LOGIN.PASSWORD
+                      ? styles.focusInput
+                      : {},
+                  ]}
+                  placeholder={'Mật khẩu'}
+                  autoCapitalize="none"
+                  placeholderTextColor={PLACE_HOLDER_TEXT_COLOR}
+                  onFocus={() =>
+                    setIsBlurInput(FOCUS_INPUT_WHEN_USER_LOGIN.PASSWORD)
+                  }
+                  onBlur={() => {
+                    setIsBlurInput('');
+                    onBlur;
+                  }}
+                  onChangeText={onChange}
+                  value={value}
+                  secureTextEntry={isShownPassword}
+                />
+                <TouchableOpacity
+                  onPress={() => setIsShowPassword(!isShownPassword)}
+                  style={styles.shownPassword}
+                >
+                  {isShownPassword ? (
+                    <Icon
+                      as={Icons.HiddenPassword}
+                      color={
+                        isBlurInput === FOCUS_INPUT_WHEN_USER_LOGIN.PASSWORD
+                          ? PURPLE_COLOR
+                          : GRAY_COLOR
+                      }
+                    />
+                  ) : (
+                    <Icon
+                      as={Icons.ShowPassword}
+                      color={
+                        isBlurInput === FOCUS_INPUT_WHEN_USER_LOGIN.PASSWORD
+                          ? PURPLE_COLOR
+                          : GRAY_COLOR
+                      }
+                    />
+                  )}
+                </TouchableOpacity>
+              </View>
+            )}
+            name="password"
+          />
+          <Text style={{ color: 'red' }}>{errorMessage}</Text>
+          <TouchableOpacity
+            style={styles.submitButton}
+            onPress={handleSubmit(onSubmit)}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <ActivityIndicator color={GOLD_COLOR} size="small" />
+            ) : (
+              <Text style={styles.submitButtonText}>Đăng nhập</Text>
+            )}
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
         <Link
           style={{ marginTop: 8 }}
           to={{ screen: t('ForgotPassword') } as any}

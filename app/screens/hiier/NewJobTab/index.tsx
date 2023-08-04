@@ -38,7 +38,6 @@ const NewJobTab = ({ navigation, route }: any) => {
     ...initRegion,
     ...route.params?.location,
   });
-  console.log("🚀 ~ file: index.tsx:41 ~ NewJobTab ~ region:", region)
 
   useEffect(() => {
     addAuthorizationHeader(loginValue.token);
@@ -74,6 +73,7 @@ const NewJobTab = ({ navigation, route }: any) => {
         console.log('🚀 ~ file: notification global:', res);
       });
       socket.on('notification/' + loginValue.secretHash, (res) => {
+        console.log('subscribed !')
         console.log('🚀 ~ file: notification:', res);
       });
     }

@@ -1,33 +1,34 @@
 {
   "project_info": {
-    "project_number": "754043239915",
-    "project_id": "cleaning-service-c18e1",
-    "storage_bucket": "cleaning-service-c18e1.appspot.com"
+    "project_number": "477776771945",
+    "firebase_url": "https://hiier-cleaning-service-app-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "hiier-cleaning-service-app",
+    "storage_bucket": "hiier-cleaning-service-app.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:754043239915:android:2d194dd94244ad30edadae",
+        "mobilesdk_app_id": "1:477776771945:android:4fe3302f4fc6ae3a2d5bf8",
         "android_client_info": {
-          "package_name": "com.company.name"
+          "package_name": "hiier.cleaning.service.app.com"
         }
       },
       "oauth_client": [
         {
-          "client_id": "754043239915-c6r52ofs0m8blmb5ad8jt37j019qub7a.apps.googleusercontent.com",
+          "client_id": "477776771945-k2m88a2pd952h4du1rhm590bihlipjs4.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB3hvqicwTqbXCaG8no5gHh9Lc-zkjuWFo"
+          "current_key": "AIzaSyAU5aDKbnIJA-U6xwaP6KT_H7sGyKqLMlk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "754043239915-c6r52ofs0m8blmb5ad8jt37j019qub7a.apps.googleusercontent.com",
+              "client_id": "477776771945-k2m88a2pd952h4du1rhm590bihlipjs4.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -16,22 +16,38 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.company.name",
+      "bundleIdentifier": "yesterday.cleaning.service.app.com",
       "googleServicesFile": "./GoogleService-Info.plist",
       "useFrameworks": "static",
       "config": {
         "hermesEnabled": true,
         "usesNonExemptEncryption": false,
-        "googleMapsApiKey": "AIzaSyDzzi_VBcf2Oef6LTViLU767UPNHlnIze4"
+        "googleMapsApiKey": "AIzaSyBlGHSuDAQfJ-ZSCsz7rg9jKKFQcoOiJAg"
+      },
+      "infoPlist": {
+        "NSCalendarsUsageDescription": "The app needs to access your calendar.",
+        "NSRemindersUsageDescription": "Allow $(PRODUCT_NAME) to access your reminders"
       }
     },
     "android": {
-      "package": "com.company.name",
+      "package": "yesterday.cleaning.service.app.com",
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "googleServicesFile": "./GoogleService-Info.plist"
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBlGHSuDAQfJ-ZSCsz7rg9jKKFQcoOiJAg"
+        }
+      },
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.READ_CALENDAR",
+        "android.permission.WRITE_CALENDAR"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -44,7 +60,18 @@
         {
           "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
         }
+      ],
+      [
+        "expo-calendar",
+        {
+          "calendarPermission": "The app needs to access your calendar."
+        }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "58ff8e00-1c51-4c61-a8b5-1d4508b4c679"
+      }
+    }
   }
 }

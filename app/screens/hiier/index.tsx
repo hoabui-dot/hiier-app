@@ -4,6 +4,7 @@ import React from 'react';
 
 import NewJobTab from './NewJobTab';
 import ConfirmedTab from './ConfirmedTab';
+import Calendar from './CalendarJob';
 
 const Home = () => {
   const Tab = createMaterialTopTabNavigator();
@@ -12,6 +13,7 @@ const Home = () => {
     <Tab.Navigator>
       <Tab.Screen name={JOB_TAB.NEW} component={NewJobTab} />
       <Tab.Screen name={JOB_TAB.CONFIRMED} component={ConfirmedTab} />
+      <Tab.Screen name={JOB_TAB.CALENDAR} component={Calendar}/>
     </Tab.Navigator>
   );
 };

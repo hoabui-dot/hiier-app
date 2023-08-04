@@ -15,7 +15,7 @@ import Notification from './Notification';
 import TrainingHiier from './Training';
 import Payment from '../Payment';
 import JobHistory from './ActivityHistory';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Image, View } from 'react-native';
 import { Address } from '../../../types/ui';
 import Tools from './Tools';
 import { ITheme, useTheme } from 'native-base';
@@ -97,11 +97,17 @@ const DrawerMenu = ({ route }: any) => {
           options={{
             headerShown: false,
             drawerIcon: (args) => (
-              <MaterialCommunityIcons
-                name="finance"
-                size={24}
-                color={args.color}
-              />
+              // <MaterialCommunityIcons
+              //   name="finance"
+              //   size={24}
+              //   color={args.color}
+              // />
+              <View>
+                <Image
+                  style={{ width: 20, height: 20 }}
+                  source={require('../../../assets/finance-icon.png')}
+                />
+              </View>
             ),
           }}
         />

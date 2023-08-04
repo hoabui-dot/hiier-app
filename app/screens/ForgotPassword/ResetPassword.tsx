@@ -98,7 +98,7 @@ const ResetPassword = ({ route, navigation }: ResetPasswordProps) => {
                 width: width / 1.4,
               }}
               resizeMode="contain"
-              source={require('../../../../assets/resetPassword.png')}
+              source={require('../../../assets/resetPassword.png')}
             />
           </View>
           <Text style={styles.description}>Tạo mật khẩu mới cho tài khoản</Text>
@@ -257,23 +257,6 @@ const ResetPassword = ({ route, navigation }: ResetPasswordProps) => {
           vài giây nữa..."
           />
         </View>
-        {/* <Toast
-        visible={isActive}
-        position={100}
-        duration={500}
-        shadow={false}
-        animation={true}
-        onShown={() => {
-          setTimeout(() => {
-            setIsActive(false);
-          }, 2000);
-        }}
-        textStyle={{ color: 'white', fontSize: 16 }}
-        hideOnPress={true}
-        backgroundColor="green"
-      >
-        SUCCESS !
-      </Toast> */}
       </View>
     </SafeAreaView>
   );

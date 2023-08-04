@@ -14,7 +14,7 @@ import Card from '../../../../components/Card';
 import { TaskApi } from '../../../../services/api/task';
 import { ITheme, useTheme, Icon, Modal } from 'native-base';
 import Icons from '../../../../utils/Icon/Icons';
-import { GRAY_COLOR, ROUTES, WHITE_COLOR } from '../../../../constants/ui';
+import { GRAY_COLOR, PURPLE_COLOR, ROUTES, WHITE_COLOR } from '../../../../constants/ui';
 import { IJobInformation } from '../../../../types/ui';
 import ButtonBase from '../../../../components/Base/ButtonBase';
 import { DEFAULT_JOB_INFORMATION } from '../../../../utils/defaultValue/common';
@@ -30,7 +30,6 @@ export interface ConfirmedTabProps {
 const { width, height } = Dimensions.get('screen');
 
 const ConfirmedTab = ({ navigation, route }: ConfirmedTabProps) => {
-  console.log('🚀 ~ file: index.tsx:31 ~ ConfirmedTab ~ route:', route);
   const [jobInformation, setJobInformation] = useState<
     IJobInformation | undefined
   >(route.params || DEFAULT_JOB_INFORMATION);
@@ -201,8 +200,8 @@ const ConfirmedTab = ({ navigation, route }: ConfirmedTabProps) => {
                 onPress={onChatMessage}
                 style={{ flexDirection: 'column', alignItems: 'center' }}
               >
-                <Icon as={Icons.Message} size={8} />
-                <Text style={styles.descriptionTitle}>Gửi tin nhắn</Text>
+                <Icon color={PURPLE_COLOR} as={Icons.Message} size={6} />
+                <Text style={styles.descriptionTitle}>Tin nhắn</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() =>
@@ -211,10 +210,10 @@ const ConfirmedTab = ({ navigation, route }: ConfirmedTabProps) => {
                 style={{
                   flexDirection: 'column',
                   alignItems: 'center',
-                  marginLeft: 16,
+                  marginLeft: 24,
                 }}
               >
-                <Icon as={Icons.Call} size={8} />
+                <Icon color={PURPLE_COLOR} as={Icons.Call} size={6} />
                 <Text style={styles.descriptionTitle}>Điện thoại</Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -227,10 +226,10 @@ const ConfirmedTab = ({ navigation, route }: ConfirmedTabProps) => {
                 style={{
                   flexDirection: 'column',
                   alignItems: 'center',
-                  marginLeft: 16,
+                  marginLeft: 24 ,
                 }}
               >
-                <Icon as={Icons.Map} size={8} />
+                <Icon color={PURPLE_COLOR} as={Icons.Map} size={6} />
                 <Text style={styles.descriptionTitle}>Bản đồ</Text>
               </TouchableOpacity>
             </View>
@@ -272,7 +271,7 @@ const makeStyles = ({ colors, sizes, fontSizes }: ITheme) =>
     title: {
       fontSize: 24,
       textTransform: 'uppercase',
-      color: colors.violet[400],
+      color: PURPLE_COLOR,
       fontWeight: '500',
     },
     wrapContent: {
@@ -281,7 +280,7 @@ const makeStyles = ({ colors, sizes, fontSizes }: ITheme) =>
     },
     violetBoldText: {
       fontWeight: 'bold',
-      color: colors.violet[400],
+      color: PURPLE_COLOR,
     },
     container: {
       flex: 1,
@@ -323,7 +322,7 @@ const makeStyles = ({ colors, sizes, fontSizes }: ITheme) =>
       alignItems: 'center',
     },
     activeButton: {
-      backgroundColor: colors.violet[400],
+      backgroundColor: PURPLE_COLOR,
     },
     disableButton: {
       backgroundColor: 'rgba(0,0,0,0.1)',
@@ -333,7 +332,7 @@ const makeStyles = ({ colors, sizes, fontSizes }: ITheme) =>
       flexDirection: 'row',
       justifyContent: 'center',
     },
-    descriptionTitle: { fontWeight: '500', color: 'rgba(0,0,0,0.3)' },
+    descriptionTitle: { fontWeight: '500', color: PURPLE_COLOR , marginTop: 8 },
     modal: {
       flexDirection: 'column',
       justifyContent: 'center',

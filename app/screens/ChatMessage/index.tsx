@@ -9,6 +9,7 @@ import {
   Image,
   KeyboardAvoidingView,
   Platform,
+  Dimensions,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ViewBottom from '../../../components/ViewBottom';
@@ -22,6 +23,17 @@ import { useSocket } from '../../../constants/contexts/SocketContext';
 import { MessageApi } from '../../../services/api/message';
 import SecureStoreHelper from '../../../utils/secureStore';
 import notification from '../../../utils/notification';
+import {
+  GRAY_COLOR,
+  PURPLE_COLOR,
+  PURPLE_GRADIENT_CENTER,
+  PURPLE_GRADIENT_END,
+  PURPLE_GRADIENT_START,
+  WHITE_COLOR,
+} from '../../../constants/ui';
+import { LinearGradient } from 'expo-linear-gradient';
+
+const { width, height } = Dimensions.get('screen');
 
 const ChatScreen = ({ route, navigation }: any) => {
   const theme = useTheme();
@@ -30,6 +42,7 @@ const ChatScreen = ({ route, navigation }: any) => {
   const [messages, setMessages] = useState<IMessageItem[]>([]);
   const [messInput, setMessInput] = useState<string>('');
   const [isSendMessage, setIsSendMessage] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // const isFocused = useIsFocused();
   useEffect(() => {
@@ -41,15 +54,17 @@ const ChatScreen = ({ route, navigation }: any) => {
       });
       setMessages(res.data?.resource?.messagePage?.list);
       setMessInput('');
+      setIsSendMessage(false);
     };
     getMessage();
-  }, [isSendMessage, messages]);
+  }, [isSendMessage]);
 
   const onChangeInput = (value: string) => {
     setMessInput(value);
   };
 
-  const submit = async () => {
+  const onSendingMessage = async () => {
+    setIsLoading(true);
     if (messInput) {
       try {
         const res = await MessageApi.create(route.params?.id, messInput);
@@ -60,7 +75,9 @@ const ChatScreen = ({ route, navigation }: any) => {
         } else {
           setIsSendMessage(false);
         }
+        setIsLoading(false);
       } catch (error) {
+        setIsLoading(false);
         console.log(error);
       }
     } else {
@@ -86,21 +103,35 @@ const ChatScreen = ({ route, navigation }: any) => {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
     >
-      <Header
-        backButton
-        headerText={route.params?.customerName}
-        shadow={2}
-        variant="light"
-      />
+      <Header backButton headerText={route.params?.customerName} shadow={2} />
       <FlatList
-        style={{ flex: 1, paddingHorizontal: 10, paddingVertical: 10 }}
+        style={{
+          flex: 1,
+          paddingHorizontal: 10,
+          paddingVertical: 10,
+          backgroundColor: WHITE_COLOR,
+        }}
         inverted
         data={messages}
         renderItem={({ item }) =>
           item.isYou ? (
-            <View style={[styles.message, styles.rightMessage]}>
-              <Text>{item.content}</Text>
-            </View>
+            <LinearGradient
+              style={[styles.message, styles.rightMessage]}
+              colors={[
+                PURPLE_GRADIENT_START,
+                PURPLE_GRADIENT_CENTER,
+                PURPLE_GRADIENT_END,
+              ]}
+              start={{ x: 0, y: 1 }}
+            >
+              <Text color="white">{item.content}</Text>
+              <Text
+                style={[styles.sendingTime, styles.sendingTime_right]}
+                color="white"
+              >{`${new Date(item.time).getHours()}:${new Date(
+                item.time
+              ).getMinutes()}`}</Text>
+            </LinearGradient>
           ) : (
             <View style={styles.wrapMessage}>
               <Image
@@ -112,8 +143,14 @@ const ChatScreen = ({ route, navigation }: any) => {
                 }}
               />
               <View style={[styles.message, styles.leftMessage]}>
-                <Text color="white">{item.content}</Text>
+                <Text
+                  style={[styles.sendingTime, styles.sendingTime_left]}
+                >{`${new Date(item.time).getHours()}:${new Date(
+                  item.time
+                ).getMinutes()}`}</Text>
+                <Text style={{ textAlign: 'right' }}>{item.content}</Text>
               </View>
+              <View style={styles.container}></View>
             </View>
           )
         }
@@ -126,19 +163,24 @@ const ChatScreen = ({ route, navigation }: any) => {
           space={2}
         >
           <Input
+            placeholder='Tin nhắn ...'
             flexShrink={1}
             value={messInput}
             onChangeText={onChangeInput}
           />
-          <TouchableOpacity onPress={submit}>
-            <Center
-              h={50}
-              w={50}
-              rounded={'full'}
-              backgroundColor={'primary.charcoal'}
+          <TouchableOpacity onPress={onSendingMessage}>
+            <LinearGradient
+              style={{ borderRadius: 30 }}
+              colors={isLoading ? [GRAY_COLOR] : [
+                PURPLE_GRADIENT_START,
+                PURPLE_GRADIENT_CENTER,
+                PURPLE_GRADIENT_END,
+              ]}
             >
-              <Icon as={Icons.Send} color={'white'} />
-            </Center>
+              <Center h={50} w={50} rounded={'full'}>
+                <Icon as={Icons.Send} color={'white'} />
+              </Center>
+            </LinearGradient>
           </TouchableOpacity>
         </HStack>
       </ViewBottom>
@@ -173,18 +215,23 @@ const makeStyles = ({ colors, sizes, fontSizes }: ITheme) =>
     },
 
     message: {
+      position: 'relative',
       marginVertical: sizes.padding / 2,
-      padding: sizes.padding,
-      borderRadius: sizes.radius,
-      maxWidth: sizes['4/5'],
+      paddingHorizontal: sizes.padding2,
+      paddingTop: sizes.paddingBasic,
+      paddingBottom: sizes.padding2,
+      borderRadius: 12,
+      maxWidth: (width / 5) * 4,
+      minWidth: (width / 5) * 1.5,
     },
     rightMessage: {
-      backgroundColor: colors.primary.cream,
       alignSelf: 'flex-end',
+      borderTopRightRadius: 0,
     },
     leftMessage: {
-      backgroundColor: colors.primary.charcoal,
+      backgroundColor: colors.secondary[100],
       marginLeft: 10,
+      borderTopLeftRadius: 0,
     },
     userImage: {
       width: 40,
@@ -199,6 +246,18 @@ const makeStyles = ({ colors, sizes, fontSizes }: ITheme) =>
       flexDirection: 'row',
       alignItems: 'center',
       paddingVertical: 8,
+    },
+    sendingTime: {
+      position: 'absolute',
+      bottom: -2,
+      fontSize: 12,
+      color: GRAY_COLOR,
+    },
+    sendingTime_right: {
+      right: 10,
+    },
+    sendingTime_left: {
+      left: 10,
     },
   });
 
