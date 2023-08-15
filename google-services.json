@@ -1,35 +1,49 @@
 {
   "project_info": {
-    "project_number": "477776771945",
-    "firebase_url": "https://hiier-cleaning-service-app-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "hiier-cleaning-service-app",
-    "storage_bucket": "hiier-cleaning-service-app.appspot.com"
+    "project_number": "741357439012",
+    "project_id": "hiier-app-8380b",
+    "storage_bucket": "hiier-app-8380b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:477776771945:android:4fe3302f4fc6ae3a2d5bf8",
+        "mobilesdk_app_id": "1:741357439012:android:1c53fcd9fd3c9dc87ff0b1",
         "android_client_info": {
-          "package_name": "hiier.cleaning.service.app.com"
+          "package_name": "hiier.cleaning.service.app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "477776771945-k2m88a2pd952h4du1rhm590bihlipjs4.apps.googleusercontent.com",
+          "client_id": "741357439012-k9r1ae15aoiva4s4m1kvqns4l6bk8ahf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "hiier.cleaning.service.app",
+            "certificate_hash": "0373887052037388705203738870520373887052"
+          }
+        },
+        {
+          "client_id": "741357439012-r3sl7o2q6gevhkqom86uksnb2pjgrrhl.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAU5aDKbnIJA-U6xwaP6KT_H7sGyKqLMlk"
+          "current_key": "AIzaSyA7izgAYTGEAFdrH8X0j4jvvSWxemj2PGc"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "477776771945-k2m88a2pd952h4du1rhm590bihlipjs4.apps.googleusercontent.com",
+              "client_id": "741357439012-r3sl7o2q6gevhkqom86uksnb2pjgrrhl.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "741357439012-jibrp6ebmfrvksrull2aiiqrgcpv35hh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "hiier.cleaning.service.app"
+              }
             }
           ]
         }

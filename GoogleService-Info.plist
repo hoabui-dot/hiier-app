@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>477776771945-br24qdjmsppr5bue4pefdj9l58u9kkg8.apps.googleusercontent.com</string>
+	<string>741357439012-jibrp6ebmfrvksrull2aiiqrgcpv35hh.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.477776771945-br24qdjmsppr5bue4pefdj9l58u9kkg8</string>
+	<string>com.googleusercontent.apps.741357439012-jibrp6ebmfrvksrull2aiiqrgcpv35hh</string>
 	<key>API_KEY</key>
-	<string>AIzaSyD9gYOtQA8tSmMzRrQ0IK6SOp_XkClsUUY</string>
+	<string>AIzaSyAjQRnmyYG2L4g5QVpsj6tIdVv9YQNIUFk</string>
 	<key>GCM_SENDER_ID</key>
-	<string>477776771945</string>
+	<string>741357439012</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>hiier.cleaning.service.app.com</string>
+	<string>hiier.cleaning.service.app</string>
 	<key>PROJECT_ID</key>
-	<string>hiier-cleaning-service-app</string>
+	<string>hiier-app-8380b</string>
 	<key>STORAGE_BUCKET</key>
-	<string>hiier-cleaning-service-app.appspot.com</string>
+	<string>hiier-app-8380b.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:477776771945:ios:7bae9223ba110cbd2d5bf8</string>
-	<key>DATABASE_URL</key>
-	<string>https://hiier-cleaning-service-app-default-rtdb.asia-southeast1.firebasedatabase.app</string>
+	<string>1:741357439012:ios:f8e139a141fd89257ff0b1</string>
 </dict>
 </plist>

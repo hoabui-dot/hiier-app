@@ -16,11 +16,9 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "yesterday.cleaning.service.app.com",
+      "bundleIdentifier": "hiier.cleaning.service.app",
       "googleServicesFile": "./GoogleService-Info.plist",
-      "useFrameworks": "static",
       "config": {
-        "hermesEnabled": true,
         "usesNonExemptEncryption": false,
         "googleMapsApiKey": "AIzaSyBlGHSuDAQfJ-ZSCsz7rg9jKKFQcoOiJAg"
       },
@@ -30,7 +28,7 @@
       }
     },
     "android": {
-      "package": "yesterday.cleaning.service.app.com",
+      "package": "hiier.cleaning.service.app",
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
