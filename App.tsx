@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from 'react';
-import { Platform } from 'react-native';
 
 import LoginScreens from './app/screens/LoginScreen';
 import { NavigationContainer } from '@react-navigation/native';
@@ -25,6 +24,7 @@ import { secretHashContext } from './app/screens/DrawerMenu';
 import { RootSiblingParent } from 'react-native-root-siblings';
 
 import i18n from 'i18next';
+import notification from './utils/notification';
 import { initReactI18next, useTranslation } from 'react-i18next';
 import * as Notifications from 'expo-notifications';
 import firebaseMessage from './utils/helpers/firebaseMessage';
@@ -39,7 +39,7 @@ import PaymentTopUpScreen from './app/screens/PaymentWithDrawScreen';
 import ForgotPasswordOTP from './app/screens/ForgotPasswordOTP';
 
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
+import { initializeApp } from 'firebase/app';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -74,22 +74,38 @@ const App = () => {
   const secrectHash = useContext(secretHashContext);
 
   // Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyDkM8EBuS7gjZ-GeoOikimKs0o6Izzeu-g",
-  authDomain: "hiier-cleaning-service-app.firebaseapp.com",
-  databaseURL: "https://hiier-cleaning-service-app-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "hiier-cleaning-service-app",
-  storageBucket: "hiier-cleaning-service-app.appspot.com",
-  messagingSenderId: "477776771945",
-  appId: "1:477776771945:web:7e4a68b1f7fd88072d5bf8"
-};
-
-// Initialize Firebase
-initializeApp(firebaseConfig);
+  const firebaseConfig = {
+    apiKey: 'AIzaSyBlGHSuDAQfJ-ZSCsz7rg9jKKFQcoOiJAg',
+    authDomain: 'hiier-cleaning-service-app.firebaseapp.com',
+    databaseURL:
+      'https://hiier-cleaning-service-app-default-rtdb.asia-southeast1.firebasedatabase.app',
+    projectId: 'hiier-cleaning-service-app',
+    storageBucket: 'hiier-cleaning-service-app.appspot.com',
+    messagingSenderId: '477776771945',
+    appId: '1:477776771945:web:7e4a68b1f7fd88072d5bf8',
+  };
 
   useEffect(() => {
     socket.emit('subscribe-global-notification', secrectHash.secretHash); //global notification
   }, [socket]);
+
+  // notification
+  // const notificationListener = React.useRef<any>();
+  // const responseListener = React.useRef<any>();
+  // useEffect(() => {
+  //   notification.registerForPushNotificationsAsync().then((token) => {});
+  //   notificationListener.current =
+  //     Notifications.addNotificationReceivedListener((notification) => {});
+  //   responseListener.current =
+  //     Notifications.addNotificationResponseReceivedListener((response) => {});
+
+  //   return () => {
+  //     Notifications.removeNotificationSubscription(
+  //       notificationListener.current
+  //     );
+  //     Notifications.removeNotificationSubscription(responseListener.current);
+  //   };
+  // }, []);
 
   return (
     <RootSiblingParent>

@@ -271,7 +271,6 @@ const Login = ({ route, navigation }: any) => {
           textColor={WHITE_COLOR}
         >
           {responseOfData.data.message}
-          test
         </Toast>
       )}
       {route?.params?.isRegister ?? (

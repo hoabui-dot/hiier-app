@@ -57,7 +57,7 @@ export const ROUTES = {
 };
 
 export const DRAWER = {
-  JOB: 'Job',
+  JOB: 'Công việc',
   NOTIFICATION: 'Thông báo từ Hiier',
   TRAINING: 'Chương trình đào tạo',
   FINANCE: 'Tài chính',

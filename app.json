@@ -19,8 +19,7 @@
       "bundleIdentifier": "hiier.cleaning.service.app",
       "googleServicesFile": "./GoogleService-Info.plist",
       "config": {
-        "usesNonExemptEncryption": false,
-        "googleMapsApiKey": "AIzaSyBlGHSuDAQfJ-ZSCsz7rg9jKKFQcoOiJAg"
+        "usesNonExemptEncryption": false
       },
       "infoPlist": {
         "NSCalendarsUsageDescription": "The app needs to access your calendar.",

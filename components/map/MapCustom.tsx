@@ -2,8 +2,8 @@ import { Entypo } from '@expo/vector-icons';
 import { Icon } from 'native-base';
 import { useEffect, useRef, useState } from 'react';
 import CurrentLocation from '../ZoomButton';
-import { StyleSheet, View } from 'react-native';
-import MapView, { PROVIDER_GOOGLE, Marker, Region } from 'react-native-maps';
+import { Platform, StyleSheet, View } from 'react-native';
+import MapView, { PROVIDER_GOOGLE, Marker, Region, PROVIDER_DEFAULT } from 'react-native-maps';
 
 interface MapCustomProps {
   region: Region;
@@ -29,7 +29,7 @@ const MapCustom = ({ region }: MapCustomProps) => {
         ref={mapView}
         style={styles.container}
         initialRegion={region}
-        provider={PROVIDER_GOOGLE}
+        provider={Platform.OS === 'ios' ? PROVIDER_DEFAULT : PROVIDER_GOOGLE}
         zoomEnabled={true}
         onMapReady={() => setIsReady(true)}
         region={region}

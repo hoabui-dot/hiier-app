@@ -14,7 +14,12 @@ import Card from '../../../../components/Card';
 import { TaskApi } from '../../../../services/api/task';
 import { ITheme, useTheme, Icon, Modal } from 'native-base';
 import Icons from '../../../../utils/Icon/Icons';
-import { GRAY_COLOR, PURPLE_COLOR, ROUTES, WHITE_COLOR } from '../../../../constants/ui';
+import {
+  GRAY_COLOR,
+  PURPLE_COLOR,
+  ROUTES,
+  WHITE_COLOR,
+} from '../../../../constants/ui';
 import { IJobInformation } from '../../../../types/ui';
 import ButtonBase from '../../../../components/Base/ButtonBase';
 import { DEFAULT_JOB_INFORMATION } from '../../../../utils/defaultValue/common';
@@ -139,126 +144,130 @@ const ConfirmedTab = ({ navigation, route }: ConfirmedTabProps) => {
         </View>
       )}
       {jobInformation && (
-        <Card cardStyle={{ flexDirection: 'column', margin: 10, padding: 20 }}>
-          <View>
-            <Text style={styles.title}>{jobInformation.taskName}</Text>
-          </View>
+        <>
           <Card
-            cardStyle={{ width: '100%', flexDirection: 'row', marginTop: 20 }}
+            cardStyle={{ flexDirection: 'column', margin: 10, padding: 20 }}
           >
-            <View
-              style={{
-                minWidth: '50%',
-                maxWidth: '50%',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <Text>Làm trong:</Text>
-              <Text
-                style={[styles.violetBoldText, { fontSize: 22 }]}
-              >{`${jobInformation.duration} giờ`}</Text>
+            <View>
+              <Text style={styles.title}>{jobInformation.taskName}</Text>
             </View>
-            <View
-              style={{
-                flexDirection: 'column',
-                width: '50%',
-                alignItems: 'center',
-              }}
+            <Card
+              cardStyle={{ width: '100%', flexDirection: 'row', marginTop: 20 }}
             >
-              <Text style={{ marginRight: 8 }}>Số tiền(VNĐ):</Text>
-              <Text style={[styles.violetBoldText, { fontSize: 22 }]}>
-                {jobInformation.totalPrice}
+              <View
+                style={{
+                  minWidth: '50%',
+                  maxWidth: '50%',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Text>Làm trong:</Text>
+                <Text
+                  style={[styles.violetBoldText, { fontSize: 22 }]}
+                >{`${jobInformation.duration} giờ`}</Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'column',
+                  width: '50%',
+                  alignItems: 'center',
+                }}
+              >
+                <Text style={{ marginRight: 8 }}>Số tiền(VNĐ):</Text>
+                <Text style={[styles.violetBoldText, { fontSize: 22 }]}>
+                  {jobInformation.totalPrice}
+                </Text>
+              </View>
+            </Card>
+            <View style={styles.informationJob}>
+              <Text style={{ marginRight: 8 }}>Hình thức thanh toán:</Text>
+              <Text style={[styles.violetBoldText, styles.violetFontSize]}>
+                {jobInformation.paymentMethod}
               </Text>
             </View>
-          </Card>
-          <View style={styles.informationJob}>
-            <Text style={{ marginRight: 8 }}>Hình thức thanh toán:</Text>
-            <Text style={[styles.violetBoldText, styles.violetFontSize]}>
-              {jobInformation.paymentMethod}
-            </Text>
-          </View>
-          <View style={styles.informationJob}>
-            <Text style={{ marginRight: 8 }}>Tại:</Text>
-            <Text style={{ fontWeight: 'bold' }}>
-              {jobInformation.address?.detail}
-            </Text>
-          </View>
-          <View style={styles.informationJob}>
-            <Text style={{ marginRight: 8 }}>Liên hệ:</Text>
-            <Text
-              style={{ fontWeight: 'bold' }}
-            >{`${jobInformation.customerName} - ${jobInformation.customerPhone}`}</Text>
-          </View>
-          <View style={styles.footerCard}>
-            <Text style={styles.confirmText}>
-              Bạn đã nhận được công việc này, chúc bạn làm việc tốt !
-            </Text>
-            <View style={styles.featureCard}>
-              <TouchableOpacity
-                onPress={onChatMessage}
-                style={{ flexDirection: 'column', alignItems: 'center' }}
-              >
-                <Icon color={PURPLE_COLOR} as={Icons.Message} size={6} />
-                <Text style={styles.descriptionTitle}>Tin nhắn</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() =>
-                  Linking.openURL(`tel://${jobInformation.customerPhone}`)
-                }
-                style={{
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  marginLeft: 24,
-                }}
-              >
-                <Icon color={PURPLE_COLOR} as={Icons.Call} size={6} />
-                <Text style={styles.descriptionTitle}>Điện thoại</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() =>
-                  onDirectionOfGoogleMap({
-                    origin: loginValue.address.detail,
-                    destination: jobInformation.address.detail,
-                  })
-                }
-                style={{
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  marginLeft: 24 ,
-                }}
-              >
-                <Icon color={PURPLE_COLOR} as={Icons.Map} size={6} />
-                <Text style={styles.descriptionTitle}>Bản đồ</Text>
-              </TouchableOpacity>
+            <View style={styles.informationJob}>
+              <Text style={{ marginRight: 8 }}>Tại:</Text>
+              <Text style={{ fontWeight: 'bold' }}>
+                {jobInformation.address?.detail}
+              </Text>
             </View>
+            <View style={styles.informationJob}>
+              <Text style={{ marginRight: 8 }}>Liên hệ:</Text>
+              <Text
+                style={{ fontWeight: 'bold' }}
+              >{`${jobInformation.customerName} - ${jobInformation.customerPhone}`}</Text>
+            </View>
+            <View style={styles.footerCard}>
+              <Text style={styles.confirmText}>
+                Bạn đã nhận được công việc này, chúc bạn làm việc tốt !
+              </Text>
+              <View style={styles.featureCard}>
+                <TouchableOpacity
+                  onPress={onChatMessage}
+                  style={{ flexDirection: 'column', alignItems: 'center' }}
+                >
+                  <Icon color={PURPLE_COLOR} as={Icons.Message} size={6} />
+                  <Text style={styles.descriptionTitle}>Tin nhắn</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    Linking.openURL(`tel://${jobInformation.customerPhone}`)
+                  }
+                  style={{
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    marginLeft: 24,
+                  }}
+                >
+                  <Icon color={PURPLE_COLOR} as={Icons.Call} size={6} />
+                  <Text style={styles.descriptionTitle}>Điện thoại</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    onDirectionOfGoogleMap({
+                      origin: loginValue.address.detail,
+                      destination: jobInformation.address.detail,
+                    })
+                  }
+                  style={{
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    marginLeft: 24,
+                  }}
+                >
+                  <Icon color={PURPLE_COLOR} as={Icons.Map} size={6} />
+                  <Text style={styles.descriptionTitle}>Bản đồ</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Card>
+          <View style={{ flexDirection: 'row' }}>
+            <TouchableOpacity
+              onPress={() => setIsConfirmModal(true)}
+              style={[styles.button, styles.activeButton]}
+            >
+              <Text
+                style={[
+                  styles.buttonText,
+                  { color: WHITE_COLOR, fontWeight: '500' },
+                ]}
+              >
+                xin huỷ việc
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={onFinishJob}
+              style={[styles.button, styles.disableButton]}
+            >
+              <Text style={[styles.buttonText, styles.descriptionTitle]}>
+                hoàn tất
+              </Text>
+            </TouchableOpacity>
           </View>
-        </Card>
+        </>
       )}
-      <View style={{ flexDirection: 'row' }}>
-        <TouchableOpacity
-          onPress={() => setIsConfirmModal(true)}
-          style={[styles.button, styles.activeButton]}
-        >
-          <Text
-            style={[
-              styles.buttonText,
-              { color: WHITE_COLOR, fontWeight: '500' },
-            ]}
-          >
-            xin huỷ việc
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={onFinishJob}
-          style={[styles.button, styles.disableButton]}
-        >
-          <Text style={[styles.buttonText, styles.descriptionTitle]}>
-            hoàn tất
-          </Text>
-        </TouchableOpacity>
-      </View>
       <ConfirmModal isOpen={isConfirmModal} onClose={setIsConfirmModal} />
     </SafeAreaView>
   );
@@ -332,7 +341,7 @@ const makeStyles = ({ colors, sizes, fontSizes }: ITheme) =>
       flexDirection: 'row',
       justifyContent: 'center',
     },
-    descriptionTitle: { fontWeight: '500', color: PURPLE_COLOR , marginTop: 8 },
+    descriptionTitle: { fontWeight: '500', color: PURPLE_COLOR, marginTop: 8 },
     modal: {
       flexDirection: 'column',
       justifyContent: 'center',

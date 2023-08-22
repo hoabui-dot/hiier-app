@@ -97,11 +97,6 @@ const DrawerMenu = ({ route }: any) => {
           options={{
             headerShown: false,
             drawerIcon: (args) => (
-              // <MaterialCommunityIcons
-              //   name="finance"
-              //   size={24}
-              //   color={args.color}
-              // />
               <View>
                 <Image
                   style={{ width: 20, height: 20 }}

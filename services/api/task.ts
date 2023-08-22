@@ -112,4 +112,7 @@ export const TaskApi = {
   getTaskList: async function (date: number) {
     return http.get(`${API_URL.getTaskList}${date}`);
   },
+  getNotification: async function () {
+    return http.get(API_URL.getNotification)
+  }
 };

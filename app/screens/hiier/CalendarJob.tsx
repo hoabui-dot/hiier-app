@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import {
-  Platform,
   StyleSheet,
   View,
   Image,
@@ -9,30 +8,30 @@ import {
 } from 'react-native';
 import { Text } from 'react-native';
 import { ITheme, useTheme } from 'native-base';
-import { Button } from 'react-native';
-import { Calendar, LocaleConfig } from 'react-native-calendars';
+import Toast from 'react-native-root-toast';
+import { Calendar } from 'react-native-calendars';
 import {
   GOLD_COLOR,
   GRAY_COLOR,
+  GREEN_COLOR,
   LIGHT_PURPLE_COLOR,
   PURPLE_COLOR,
+  RED_COLOR,
   WHITE_COLOR,
 } from '../../../constants/ui';
 import { ScrollView } from 'react-native';
 import moment from 'moment';
-import styles from '../InformationRegistrationScreen/Styles';
 import { TaskApi } from '../../../services/api/task';
 
-const { width, height } = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 
 const CalendarJob = () => {
-  const [selectedDate, setSelectedDate] = useState<string>('');
   const [tasks, setTasks] = useState<any>([]);
   const [alreadyTaskFullDate, setAlreadyTaskFullDate] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const theme = useTheme();
   const styles = useMemo(() => makeStyles(theme), []);
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [isErrorMessage, setIsErrorMessage] = useState<boolean>(false);
   const [numOfTask, setNumOfTask] = useState<number>(0);
 
   useEffect(() => {
@@ -46,7 +45,7 @@ const CalendarJob = () => {
           );
         })
         .catch((err) => {
-          setErrorMessage(err.errors.message);
+          setIsErrorMessage(true);
         });
     };
     fetchTaskList();
@@ -61,7 +60,7 @@ const CalendarJob = () => {
       })
       .catch((err) => {
         setIsLoading(false);
-        setErrorMessage(err.errors.message);
+        setIsErrorMessage(true);
       });
   };
 
@@ -140,6 +139,25 @@ const CalendarJob = () => {
           </View>
         )}
       </View>
+      {isErrorMessage && (
+        <Toast
+          visible={isErrorMessage}
+          position={100}
+          duration={500}
+          shadow={false}
+          animation={true}
+          textStyle={{ color: 'white', fontSize: 16 }}
+          hideOnPress={true}
+          onShown={() => {
+            setTimeout(() => {
+              setIsErrorMessage(false);
+            }, 2000);
+          }}
+          backgroundColor={RED_COLOR}
+        >
+          Lỗi hệ thống !
+        </Toast>
+      )}
     </ScrollView>
   );
 };

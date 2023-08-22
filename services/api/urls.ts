@@ -2,7 +2,7 @@ import { Linking } from 'react-native';
 
 export const BASEURL =
   // 'http://startupproject-env.eba-fp42mrnc.ap-southeast-1.elasticbeanstalk.com';
-  'https://hii-cleaning.com'
+  'https://hii-cleaning.online'
 const API_BASE = `${BASEURL}/api`;
 
 export const onDirectionOfGoogleMap = ({
@@ -62,5 +62,8 @@ export const API_URL = {
 
   // Task schedule
   getAlreadyTaskDate: `${API_BASE}/task/getListOfDayHasTaskInMonth/`,
-  getTaskList: `${API_BASE}/task/getListOfTaskInDay/`
+  getTaskList: `${API_BASE}/task/getListOfTaskInDay/`,
+
+  // Notification
+  getNotification: `${API_BASE}/notification/get-new-notification/`
 };
